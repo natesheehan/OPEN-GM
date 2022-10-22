@@ -48,7 +48,7 @@ embl = embl |>
   ) |>
   dplyr::rename(C19DP.weekly.submissions = Count)
 
-embl$CD19DP.total.Submissions = ave(embl$C19DP.weekly.submissions,
+embl$CD19DP.total.submissions = ave(embl$C19DP.weekly.submissions,
                                     embl$country,
                                     FUN = cumsum)
 
@@ -83,18 +83,19 @@ write_rds(gisaid, "data/gisaid.RDS")
 ##                          Join data                          ##
 #################################################################
 
-main_df = left_join(gisaid, embl, by = c("country", "wy")) |> left_join(jh_covid_data, by =
-                                                                          c("country", "wy")) |>
-  mutate("Genomes per confirmed cases (GISAID)" = GISAID.total.submissions / cases) |>
-  mutate("Genomes per confirmed cases (C19DP)" =  CD19DP.total.Submissions / cases) |>
-  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.total.submissions / Doses_admin) |>
-  mutate("Genomes per confirmed full vaccine (C19DP)" =  CD19DP.total.Submissions / Doses_admin) |>
+main_df = left_join(gisaid, embl, by = c("country", "wy"))
+main_df = main_df |> left_join(jh_covid_data, by =
+                                 c("country", "wy")) |>
+  mutate("Genomes per confirmed cases (GISAID)" = GISAID.weekly.submissions / cases * 100) |>
+  mutate("Genomes per confirmed cases (C19DP)" =  CD19DP.weekly.submissions / cases * 100) |>
+  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.weekly.submissions / Doses_admin * 100) |>
+  mutate("Genomes per confirmed full vaccine (C19DP)" =  CD19DP.weekly.submissions / Doses_admin * 100) |>
   {
     \(.) {
       replace(., is.na(.), 0)
     }
   }()
-
+write_rds(main_df,"raw-data/main_df.rds")
 #
 # ##################################################################
 # ##                           GeneBank                           ##
