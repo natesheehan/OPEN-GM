@@ -24,28 +24,28 @@
 #################################################################
 
 embl = readr::read_tsv("raw-data//embl-sequence-metadata.tsv")
-embl = embl %>%
-  select(collection_date, country) %>%
+embl = embl |>
+  select(collection_date, country) |>
   dplyr::mutate(collection_date = paste0(
     substr(collection_date, 1, 4),
     "-",
     substr(collection_date, 5, 6),
     "-",
     substr(collection_date, 7, 8)
-  )) %>%
-  dplyr::mutate(collection_date = lubridate::ymd(collection_date)) %>%
-  dplyr::filter(collection_date > '2020-01-01') %>%
-  dplyr::mutate(wy = isodate(collection_date)) %>%
-  group_by(wy, country) %>%
-  dplyr::select(-c(collection_date)) %>%
-  dplyr::summarise(Count = n()) %>%
+  )) |>
+  dplyr::mutate(collection_date = lubridate::ymd(collection_date)) |>
+  dplyr::filter(collection_date > '2020-01-01') |>
+  dplyr::mutate(wy = isodate(collection_date)) |>
+  group_by(wy, country) |>
+  dplyr::select(-c(collection_date)) |>
+  dplyr::summarise(Count = n()) |>
   dplyr::mutate(
     country = case_when(
       country == "West Bank" ~ "Palestine",
       country == "Viet Nam" ~ "Vietnam",
       TRUE ~ country
     )
-  ) %>%
+  ) |>
   dplyr::rename(C19DP.weekly.submissions = Count)
 
 embl$CD19DP.total.Submissions = ave(embl$C19DP.weekly.submissions,
@@ -76,7 +76,7 @@ gisaid = as.data.frame(
 
 )
 
-write_rds(gisaid, "data/embl.RDS")
+write_rds(gisaid, "data/gisaid.RDS")
 
 
 #################################################################
@@ -85,9 +85,9 @@ write_rds(gisaid, "data/embl.RDS")
 
 main_df = left_join(gisaid, embl, by = c("country", "wy")) |> left_join(jh_covid_data, by =
                                                                           c("country", "wy")) |>
-  mutate("Genomes per confirmed cases (GISAID)" = GISAID.total.submissions / cases) %>%
-  mutate("Genomes per confirmed cases (C19DP)" =  CD19DP.total.Submissions / cases) %>%
-  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.total.submissions / Doses_admin) %>%
+  mutate("Genomes per confirmed cases (GISAID)" = GISAID.total.submissions / cases) |>
+  mutate("Genomes per confirmed cases (C19DP)" =  CD19DP.total.Submissions / cases) |>
+  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.total.submissions / Doses_admin) |>
   mutate("Genomes per confirmed full vaccine (C19DP)" =  CD19DP.total.Submissions / Doses_admin) |>
   {
     \(.) {
@@ -103,12 +103,12 @@ main_df = left_join(gisaid, embl, by = c("country", "wy")) |> left_join(jh_covid
 #
 # ncbi = read.csv("../../Downloads/sequences(6).csv")
 #
-# genebank = read.csv("../../Downloads/sequences.csv") %>%
-#   select(Country, Release_Date) %>%
-#   mutate(Date = as.Date(Release_Date)) %>%
-#   mutate(Date = substr(Date, start = 1, stop = 7)) %>%
-#   group_by(Date, Country) %>%
-#   summarise(genebank.monthly.submissions = n()) %>%
+# genebank = read.csv("../../Downloads/sequences.csv") |>
+#   select(Country, Release_Date) |>
+#   mutate(Date = as.Date(Release_Date)) |>
+#   mutate(Date = substr(Date, start = 1, stop = 7)) |>
+#   group_by(Date, Country) |>
+#   summarise(genebank.monthly.submissions = n()) |>
 #   mutate(
 #     Country = case_when(
 #       Country == "West Bank" ~ "Palestine",
