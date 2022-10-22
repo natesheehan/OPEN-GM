@@ -84,7 +84,16 @@ write_rds(gisaid, "data/embl.RDS")
 #################################################################
 
 main_df = left_join(gisaid, embl, by = c("country", "wy")) |> left_join(jh_covid_data, by =
-                                                                          c("country", "wy"))
+                                                                          c("country", "wy")) |>
+  mutate("Genomes per confirmed cases (GISAID)" = GISAID.total.submissions / cases) %>%
+  mutate("Genomes per confirmed cases (C19DP)" =  CD19DP.total.Submissions / cases) %>%
+  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.total.submissions / Doses_admin) %>%
+  mutate("Genomes per confirmed full vaccine (C19DP)" =  CD19DP.total.Submissions / Doses_admin) |>
+  {
+    \(.) {
+      replace(., is.na(.), 0)
+    }
+  }()
 
 #
 # ##################################################################
