@@ -63,18 +63,21 @@ write_rds(embl, "data/embl.RDS")
 #######################################################################################################
 
 gisaid = as.data.frame(
-  readr::read_tsv("raw-data/gisaid_variants_statistics.tsv") |>
+  readr::read_tsv("raw-data/gisaid_variants_statistics.tsv")  |>
     dplyr::rename(Date = `Week prior to`) |>
-    dplyr::rename(country = Country) |>
+    dplyr::rename(country = Country)  |>
     dplyr::mutate(Date = lubridate::ymd(Date)) |>
     dplyr::mutate(wy = isodate(Date)) |>
     dplyr::select(c(
-      country, wy, `Submission Count`, `Total per Country and Week`
+      country, wy, `Submission Count`
     )) |>
-    dplyr::rename(GISAID.weekly.submissions = `Submission Count`) |>
-    dplyr::rename(GISAID.total.submissions = `Total per Country and Week`)
-
+    dplyr::group_by(country,wy) |>
+    dplyr::summarise_if(is.numeric,sum) |>
+    dplyr::rename(GISAID.weekly.submissions = `Submission Count`)
 )
+gisaid$GISAID.total.submissions = ave(gisaid$GISAID.weekly.submissions,
+                                      gisaid$country,
+                                      FUN = cumsum)
 
 write_rds(gisaid, "data/gisaid.RDS")
 
@@ -87,9 +90,9 @@ main_df = left_join(gisaid, embl, by = c("country", "wy"))
 main_df = main_df |> left_join(jh_covid_data, by =
                                  c("country", "wy")) |>
   mutate("Genomes per confirmed cases (GISAID)" = GISAID.weekly.submissions / cases * 100) |>
-  mutate("Genomes per confirmed cases (C19DP)" =  CD19DP.weekly.submissions / cases * 100) |>
-  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.weekly.submissions / Doses_admin * 100) |>
-  mutate("Genomes per confirmed full vaccine (C19DP)" =  CD19DP.weekly.submissions / Doses_admin * 100) |>
+  mutate("Genomes per confirmed cases (C19DP)" =  C19DP.weekly.submissions / cases * 100) |>
+  mutate("Genomes per confirmed full vaccine (GISAID)" = GISAID.total.submissions / Doses_admin * 100) |>
+  mutate("Genomes per confirmed full vaccine (C19DP)" =  CD19DP.total.submissions / Doses_admin * 100) |>
   {
     \(.) {
       replace(., is.na(.), 0)
