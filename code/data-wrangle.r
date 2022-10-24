@@ -95,7 +95,7 @@ write_rds(gisaid, "data/gisaid.RDS")
 #################################################################
 
 main_df = full_join(gisaid, embl, by = c("country", "wy"))
-main_df = owid |> left_join(main_df, by =
+main_df = main_df |> left_join(owid, by =
                                  c("country", "wy")) |>
   mutate("Genomes per confirmed cases % (GISAID)" = GISAID.weekly.submissions / new_cases * 100) |>
   mutate("Genomes per confirmed cases % (C19DP)" =  C19DP.weekly.submissions / new_cases * 100) |>
