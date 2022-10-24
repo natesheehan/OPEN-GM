@@ -104,11 +104,50 @@ main_df = main_df |> left_join(owid, by =
       replace(., is.na(.), 0)
     }
   }()
+cc = main_df |> dplyr::select(country,continent) |> unique() |> dplyr::filter(continent != 0)
 
-write_rds(main_df,"raw-data/main_df.rds")
+for (i in 1:nrow(cc)) {
+  main_df = main_df |>
+    dplyr::mutate(continent = ifelse(country == cc$country[i] & continent == 0, cc$continent[i], continent))
+}
+
+dum = main_df |> dplyr::filter(continent == 0)
+unique(dum$country)
+# [1] "American Samoa"                   "Bonaire"                          "Cabo Verde"                       "Canary Islands"
+# [5] "Crimea"                           "Czech Republic"                   "Democratic Republic of the Congo" "Faroe Islands"
+# [9] "French Guiana"                    "Guadeloupe"                       "Martinique"                       "Mayotte"
+# [13] "Micronesia"                       "Republic of the Congo"            "Reunion"                          "Saint Barthelemy"
+# [17] "Saint Martin"                     "Sint Eustatius"                   "Sint Maarten"                     "The Bahamas"
+# [21] "Timor-Leste"                      "U.S. Virgin Islands"              "USA"                              "Wallis and Futuna Islands"
+
+main_df = main_df |>
+  dplyr::mutate(continent = ifelse(country == "American Samoa" & continent == 0, "Oceania", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Bonaire" & continent == 0, "South America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Cabo Verde" & continent == 0, "Africa", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Canary Islands" & continent == 0, "Europe", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Crimea" & continent == 0, "Europe", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Czech Republic" & continent == 0, "Europe", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Faroe Islands" & continent == 0, "Europe", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "French Guiana" & continent == 0, "South America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Guadeloupe" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Martinique" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Mayotte" & continent == 0, "Africa", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Micronesia" & continent == 0, "Oceania", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Reunion" & continent == 0, "Africa", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Saint Barthelemy" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Saint Martin" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Sint Eustatius" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "The Bahamas" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Timor-Leste" & continent == 0, "Asia", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "U.S. Virgin Islands" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "USA" & continent == 0, "North America", continent)) |>
+  dplyr::mutate(continent = ifelse(country == "Wallis and Futuna Islands" & continent == 0, "Oceania", continent))
 
 rm(gisaid,embl,owid)
 
+dum = main_df |> dplyr::filter(continent == 0)
+unique(dum$country)
+#character(0)
 # ##################################################################
 # ##                           ncbi                              ##
 # ##################################################################

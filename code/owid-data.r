@@ -36,7 +36,16 @@ owid_temp = owid |>
   dplyr::mutate(date = lubridate::ymd(date)) |>
   dplyr::mutate(wy = isodate(date)) |>
   dplyr::group_by(iso_code, continent, location, wy) |>
-  dplyr::summarise_if(is.numeric, sum)
+  dplyr::summarise_if(is.numeric, sum) |>
+  dplyr::mutate(location = ifelse(location == "Congo", "Republic of the Congo", location)) |>
+  dplyr::mutate(
+    location = ifelse(
+      location == "Democratic Republic of Congo",
+      "Democratic Republic of the Congo",
+      location
+    )
+  ) |>
+  dplyr::mutate(location = ifelse(location == "Sint Maarten (Dutch part)", "Sint Maarten", location))
 
 owid_temp$total_cases = ave(owid_temp$new_cases,
                             owid_temp$location,
@@ -57,7 +66,18 @@ owid_temp2 = owid |>
   dplyr::mutate(date = lubridate::ymd(date)) |>
   dplyr::mutate(wy = isodate(date)) |>
   dplyr::group_by(iso_code, continent, location, wy) |>
-  dplyr::summarise_if(is.numeric, mean)
+  dplyr::summarise_if(is.numeric, mean) |>
+  dplyr::mutate(location = ifelse(location == "Congo", "Republic of the Congo", location)) |>
+  dplyr::mutate(
+    location = ifelse(
+      location == "Democratic Republic of Congo",
+      "Democratic Republic of the Congo",
+      location
+    )
+  ) |>
+  dplyr::mutate(location = ifelse(location == "Sint Maarten (Dutch part)", "Sint Maarten", location))
+
+
 
 owid = right_join(owid_temp, owid_temp2) |>
   dplyr::rename(country = location)
