@@ -23,8 +23,7 @@ if (reproducible == FALSE) {
   main_df = readRDS("raw-data/main_df.rds")
 } else {
   source("code/set-up.r")
-  source("code/covid-data-fetch.r")
+  source("code/owid-data.r")
   source("code/data-wrangle.r")
-  rm(gisaid,embl,jh_covid_data)
 }
 

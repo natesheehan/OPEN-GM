@@ -23,7 +23,7 @@
 ##             Covid-19 Data Platform Monthly Data             ##
 #################################################################
 
-embl = readr::read_tsv("raw-data//embl-sequence-metadata.tsv")
+embl = readr::read_tsv("raw-data/embl-sequence-metadata.tsv")
 embl = embl |>
   select(collection_date, country) |>
   dplyr::mutate(collection_date = paste0(
@@ -36,6 +36,8 @@ embl = embl |>
   dplyr::mutate(collection_date = lubridate::ymd(collection_date)) |>
   dplyr::filter(collection_date > '2020-01-01') |>
   dplyr::mutate(wy = isodate(collection_date)) |>
+  dplyr::filter(country != 0) |>
+  complete(country,wy) |>
   group_by(wy, country) |>
   dplyr::select(-c(collection_date)) |>
   dplyr::summarise(Count = n()) |>
@@ -61,20 +63,26 @@ write_rds(embl, "data/embl.RDS")
 ##                                    GISAID Global Monthly Data                                     ##
 ##  GISAID monthly metadata submissions downloaded from https://www.epicov.org/epi3/frontend#5dc229  ##
 #######################################################################################################
-
 gisaid = as.data.frame(
   readr::read_tsv("raw-data/gisaid_variants_statistics.tsv")  |>
     dplyr::rename(Date = `Week prior to`) |>
     dplyr::rename(country = Country)  |>
     dplyr::mutate(Date = lubridate::ymd(Date)) |>
     dplyr::mutate(wy = isodate(Date)) |>
+    dplyr::filter(country != 0) |>
+    complete(country,wy) |>
     dplyr::select(c(
       country, wy, `Submission Count`
     )) |>
     dplyr::group_by(country,wy) |>
     dplyr::summarise_if(is.numeric,sum) |>
-    dplyr::rename(GISAID.weekly.submissions = `Submission Count`)
-)
+    dplyr::rename(GISAID.weekly.submissions = `Submission Count`)) |>
+  {
+    \(.) {
+      replace(., is.na(.), 0)
+    }
+  }()
+
 gisaid$GISAID.total.submissions = ave(gisaid$GISAID.weekly.submissions,
                                       gisaid$country,
                                       FUN = cumsum)
@@ -86,22 +94,23 @@ write_rds(gisaid, "data/gisaid.RDS")
 ##                          Join data                          ##
 #################################################################
 
-main_df = left_join(gisaid, embl, by = c("country", "wy"))
-main_df = main_df |> left_join(jh_covid_data, by =
+main_df = full_join(gisaid, embl, by = c("country", "wy"))
+main_df = owid |> left_join(main_df, by =
                                  c("country", "wy")) |>
-  mutate("Genomes per confirmed cases % (GISAID)" = GISAID.weekly.submissions / cases * 100) |>
-  mutate("Genomes per confirmed cases % (C19DP)" =  C19DP.weekly.submissions / cases * 100) |>
-  mutate("Genomes per confirmed full vaccine % (GISAID)" = GISAID.total.submissions / Doses_admin * 100) |>
-  mutate("Genomes per confirmed full vaccine % (C19DP)" =  CD19DP.total.submissions / Doses_admin * 100) |>
+  mutate("Genomes per confirmed cases % (GISAID)" = GISAID.weekly.submissions / new_cases * 100) |>
+  mutate("Genomes per confirmed cases % (C19DP)" =  C19DP.weekly.submissions / new_cases * 100) |>
   {
     \(.) {
       replace(., is.na(.), 0)
     }
   }()
+
 write_rds(main_df,"raw-data/main_df.rds")
-#
+
+rm(gisaid,embl,owid)
+
 # ##################################################################
-# ##                           GeneBank                           ##
+# ##                           ncbi                              ##
 # ##################################################################
 #
 #
