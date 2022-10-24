@@ -26,9 +26,12 @@ plot_df = main_df  |>
   # dplyr::filter(`Genomes per confirmed cases % (GISAID)` != Inf) |>
   # dplyr::filter(`Genomes per confirmed cases % (GISAID)` < 100) |>
   dplyr::filter(continent == "Europe") |>
+  dplyr::mutate(gpnc_gisaid = ifelse(gpnc_gisaid == Inf, 99998, gpnc_gisaid)) |> # missing case data
+  dplyr::mutate(gpnc_gisaid = ifelse(is.na(gpnc_gisaid), 999998, gpnc_gisaid))  |> # missing seqeunce data
+  dplyr::mutate(gpnc_gisaid = ifelse(gpnc_gisaid == 0, 9999998, gpnc_gisaid)) |> # missing seqeunce data
   # create a new variable from count
   mutate(countfactor = cut(
-    `Genomes per confirmed cases % (C19DP)`,
+    gpnc_gisaid,
     breaks = c(
       0,
       1,
@@ -36,12 +39,17 @@ plot_df = main_df  |>
       3,
       4,
       5,
-      max(`Genomes per confirmed cases % (GISAID)`, na.rm = F)
+      20550,
+      99999,
+      999999,
+      max(gpnc_gisaid, na.rm = F)
     ),
-    labels = c("0-1%", "1-2%", "2-3%", "3-4%", "4-5%", ">5%")
+    labels = c("0-1%", "1-2%", "2-3%", "3-4%", "4-5%", "5-100%", "Missing Case Data", "Missing Case and Seqeunce Data", "Missing Sequence Data")
   )) |>
   # change level order
   mutate(countfactor = factor(as.character(countfactor), levels = rev(levels(countfactor))))
+
+
 
 
 textcol = "white"
@@ -52,10 +60,11 @@ ggplot(plot_df , aes(x = wy, y = country, fill = countfactor)) +
   labs(x = "Epidemiological Week", y = "Country", title = paste0("SARS-CoV2 sequences shared with GISAID in ",plot_df$continent[1])) +
   #scale_x_discrete(expand=c(0, 0), breaks=c("20/01", "20/26", "21/01", "21/26", "22/01", "22/26"))+
   scale_y_discrete(expand = c(0, 0)) +
-  scale_fill_manual(values = rev(RColorBrewer::brewer.pal(7, "Blues")),
+  scale_fill_manual(values = rev(RColorBrewer::brewer.pal(9, "Accent")),
                     na.value = "black") +
   labs(caption = "Percent of reported cases (Our World In Data) that were sequenced and shared to the GISAID database per\n epidemiological week between December 19th 2019 and October 19th 2022. GISAID Metadata was accessed and used \nfollowing their terms of use. Epidemiological data was linked via joining Our World in Data on Covid-19 accessed on 24th October 2022.") +
   theme_grey(base_size = 10) +
+  scale_fill_manual(values=c("#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#ddf1da", "black", "grey"), na.value = "grey90")+
   # facet_grid(.~continent) +
   theme(
     legend.position = "bottom",
