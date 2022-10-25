@@ -45,7 +45,13 @@ owid_temp = owid |>
       location
     )
   ) |>
-  dplyr::mutate(location = ifelse(location == "Sint Maarten (Dutch part)", "Sint Maarten", location))
+
+  dplyr::mutate(location = ifelse(location == "Sint Maarten (Dutch part)", "Sint Maarten", location)) |>
+  {
+    \(.) {
+      replace(., is.na(.), 0)
+    }
+  }()
 
 owid_temp$total_cases = ave(owid_temp$new_cases,
                             owid_temp$location,
@@ -68,6 +74,8 @@ owid_temp2 = owid |>
   dplyr::group_by(iso_code, continent, location, wy) |>
   dplyr::summarise_if(is.numeric, mean) |>
   dplyr::mutate(location = ifelse(location == "Congo", "Republic of the Congo", location)) |>
+  dplyr::mutate(location = ifelse(location == "Samoa", "American Samoa", location)) |>
+  dplyr::mutate(location = ifelse(location == "United States", "USA", location)) |>
   dplyr::mutate(
     location = ifelse(
       location == "Democratic Republic of Congo",

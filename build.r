@@ -25,5 +25,5 @@ if (reproducible == FALSE) {
   source("code/set-up.r")
   source("code/owid-data.r")
   source("code/data-wrangle.r")
+  source("code/plot-continent-landscape.r")
 }
-
