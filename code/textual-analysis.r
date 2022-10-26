@@ -16,13 +16,6 @@
 ##   between December 1st 2019 and October 1st 2022 with the search queries of "Genomic survlience" OR "Genome Survelience". The texts where then filtered to o
 ##   only include texts focusing on the SARS genome, rather than any other GS strategy which has grown in recent years.
 ## ---------------------------
-library(bibliometrix)
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(tidytext)
-library(quanteda)
-library("stm")
 
 set.seed(999)
 # Read data

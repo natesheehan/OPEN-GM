@@ -88,16 +88,17 @@ options(scipen=999) # Turn off scientific notation
 ##                           Library                           ##
 #################################################################
 pkgs = c("tidyverse",# data cleaning
-         "countrycode",# geocode continents
-         "showtext", # use custom fonts
-         "ggpubr",
-         "lubridate",
-         "cluster",
-         "factoextra",
-         "plotly") # stick plots together
+         "bibliometrix",
+         "tidyr",
+         "stringr",
+         "tidytext",
+         "quanteda",
+         "stm",
+         "lubridate"
+
+         ) # stick plots together
 
 pacman(pkgs)
-
 rm(pkgs)
 
 
