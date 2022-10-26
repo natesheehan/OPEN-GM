@@ -20,10 +20,12 @@ reproducible = FALSE
 
 if (reproducible == FALSE) {
   source("code/set-up.r")
-  main_df = readRDS("raw-data/main_df.rds")
+  main_df = readRDS("data/main_df.rds")
 } else {
   source("code/set-up.r")
   source("code/owid-data.r")
   source("code/data-wrangle.r")
   source("code/plot-continent-landscape.r")
+  source("code/plot-continent-distribution.r")
+  source("code/textual-analysis.r")
 }

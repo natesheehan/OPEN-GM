@@ -153,6 +153,8 @@ rm(gisaid,embl,owid)
 dum = main_df |> dplyr::filter(continent == 0)
 unique(dum$country)
 rm(dum)
+
+write_rds(main_df,"data/main_df.rds")
 #character(0)
 # ##################################################################
 # ##                           ncbi                              ##
