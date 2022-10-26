@@ -1,10 +1,22 @@
-b = main_df %>%
-  dplyr::filter(wy == "22/39") %>%
-  dplyr::select(country, GISAID.total.submissions, wy) %>%
-  arrange(GISAID.total.submissions) %>%
-  select(country)
+## ---------------------------
+##
+## Script name:
+##
+## Purpose of script:
+##
+## Author: Nathanael Sheehan
+##
+## Date Created: 2022-10-26
+##
+## Copyleft (c) Nathanael Sheehan, 2022
+##
+## ---------------------------
+##
+## Notes:
+##
+##
+## ---------------------------
 
-b= b[1:100,]
 
 main_df %>%
   filter(continent == "Africa") %>%

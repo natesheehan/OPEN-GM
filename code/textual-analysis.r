@@ -9,7 +9,6 @@
 ## Date Created: 2022-10-25
 ##
 ## Copyleft (c) Nathanael Sheehan, 2022
-## Email: nathanaelsheehan@gmail.com
 ##
 ## ---------------------------
 ##

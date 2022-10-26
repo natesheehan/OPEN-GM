@@ -8,7 +8,6 @@
 ##
 ## Date Created: 2021-03-20
 ##
-## Email: nathanaelsheehan@gmail.com
 ##
 ## ---------------------------
 ##
