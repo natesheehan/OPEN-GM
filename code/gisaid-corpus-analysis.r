@@ -18,7 +18,7 @@
 ## ---------------------------
 
 set.seed(999)
-
+textcol = "grey40"
 # Read data
 file = (
   "../../Downloads/savedrecs(7).bib"
@@ -36,6 +36,7 @@ S = summary(object = results, k = 100, pause = FALSE)
 kens = M$AB %>%
   stringr::str_to_lower() %>%
   stringr::str_remove_all("gisaid") %>%
+  stringr::str_remove_all("sars-cov-2") %>%
   quanteda::tokens(
     what = "word",
     remove_punct = TRUE,
@@ -71,6 +72,7 @@ plot = data.frame("K" = K,
                    "Bound" = unlist(fit$results$bound),
                    "Lower Bound" = unlist(fit$results$lbound))
 plot = reshape2::melt(plot, id=c("K"))
+
 jpeg("plots/LIT-REVIEW/topic-fit-gisaid.jpeg", width = 800, height = 800)
 ggplot(plot, aes(K, value, color = variable)) +
   geom_line(size = 1.5, show.legend = FALSE) +

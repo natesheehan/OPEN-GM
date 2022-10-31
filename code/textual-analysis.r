@@ -18,7 +18,7 @@
 ## ---------------------------
 
 set.seed(999)
-
+textcol = "grey40"
 # Read data
 file = c(
   "../../Downloads/savedrecs(4).bib",
