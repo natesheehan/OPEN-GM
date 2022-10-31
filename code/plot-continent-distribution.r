@@ -26,8 +26,8 @@ main_df  |> dplyr::filter(gpnc_gisaid < 100) %>%
   ggplot( aes(x=myaxis, y=gpnc_gisaid, fill=continent)) +
   geom_violin(width=1.4) +
   geom_boxplot(width=0.1, color="grey", alpha=0.2) +
-  viridis::scale_fill_viridis(discrete = TRUE) +
- )
+  viridis::scale_fill_viridis(discrete = TRUE)
+
 ggsave(
   paste0(
     "plots/GISAID/continent violin.png"
