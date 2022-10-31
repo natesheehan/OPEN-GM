@@ -63,14 +63,14 @@ fit = stm::searchK(dfm_stm$documents,
 # plot(fit)
 # dev.off()v
 
-plot <- data.frame("K" = K,
+plot = data.frame("K" = K,
                    "Residuals" = unlist(fit$results$residual),
                    "Exclusivity" = unlist(fit$results$exclus),
                    "Held-Out-Likelihood" = unlist(fit$results$heldout),
                    "Semantic Coherence" = unlist(fit$results$semcoh),
                    "Bound" = unlist(fit$results$bound),
                    "Lower Bound" = unlist(fit$results$lbound))
-plot <- melt(plot, id=c("K"))
+plot = melt(plot, id=c("K"))
 ggplot(plot, aes(K, value, color = variable)) +
   geom_line(size = 1.5, show.legend = FALSE) +
   facet_wrap(~variable,scales = "free_y") +
