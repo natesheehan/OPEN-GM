@@ -27,5 +27,6 @@ if (reproducible == FALSE) {
   source("code/data-wrangle.r")
   source("code/plot-continent-landscape.r")
   source("code/plot-continent-distribution.r")
-  source("code/textual-analysis.r")
+  source("code/gs-corpus-analysis.r")
+  source("code/gs-corpus-analysis.r")
 }
