@@ -70,7 +70,8 @@ plot = data.frame("K" = K,
                    "Semantic Coherence" = unlist(fit$results$semcoh),
                    "Bound" = unlist(fit$results$bound),
                    "Lower Bound" = unlist(fit$results$lbound))
-plot = melt(plot, id=c("K"))
+plot = reshape2::melt(plot, id=c("K"))
+jpeg("plots/LIT-REVIEW/topic-fit-gisaid.jpeg", width = 800, height = 800)
 ggplot(plot, aes(K, value, color = variable)) +
   geom_line(size = 1.5, show.legend = FALSE) +
   facet_wrap(~variable,scales = "free_y") +
@@ -131,9 +132,10 @@ ggplot(plot, aes(K, value, color = variable)) +
       face = "bold",
       vjust = 0.9
     ))
+dev.off()
 
 # Set optimal number of K based on fit
-k = 4
+k = 5
 M$d = as.numeric(M$PY)
 model = stm::stm(
   documents = dfm_stm$documents,
@@ -144,8 +146,8 @@ model = stm::stm(
   verbose = TRUE
 )
 # plot topics
-jpeg("plots/LIT-REVIEW/topics.jpeg", width = 800, height = 800)
-plot(model, main = "Top Topics")
+jpeg("plots/LIT-REVIEW/topics-gisaid.jpeg", width = 800, height = 800)
+plot(model, main = "Top Topics GISAID")
 dev.off()
 
 # Plot effect of topic per year
@@ -153,7 +155,7 @@ effect = stm::estimateEffect(formula =  ~ d,
                              stmobj = model,
                              metadata = M)
 labels = stm::labelTopics(model, 1:k)
-jpeg("plots/LIT-REVIEW/effect.jpeg", width = 800, height = 800)
+jpeg("plots/LIT-REVIEW/effect-gisaid.jpeg", width = 800, height = 800)
 par(mfcol = c(2, 2))
 for (i in 1:k) {
   plot(
