@@ -33,6 +33,7 @@ M = bibliometrix::convert2df(file = file,
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
+saveRDS(S,"data/GS-corpus-analysis.rds")
 
 # Topic-Modelling ----------------------------------------------------------
 kens = M$AB %>%
