@@ -158,7 +158,7 @@ effect = stm::estimateEffect(formula =  ~ d,
                              metadata = M)
 labels = stm::labelTopics(model, 1:k)
 jpeg("plots/LIT-REVIEW/effect-gisaid.jpeg", width = 800, height = 800)
-par(mfcol = c(2, 2))
+par(mfcol = c(2, 3))
 for (i in 1:k) {
   plot(
     effect,
