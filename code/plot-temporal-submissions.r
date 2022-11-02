@@ -28,6 +28,7 @@ cd19dp_temporal_subs_av = main_df %>% group_by(wy) %>% summarise(av_cd19dp = mea
 temporal_sub_all = right_join(gisaid_temporal_subs,cd19dp_temporal_subs)
 temporal_sub_all_av = right_join(gisaid_temporal_subs_av,cd19dp_temporal_subs_av)
 
+textcol = "white"
 
 ggplot(data=temporal_sub_all) +
   geom_line(aes(x=wy,y=sum_gisaid, group=1, color='GISAID Monthly Total')) +
@@ -92,8 +93,9 @@ ggplot(data=temporal_sub_all) +
       linetype = "solid"
     ),
     panel.grid.major = element_blank(),
+    legend.key = element_rect(fill = "transparent", colour = "transparent"),
     plot.background = element_rect(fill = "gray12"),
-    legend.background = element_rect(fill = "gray12"),
+    legend.background = element_rect(fill = "transparent"),
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
     plot.title = element_text(
       colour = textcol,
@@ -174,6 +176,7 @@ ggplot(data=temporal_sub_all_av) +
       linetype = "solid"
     ),
     panel.grid.major = element_blank(),
+    legend.key = element_rect(fill = "transparent", colour = "transparent"),
     plot.background = element_rect(fill = "gray12"),
     legend.background = element_rect(fill = "gray12"),
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
