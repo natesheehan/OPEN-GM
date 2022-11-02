@@ -36,17 +36,17 @@ S = summary(object = results, k = 100, pause = FALSE)
 saveRDS(S,"data/GS-corpus-analysis.rds")
 
 # Topic-Modelling ----------------------------------------------------------
-kens = M$AB %>%
-  stringr::str_to_lower() %>%
-  stringr::str_remove_all("sars-cov-2") %>%
-  stringr::str_remove_all("covid-19") %>%
+kens = M$AB |>
+  stringr::str_to_lower() |>
+  stringr::str_remove_all("sars-cov-2") |>
+  stringr::str_remove_all("covid-19") |>
   quanteda::tokens(
     what = "word",
     remove_punct = TRUE,
     remove_numbers = TRUE,
     remove_url = TRUE
-  ) %>%
-  quanteda::tokens_tolower() %>%
+  ) |>
+  quanteda::tokens_tolower() |>
   quanteda::tokens_remove(stopwords("english"))
 
 #applying relative pruning

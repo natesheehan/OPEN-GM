@@ -21,8 +21,8 @@ library(ddplo)
 continent = as.data.frame(unique(main_df$continent)) |> dplyr::rename(continent = 1)
 
 for (i in 1:nrow(continent)) {
-  d = main_df %>%
-    filter(continent == continent[i]) %>%
+  d = main_df |>
+    filter(continent == continent[i]) |>
     barChartRace(
       x = "GISAID.total.submissions",
       y = "country",
@@ -65,8 +65,8 @@ for (i in 1:nrow(continent)) {
 
 
 for (i in 1:nrow(continent)) {
-  d = main_df %>%
-    filter(continent == continent[i]) %>%
+  d = main_df |>
+    filter(continent == continent[i]) |>
     barChartRace(
       x = "CD19DP.total.submissions",
       y = "country",

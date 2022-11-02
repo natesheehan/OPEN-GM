@@ -17,12 +17,12 @@
 ##
 ## ---------------------------
 # sample size
-sample_size = main_df %>% group_by(continent) %>% summarize(num=n())
+sample_size = main_df |> group_by(continent) |> summarize(num=n())
 
 #GISAID
-main_df  |> dplyr::filter(gpnc_gisaid < 100) %>%
-  left_join(sample_size) %>%
-  mutate(myaxis = paste0(continent, "\n", "n=", num)) %>%
+main_df  |> dplyr::filter(gpnc_gisaid < 100) |>
+  left_join(sample_size) |>
+  mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
   ggplot( aes(x=myaxis, y=gpnc_gisaid, fill=continent)) +
   geom_violin(width=1.4) +
   geom_boxplot(width=0.1, color="grey", alpha=0.2) +
@@ -38,9 +38,9 @@ ggsave(
   limitsize = FALSE
 )
 
-main_df  |> dplyr::filter(gpnc_embl < 100) %>%
-  left_join(sample_size) %>%
-  mutate(myaxis = paste0(continent, "\n", "n=", num)) %>%
+main_df  |> dplyr::filter(gpnc_embl < 100) |>
+  left_join(sample_size) |>
+  mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
   ggplot( aes(x=myaxis, y=gpnc_embl, fill=continent)) +
   geom_violin(width=1.4) +
   geom_boxplot(width=0.1, color="grey", alpha=0.2) +
