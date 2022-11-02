@@ -16,6 +16,8 @@
 ##
 ##
 ## ---------------------------
+
+library(ddplo)
 continent = as.data.frame(unique(main_df$continent)) |> dplyr::rename(continent = 1)
 
 for (i in 1:nrow(continent)) {

@@ -91,6 +91,7 @@ ggplot(data=temporal_sub_all) +
       size = 0.5,
       linetype = "solid"
     ),
+    panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "gray12"),
     legend.background = element_rect(fill = "gray12"),
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
@@ -172,6 +173,7 @@ ggplot(data=temporal_sub_all_av) +
       size = 0.5,
       linetype = "solid"
     ),
+    panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "gray12"),
     legend.background = element_rect(fill = "gray12"),
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
