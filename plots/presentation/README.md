@@ -26,4 +26,9 @@
 ![](gisaid-software.jpeg "GISAID software")
 ![](covid-19-data-portal-software.jpeg "Covid-19 Data Portal Software")
 
+## Data and Metadata dynamics
+
+![](gisaid-data-metadata.jpeg "GISAID Data/Metadata")
+![](covid-19-data-portal-data-metadata.jpeg "Covid-19 Data Portal Data/Metadata")
+
 
