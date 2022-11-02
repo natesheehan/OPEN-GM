@@ -30,5 +30,5 @@ if (reproducible == FALSE) {
   source("code/plot-temporal-submissions.r")
   source("code/plot-treemap.r")
   source("code/gs-corpus-analysis.r")
-  source("code/gs-corpus-analysis.r")
+  source("code/gisaid-corpus-analysis.r")
 }
