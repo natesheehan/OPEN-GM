@@ -17,8 +17,6 @@
 ##
 ## ---------------------------
 
-library(treemapify)
-
 tree_df = main_df |> dplyr::filter(wy == "22/39")
 
 ggplot(tree_df, aes(area = GISAID.total.submissions, fill = continent)) +

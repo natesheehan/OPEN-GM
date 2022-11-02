@@ -93,6 +93,7 @@ pkgs = c("tidyverse",# data cleaning
          "stringr",
          "tidytext",
          "quanteda",
+         "treemapify",
          "stm",
          "lubridate"
 
