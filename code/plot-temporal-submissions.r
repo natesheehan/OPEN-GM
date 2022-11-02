@@ -16,6 +16,8 @@
 ##
 ##
 ## ---------------------------
+gisaid = readRDS("data/gisaid.RDS")
+embl = readRDS("data/embl.RDS")
 
 gisaid_temporal_subs = gisaid |>
   filter(wy < "22/38") |>
@@ -401,3 +403,4 @@ ggsave(
   height = 12,
   limitsize = FALSE
 )
+rm(gisaid,embl)
