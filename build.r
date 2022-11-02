@@ -29,6 +29,7 @@ if (reproducible == FALSE) {
   source("code/plot-continent-distribution.r")
   source("code/plot-temporal-submissions.r")
   source("code/plot-treemap.r")
+  source("code/sequence-race.r")
   source("code/gs-corpus-analysis.r")
   source("code/gisaid-corpus-analysis.r")
 }
