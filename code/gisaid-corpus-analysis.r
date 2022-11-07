@@ -20,18 +20,19 @@
 set.seed(999)
 textcol = "grey40"
 # Read data
-file = (
-  "../../Downloads/savedrecs(7).bib"
-)
+file = "../../Downloads/Dimensions-Publication-2022-11-04_03-22-22.csv"
 # Convert bibtext to dataframe
 M = bibliometrix::convert2df(file = file,
-                             dbsource = "wos",
-                             format = "bibtex") |> dplyr::filter(PY != is.na(PY)) |> dplyr::filter(AB != is.na(AB))
+                             dbsource = "dimensions",
+                             format = "csv") |>
+  dplyr::filter(PY != is.na(PY)) |>
+  dplyr::filter(AB != is.na(AB)) |>
+  dplyr::filter(Publication.Date < "2020-01-01")
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
-saveRDS(S,"data/gisaid-corpus-analysis.rds")
+saveRDS(S, "data/gisaid-corpus-analysis.rds")
 
 # Topic-Modelling ----------------------------------------------------------
 kens = M$AB |>
@@ -65,24 +66,27 @@ fit = stm::searchK(dfm_stm$documents,
 # plot(fit)
 # dev.off()v
 
-plot = data.frame("K" = K,
-                   "Residuals" = unlist(fit$results$residual),
-                   "Exclusivity" = unlist(fit$results$exclus),
-                   "Held-Out-Likelihood" = unlist(fit$results$heldout),
-                   "Semantic Coherence" = unlist(fit$results$semcoh),
-                   "Bound" = unlist(fit$results$bound),
-                   "Lower Bound" = unlist(fit$results$lbound))
-plot = reshape2::melt(plot, id=c("K"))
+plot = data.frame(
+  "K" = K,
+  "Residuals" = unlist(fit$results$residual),
+  "Exclusivity" = unlist(fit$results$exclus),
+  "Held-Out-Likelihood" = unlist(fit$results$heldout),
+  "Semantic Coherence" = unlist(fit$results$semcoh),
+  "Bound" = unlist(fit$results$bound),
+  "Lower Bound" = unlist(fit$results$lbound)
+)
+plot = reshape2::melt(plot, id = c("K"))
 
-jpeg("plots/LIT-REVIEW/topic-fit-gisaid.jpeg", width = 800, height = 800)
+jpeg("plots/gisaid/topic-fit-gisaid.jpeg",
+     width = 800,
+     height = 800)
 ggplot(plot, aes(K, value, color = variable)) +
   geom_line(size = 1.5, show.legend = FALSE) +
-  facet_wrap(~variable,scales = "free_y") +
+  facet_wrap( ~ variable, scales = "free_y") +
   labs(x = "Number of topics K",
-       title = "Statistical fit of models with different K") +  theme(
-         legend.position="none",
-         plot.title = element_text(size=11)
-       ) +
+       title = "Statistical fit of models with different K") +  theme(legend.position =
+                                                                        "none",
+                                                                      plot.title = element_text(size = 11)) +
   theme(
     legend.position = "none",
     legend.direction = "horizontal",
@@ -134,7 +138,8 @@ ggplot(plot, aes(K, value, color = variable)) +
       size = 18,
       face = "bold",
       vjust = 0.9
-    ))
+    )
+  )
 dev.off()
 
 # Set optimal number of K based on fit
@@ -149,7 +154,9 @@ model = stm::stm(
   verbose = TRUE
 )
 # plot topics
-jpeg("plots/LIT-REVIEW/topics-gisaid.jpeg", width = 800, height = 800)
+jpeg("plots/gisaid/topics-gisaid.jpeg",
+     width = 800,
+     height = 800)
 plot(model, main = "Top Topics GISAID")
 dev.off()
 
@@ -158,7 +165,9 @@ effect = stm::estimateEffect(formula =  ~ d,
                              stmobj = model,
                              metadata = M)
 labels = stm::labelTopics(model, 1:k)
-jpeg("plots/LIT-REVIEW/effect-gisaid.jpeg", width = 800, height = 800)
+jpeg("plots/gisaid/effect-gisaid.jpeg",
+     width = 800,
+     height = 800)
 par(mfcol = c(2, 3))
 for (i in 1:k) {
   plot(

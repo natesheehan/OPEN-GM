@@ -2,12 +2,7 @@
 title: "Data Provenance and Software Genology of Genomic Surveillance Infrastructure"
 date: "`r Sys.Date()`"
 author: "Nathanael Sheehan & Sabina Leonelli"
-output:
-  rmdformats::downcute:
-    self_contained: true
-    default_style: "light"
-    downcute_theme: "default"
-
+output: pdf_document
 ---
 
 # Abstract
@@ -227,7 +222,7 @@ knitr::include_graphics("../plots/gisaid-dppd.png")
 ```
 
 ```{r pressure, echo=FALSE, fig.cap="<b>The Covid-19 Data Portal Data Provenance Pipeline:</b> A data user will most likely start their journey using the Covid-19 Data portal, hosted on a fairly secure LAMP stack in the United Kingdom. From here a data user is able to use the data portal to openly query sequence data. However, when they do this request does not come from the Covid-19 Data Portals infrastructure itself, rather it queries the European Nucleotide Archive database and returns back aggregated data. In order to explore the metadata associated with a sequence, the data user will then be redirected to the ENA's app. An important thing to note here, is the dissonance between the aggregated data names and the associated metadata. While some common labels stay the same e.g. accession ID, many take new names after being pooled to the Covid-19 Data portal e.g. center name (data) -> collection institution (metadata). This linkage strategy blurs the direct matches and references between the data and the five metadata sub categories. This being said, two of the metadata categories hosted by the ENA contain linked if a sequence has been linked to a particular study, sample and taxon.", out.width = '100%'}
-knitr::include_graphics("../plots/c19dp-dppd.png")
+knitr::include_graphics("../plots/presentation/covid-19-data-portal-data-metadata.jpeg")
 ```
 
 ## Conclusion

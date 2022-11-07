@@ -18,17 +18,6 @@ knitr::include_graphics("../plots/dna.png")
 <p style="text-align:center;font-size:3em;margin-bottom:-15vh"> <b>*</b></p>
 
 # Abstract
-Open Data (OD) is an evolving term with numerous 
-
-emerging term in the process of defining how scientific data may
-be published and re-used without price or permission barriers. Scientists generally see
-published data as belonging to the scientific community, but many publishers claim
-copyright over data and will not allow its re-use without permission. This is a major
-impediment to the progress of scholarship in the digital age. This article reviews the need
-for Open Data, shows examples of why Open Data are valuable and summarizes some
-early initiatives in formalizing the right of access to and re-use of scientific data.
-
-
 FAIR, Free and Open are conflicting concepts regarding data sharing. The differences in these philosophies are exemplified in the case of SARS-Cov2 Nucleotide Sequence databases where all three of these policies have been implemented by a range of institutions. The Global Initiative on Sharing Avian Flu Data (GISAID) have shared virus data through a restricted access repository, the European Molecular Biology Laboratory (EMBL) shared their data under the FAIR principles and the National Center for Biotechnology Information (NCBI) guarantees free and unrestricted access to virus data. We examine each of these databases and discuss their limitations and benefits towards achieving responsible data sharing. In this paper I will argue that the way in which SARS-COV2 genome data has been shared and used reflects a lack of understanding of the ethical implications of such sharing, as well as a failure to consider the unequal power relations between different actors involved in the scientific process. To make this point I will draw on a range of data-centric methodologies, from network visualisation of key actors involved in data sharing policies, network and textual analysis from a large corpus of genomic surveillance papers and a Bayesian nonparametric regression model of institutional diversity indicators. 
 
 > Supplementary material - including code, data and presentations - can be accessed through the papers github [repository](https://github.com/natesheehan/OPEN-GM/). 
@@ -44,15 +33,13 @@ Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopi
 
 The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom. The SARS-CoV-2 pandemic has seen a dramatic increase in the use of genomic data, with new initiatives such as the Global Initiative on Sharing All Influenza Data (GISAID) platform being established to facilitate sharing. However, there are concerns that this increased sharing may not be inclusive or diverse enough, and that existing inequalities could be exacerbated. This paper will critically examine the governance of genomic data during the SARS-CoV-2 pandemic, with a focus on inclusion and diversity. It will consider the role of different actors in data sharing, including national governments, international organisations and private companies. It will also examine the challenges involved in ensuring that all countries have access to genomic data, and that this data is representative of the global population.
 
-> # FAIR princples
-> - yes
-
-
-
-<b>What are they various data sharing strategies? </b>
+## Data Goverenance
 
 ### FAIR Data
 The FAIR data principles have been widely endorsed by funders and institutions, and are increasingly being used as a framework for thinking about how to improve the accessibility and re-usability of research data (Wilkinson et al., 2016).  The framework has grown rapidly in recognition in and outside of academia, with over 7100 publications citing it as of July 2021 and now includes FAIR research software (Lamprecht et al 2020, Katz et al 2021). While the FAIR principles are often presented as a set of guidelines for researchers, they also have implications for data governance more broadly (REF). In particular, the FAIR principles could be seen as a way of ensuring that data is responsibly managed and used (Bezuidenhout 2020). The acronym “FAIR” stands for “Findable, Accessible, Interoperable, Reusable” and are intended to be a set of guidelines for researchers and other stakeholders involved in the management of research data. To this end, the FAIR principles specify a number of requirements that data should meet in order to be considered “FAIR”. These are documented in table 1. 
+
+> # FAIR princples
+> - yes
 
 ### Open Data (Gratis)
 
