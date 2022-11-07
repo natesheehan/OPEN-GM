@@ -180,7 +180,7 @@ for (i in 1:k) {
 }
 dev.off()
 
-# #### NETWORKS
-# A = cocMatrix(M, Field = "SO", sep = ";")
-# sort(Matrix::colSums(A), decreasing = TRUE)[1:5]
-#
+#### NETWORKS
+A = cocMatrix(M, Field = "SO", sep = ";")
+sort(Matrix::colSums(A), decreasing = TRUE)[1:5]
+
