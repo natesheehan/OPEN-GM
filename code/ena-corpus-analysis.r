@@ -37,7 +37,10 @@ saveRDS(S, "data/ena-corpus-analysis.rds")
 # Topic-Modelling ----------------------------------------------------------
 kens = M$AB |>
   stringr::str_to_lower() |>
-  stringr::str_remove_all("gisaid") |>
+  stringr::str_remove_all("ena") |>
+  stringr::str_remove_all("european") |>
+  stringr::str_remove_all("nucleotide") |>
+  stringr::str_remove_all("archive") |>
   stringr::str_remove_all("sars-cov-2") |>
   quanteda::tokens(
     what = "word",
