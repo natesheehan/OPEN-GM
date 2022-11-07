@@ -61,10 +61,6 @@ fit = stm::searchK(dfm_stm$documents,
                    dfm_stm$vocab,
                    K = K,
                    verbose = TRUE)
-# jpeg("plots/LIT-REVIEW/model-fit.jpeg")
-# # plot fit
-# plot(fit)
-# dev.off()v
 
 plot = data.frame(
   "K" = K,
