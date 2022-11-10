@@ -7,9 +7,15 @@ On the 29th of January 2021 the governing board of the European Bioinformatics I
 This case encapsulates a tension between actionability and representativeness that is often found in data science initiatives within the biological and biomedical sciences. On the one hand, it is argued, data sharing is only relevant when data can be used to support discovery, thereby becoming ‘actionable’: any constraint on data circulation is therefore conceptualised as an obstacle to knowledge production. On the other hand, data sharing is pointless unless enough data are contributed by a wide and diverse set of sources, thereby guaranteeing that the data is representative of the research communities engaged in investigating the phenomena at hand. We argue that this tension can be negotiated by a model of responsible data sharing that enhances data actionability without sacrificing user protection measures, thereby attempting to maximise both representativeness and actionability. Crucially, such a model can only work when accepting that data do not need to be transparent, or anyhow easily accessible, in order to be actionable. 
 
 ## Data and Methods
+
+<h3> <i> Sequence and Epidemiological Data </i> </h3>
 Metadata on SAS-Cov2 sequences were collected from GISAID and the Covid-19 Data Portal via their online web interfaces between the epidemiological weeks of the 23rd of December 2019 and 1st of October 2021. Epidemiological data were gathered from the complete Covid-19 dataset made available from  Our World in Data (OWID) (https://github.com/owid/covid-19-data) via a stable public url. Global new case counts were extracted from this dataset which originally come from the COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU) (https://github.com/CSSEGISandData/COVID-19).  
 
+<h3> <i> Global aggregations </i> </h3>
 The aforementioned data sources were linked together using country codes defined by ISO 3166-1 alpha-2. Percentages of Covid-19 cases sequenced per country - cumulatively and weekly - were calculated by aggregating weekly submissions and case counts using a custom R script (https://github.com/natesheehan/OPEN-GM/blob/main/code/data-wrangle.r). Visualisations and plots were assembled using ggplot2 - a data visualisation package for the statistical programming language R - and are made accessible via the following open access scripts (https://github.com/natesheehan/OPEN-GM/blob/main/code/plot-temporal-submissions.r, https://github.com/natesheehan/OPEN-GM/blob/main/code/plot-treemap.r and https://github.com/natesheehan/OPEN-GM/blob/main/code/plot-continent-landscape.r). 
+
+<h3> <i> Data Provenance </i> </h3>
+A graphical representation of access to data and metadata were compiled for each platform as of October 30th 2022. To standardise this process, each access was led by the accession of the same sequence for each portal, the number of "hops" were then recorded to show the infrastructural lineage of the data, as well as documenting supplementary metadata associated with a given sequence. 
 
 
 ## Data availability
