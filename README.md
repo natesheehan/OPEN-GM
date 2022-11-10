@@ -22,7 +22,7 @@ The code that support the findings of this study are available from: https://git
 
 ## Acknowledgements
 
-We would like to thank the authors from the originating labs - together with the submitting labs -  who were responsible for collecting, codifying and sharing the pathogen related data to which this analysis relies on. To this end, an acknowledgement table can be found from gisaid.org with the following set accession id: EPI_SET_220927xo.  
+We would like to thank the authors from the originating labs - together with the submitting labs -  who were responsible for collecting, codifying and sharing the pathogen related data to which this analysis relies on. To this end, an acknowledgement table can be found from gisaid.org with the following set accession id: EPI_SET_220927xo (https://github.com/natesheehan/OPEN-GM/blob/main/gisaid_supplemental_table_epi_set_220927xo.pdf).  
 
 We would also like to thank the Our World in Data team for their efforts in collecting and curating the epidemiological data used in this study. 
 
