@@ -96,8 +96,7 @@ a = ggplot(
       face = "bold",
       vjust = 0.9
     )
-  ) +   labs(
-             title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the GISAID \n\n",
+  ) +   labs(title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the GISAID \n\n",
              caption = "\nGISAID Metadata: https://www.epicov.org/")
 
 b = ggplot(
@@ -174,19 +173,16 @@ b = ggplot(
       size = 18,
       face = "bold",
       vjust = 0.9
-    )) +   labs(
-    title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the Covid-19 Data Portal \n\n",
-    caption = "\nThe Covid-19 Data Portal Metadata: https://www.covid19dataportal.org/")
+    )
+  ) +   labs(title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the Covid-19 Data Portal \n\n",
+             caption = "\nThe Covid-19 Data Portal Metadata: https://www.covid19dataportal.org/")
 
-ggarrange(a,b)
+ggarrange(a, b)
 
 ggsave(
-  paste0(
-    "plots/presentation/treemap.png"
-  ),
+  paste0("plots/presentation/treemap.png"),
   dpi = 320,
   width = 18,
   height = 12,
   limitsize = FALSE
 )
-
