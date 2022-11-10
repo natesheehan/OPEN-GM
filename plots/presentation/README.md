@@ -6,8 +6,8 @@
 ![](europe-heatmap.gif "Europe Heatmap")
 ![](africa-heatmap.gif "Africa Heatmap")
 ![](oceania-heatmap.gif "Oceania Heatmap")
-![](northamerica-heatmap.gif "North America Heatmap")
-![](southamerica-heatmap.gif "South America Heatmap")
+![](north-america-heatmap.gif "North America Heatmap")
+![](south-america-heatmap.gif "South America Heatmap")
 
 ## Treemap of global share of sequences per data portal
 
