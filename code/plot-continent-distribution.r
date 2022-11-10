@@ -26,24 +26,6 @@ main_df  |> dplyr::filter(gpnc_gisaid < 100) |>
   ggplot( aes(x=myaxis, y=gpnc_gisaid, fill=continent)) +
   geom_violin(width=1.4) +
   geom_boxplot(width=0.1, color="grey", alpha=0.2) +
-  viridis::scale_fill_viridis(discrete = TRUE)
-
-ggsave(
-  paste0(
-    "plots/GISAID/continent violin.png"
-  ),
-  dpi = 320,
-  width = 18,
-  height = 12,
-  limitsize = FALSE
-)
-
-main_df  |> dplyr::filter(gpnc_embl < 100) |>
-  left_join(sample_size) |>
-  mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
-  ggplot( aes(x=myaxis, y=gpnc_embl, fill=continent)) +
-  geom_violin(width=1.4) +
-  geom_boxplot(width=0.1, color="grey", alpha=0.2) +
   viridis::scale_fill_viridis(discrete = TRUE) +
   theme(
     legend.position="none",
@@ -104,9 +86,10 @@ main_df  |> dplyr::filter(gpnc_embl < 100) |>
       face = "bold",
       vjust = 0.9
     ))
+
 ggsave(
   paste0(
-    "plots/EMBL/continent violin.png"
+    "plots/GISAID/continent violin.png"
   ),
   dpi = 320,
   width = 18,
