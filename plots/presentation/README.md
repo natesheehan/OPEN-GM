@@ -11,9 +11,8 @@
 
 ## Treemap of global share of sequences per data portal
 
-![](treemap-gisaid.png "GISAID treemap")
-![](treemap-covid-19-data-portal.png "The Covid-19 Data Portal treemap")
- 
+![](treemap.png "Seqeunce distribution treemap")
+
 ## Temporal submission per data portal
 
 ![](temporal_average.png "Average weekly submission per data portal")
