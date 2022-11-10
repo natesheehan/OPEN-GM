@@ -16,14 +16,12 @@
 ##
 ##
 ## ---------------------------
+library(ggpubr)
+
 
 tree_df = main_df |> dplyr::filter(wy == "22/39")
-
-ggplot(tree_df, aes(area = GISAID.total.submissions, fill = continent)) +
-  geom_treemap()
-
-
-ggplot(
+textcol = "grey40"
+a = ggplot(
   tree_df,
   aes(
     area = GISAID.total.submissions,
@@ -101,17 +99,8 @@ ggplot(
   ) +   labs(
              title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the GISAID \n\n",
              caption = "\nGISAID Metadata: https://www.epicov.org/")
-ggsave(
-  paste0(
-    "plots/GISAID/treemap.png"
-  ),
-  dpi = 320,
-  width = 18,
-  height = 12,
-  limitsize = FALSE
-)
 
-ggplot(
+b = ggplot(
   tree_df,
   aes(
     area = CD19DP.total.submissions,
@@ -188,12 +177,16 @@ ggplot(
     )) +   labs(
     title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the Covid-19 Data Portal \n\n",
     caption = "\nThe Covid-19 Data Portal Metadata: https://www.covid19dataportal.org/")
+
+ggarrange(a,b)
+
 ggsave(
   paste0(
-    "plots/EMBL/treemap.png"
+    "plots/presentation/treemap.png"
   ),
   dpi = 320,
   width = 18,
   height = 12,
   limitsize = FALSE
 )
+
