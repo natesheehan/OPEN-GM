@@ -17,9 +17,11 @@
 ##
 ##
 ## ---------------------------
+
 textcol = "white"
 continent_loop = as.data.frame(unique(main_df$continent))
-#GISAID
+
+# GISAID ------------------------------------------------------------------
 for (i in 1:nrow(continent_loop)) {
   plot_df = main_df  |>
     # convert state to factor and reverse order of levels
@@ -97,12 +99,12 @@ for (i in 1:nrow(continent_loop)) {
       legend.title = element_text(
         colour = textcol,
         face = "italic",
-        size = 14
+        size = 18
       ),
       legend.margin = margin(grid::unit(0, "cm")),
       legend.text = element_text(
         colour = textcol,
-        size = 14,
+        size = 18,
         face = "bold"
       ),
       legend.key.height = grid::unit(1.4, "cm"),
@@ -117,7 +119,7 @@ for (i in 1:nrow(continent_loop)) {
       axis.text.y = element_text(
         vjust = 0.2,
         colour = textcol,
-        size = 8
+        size = 10
       ),
       axis.ticks = element_line(size = 0.4),
       plot.caption = element_text(colour = textcol, size = 10),
@@ -158,6 +160,8 @@ for (i in 1:nrow(continent_loop)) {
   )
 }
 
+
+# The Covid-19 Data Portal ------------------------------------------------
 for (i in 1:nrow(continent_loop)) {
   plot_df = main_df  |>
     # convert state to factor and reverse order of levels
@@ -228,19 +232,18 @@ for (i in 1:nrow(continent_loop)) {
       ),
       na.value = "grey90"
     ) +
-    # facet_grid(.~continent) +
     theme(
       legend.position = "bottom",
       legend.direction = "horizontal",
       legend.title = element_text(
         colour = textcol,
         face = "italic",
-        size = 14
+        size = 18
       ),
       legend.margin = margin(grid::unit(0, "cm")),
       legend.text = element_text(
         colour = textcol,
-        size = 14,
+        size = 18,
         face = "bold"
       ),
       legend.key.height = grid::unit(0.8, "cm"),
@@ -255,7 +258,7 @@ for (i in 1:nrow(continent_loop)) {
       axis.text.y = element_text(
         vjust = 0.2,
         colour = textcol,
-        size = 8
+        size = 10
       ),
       axis.ticks = element_line(size = 0.4),
       plot.caption = element_text(colour = textcol, size = 10),
