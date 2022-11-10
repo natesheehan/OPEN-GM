@@ -105,8 +105,8 @@ for (i in 1:nrow(continent_loop)) {
         size = 14,
         face = "bold"
       ),
-      legend.key.height = grid::unit(0.8, "cm"),
-      legend.key.width = grid::unit(0.2, "cm"),
+      legend.key.height = grid::unit(1.4, "cm"),
+      legend.key.width = grid::unit(0.8, "cm"),
       axis.text.x = element_text(
         size = 6,
         angle = 90,
