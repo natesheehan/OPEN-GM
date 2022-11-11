@@ -67,7 +67,7 @@ theme_tree = function(){
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
     plot.title = element_text(
       colour = textcol,
-      size = 26,
+      size = 22,
       face = "bold",
       vjust = 0.9
     )
@@ -100,7 +100,7 @@ a = ggplot(
     place = "centre",
     size = 15,
     grow = TRUE
-  ) +   labs(title = "\nGlobal SARS-CoV-2 cases sequenced and shared with \nGISAID \n\n",
+  ) +   labs(title = "\nGlobal SARS-CoV-2 cases sequenced \nand shared with GISAID \n\n",
              caption = "\nGISAID Metadata: https://www.epicov.org/") + theme_tree()
 
 b = ggplot(
@@ -126,7 +126,7 @@ b = ggplot(
     place = "centre",
     size = 15,
     grow = TRUE
-  ) +  labs(title = "\nGlobal SARS-CoV-2 cases sequenced and shared with \nthe Covid-19 Data Portal \n\n",
+  ) +  labs(title = "\nGlobal SARS-CoV-2 cases sequenced \nand shared with the Covid-19 Data Portal \n\n",
              caption = "\nThe Covid-19 Data Portal Metadata: https://www.covid19dataportal.org/") +
   theme_tree()
 
