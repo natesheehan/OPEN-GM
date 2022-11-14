@@ -28,7 +28,8 @@ M = bibliometrix::convert2df(file = file,
   dplyr::filter(PY != is.na(PY)) |>
   dplyr::filter(AB != is.na(AB)) |>
   dplyr::mutate(Year = substr(PY, 1, 4)) |>
-  dplyr::filter(Year > 2019)
+  dplyr::filter(Year > 2019) |>
+  dplyr::select(-c(Year))
 
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
@@ -59,21 +60,30 @@ ggplot(data[1:100, ], aes(
   ylab("No. Documents") +
   coord_flip() + theme_landscape()
 
+ggsave(
+  paste0(
+    "plots/EMBL/mcp-scp.png"
+  ),
+  dpi = 320,
+  width = 18,
+  height = 12,
+  limitsize = FALSE
+)
+
 # Co-word Analysis through Keyword co-occurrences
 
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "co-occurrences",
                 network = "keywords",
                 sep = ";")
 summary(networkStat(NetMatrix))
 
-
 net = bibliometrix::networkPlot(
   NetMatrix,
   normalize = "association",
   n = 50,
-  Title = "Keyword Co-occurrences \nThe Covid-19 Data Portal",
+  Title = "Keyword Co-occurrences \nGISAID",
   type = "fruchterman",
   size.cex = TRUE,
   size = 20,
@@ -89,7 +99,7 @@ net = bibliometrix::networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Author collaboration network
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "collaboration",
                 network = "authors",
@@ -99,7 +109,7 @@ summary(networkStat(NetMatrix))
 net = networkPlot(
   NetMatrix,
   n = 50,
-  Title = "Author collaboration \nThe Covid-19 Data Portal",
+  Title = "Author collaboration \nGISAID",
   type = "auto",
   size = 10,
   size.cex = T,
@@ -109,18 +119,17 @@ net = networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Education collaboration network
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "collaboration",
                 network = "universities",
                 sep = ";")
 summary(networkStat(NetMatrix))
 
-
 net = networkPlot(
   NetMatrix,
   n = 50,
-  Title = "Institution collaboration\n(The Covid-19 Data Portal)",
+  Title = "Institution collaboration\n(GISAID)",
   type = "auto",
   size = 4,
   size.cex = F,
@@ -130,7 +139,7 @@ net = networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Country collaboration
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "collaboration",
                 network = "countries",
@@ -140,12 +149,12 @@ summary(networkStat(NetMatrix))
 net = networkPlot(
   NetMatrix,
   n = dim(NetMatrix)[1],
-  Title = "Country collaboration",
   type = "circle",
-  size = 10,
+  size = 0,
   size.cex = T,
+  label = FALSE,
   edgesize = 1,
-  labelsize = 0.6,
+  labelsize = 0,
   cluster = "none"
 )
 net2VOSviewer(net, vos.path = "VOSviewer/")
