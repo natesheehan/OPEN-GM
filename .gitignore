@@ -40,8 +40,7 @@ vignettes/*.pdf
 
 /raw-data
 
-<<<<<<< HEAD
 /VOSviewer
-=======
-/VOSviewer_1.6.18_jar
->>>>>>> e83e182127de147c4fe475e306f25d4aa5c0fa4f
+
+.html
+
