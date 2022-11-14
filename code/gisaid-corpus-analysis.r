@@ -58,33 +58,34 @@ ggplot(data[1:100,], aes(fill=collaboration, y=value, x=reorder(Country,Articles
 # Co-word Analysis through Keyword co-occurrences
 
 NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
-summary(networkStat(NetMatrix))
+par(bg="black",col.main = "yellow")
+net=bibliometrix::networkPlot(NetMatrix, normalize="association", n = 50,
+                Title = "Keyword Co-occurrences \nGISAID", type = "fruchterman",
+                size.cex=TRUE, size=20, remove.multiple=F, edgesize = 10,
+                labelsize=5,label.cex=TRUE,label.n=30,edges.min=2, label.color = FALSE)
 
-# Main statistics about the network
-#
-# Size                                  2715
-# Density                               0.021
-# Transitivity                          0.162
-# Diameter                              4
-# Degree Centralization                 0.918
-# Average path length                   2.012
+summary(networkStat(NetMatrix))
 
 # Article co-citation analysis
 NetMatrix <- biblioNetwork(M, analysis = "co-citation", network = "references", sep = ";")
+net=networkPlot(NetMatrix, n = 50, Title = "Co-Citation Network", type = "fruchterman", size.cex=TRUE, size=20, remove.multiple=FALSE, labelsize=1,edgesize = 10, edges.min=5)
 
 #E(net$graph)$color = "White"
 
 # Author collaboration network
 NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "authors", sep = ";")
+net=networkPlot(NetMatrix,  n = 50, Title = "Author collaboration \nGISAID",type = "auto", size=10,size.cex=T,edgesize = 3,labelsize=1)
 
 # Education collaboration network
 NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "universities", sep = ";")
+net=networkPlot(NetMatrix,  n = 50, Title = "Institution collaboration\n(GISAID)",type = "auto", size=4,size.cex=F,edgesize = 3,labelsize=1)
 
 net2VOSviewer(net, vos.path = "VOSviewer_1.6.18_jar/")
 
 # Country collaboration
 M <- metaTagExtraction(M, Field = "AU_CO", sep = ";")
 NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "countries", sep = ";")
+net=networkPlot(NetMatrix,  n = dim(NetMatrix)[1], Title = "Country collaboration",type = "circle", size=10,size.cex=T,edgesize = 1,labelsize=0.6, cluster="none")
 
 netstat <- networkStat(NetMatrix)
 summary(netstat,k=15)
