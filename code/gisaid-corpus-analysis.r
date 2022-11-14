@@ -41,11 +41,11 @@ SCP = S$MostProdCountries$SCP
 MCP = S$MostProdCountries$MCP
 Articles = S$MostProdCountries$Articles
 
-data = as.data.frame(cbind(Country, SCP, MCP, Articles)) %>%
-  arrange(desc(Articles)) %>%
-  pivot_longer(c(SCP, MCP)) %>%
-  mutate(value = as.numeric(value)) %>%
-  mutate(Articles = as.numeric(Articles)) %>%
+data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
+  arrange(desc(Articles)) |>
+  pivot_longer(c(SCP, MCP)) |>
+  mutate(value = as.numeric(value)) |>
+  mutate(Articles = as.numeric(Articles)) |>
   rename(collaboration = name)
 
 ggplot(data[1:100, ], aes(
