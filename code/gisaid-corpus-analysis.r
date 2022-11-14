@@ -191,6 +191,9 @@ net = networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Topic-Modelling ----------------------------------------------------------
+
+M = M |> dplyr::filter(AB != "")
+
 kens = M$AB |>
   stringr::str_to_lower() |>
   stringr::str_remove_all("gisaid") |>
