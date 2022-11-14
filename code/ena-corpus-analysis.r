@@ -18,7 +18,7 @@
 ## ---------------------------
 
 set.seed(999)
-textcol = "grey40"
+textcol = "yellow"
 # Read data
 file = "../../Downloads/Dimensions-Publication-2022-11-07_16-52-16.csv"
 # Convert bibtext to dataframe
@@ -35,6 +35,34 @@ results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
 saveRDS(S, "data/ena-corpus-analysis.rds")
+
+country_prod =
+  as.data.frame(as.vector(S$MostProdCountries)) %>%
+  arrange(Articles) %>%
+  dplyr::select(Country,SCP, MCP) %>%
+  pivot_longer(c(SCP,MCP))  %>%
+  mutate(value = as.numeric(value))
+
+Country = S$MostProdCountries$Country
+SCP = S$MostProdCountries$SCP
+MCP = S$MostProdCountries$MCP
+Articles = S$MostProdCountries$Articles
+
+data = as.data.frame(cbind(Country,SCP,MCP,Articles)) %>%
+  arrange(desc(Articles) ) %>%
+  pivot_longer(c(SCP,MCP)) %>%
+  mutate(value = as.numeric(value)) %>%
+  mutate(Articles = as.numeric(Articles)) %>%
+  rename(collaboration = name)
+
+ggplot(data[1:100,], aes(fill=collaboration, y=value, x=reorder(Country,Articles))) +
+  geom_bar(position="stack", stat="identity") +
+  labs(title = "Studies citing the Covid-19 Data Portal Or the European Nucleotide Archive",caption  = "Biblographic data was accessed by querying 'ENA OR 'covid-19 data portal'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  xlab("Country") +
+  ylab("No. Documents") +
+  coord_flip() + theme_landscape()
+
+
 
 # Topic-Modelling ----------------------------------------------------------
 kens = M$AB |>
