@@ -27,7 +27,9 @@ M = bibliometrix::convert2df(file = file,
                              format = "csv") |>
   dplyr::filter(PY != is.na(PY)) |>
   dplyr::filter(AB != is.na(AB)) |>
-  dplyr::filter(Publication.Date < "2020-01-01")
+  dplyr::mutate(Year = substr(PY,1,4)) |>
+  dplyr::filter(Year > 2019)
+
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)

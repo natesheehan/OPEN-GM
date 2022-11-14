@@ -26,11 +26,14 @@ M = bibliometrix::convert2df(file = file,
                              dbsource = "dimensions",
                              format = "csv") |>
   dplyr::filter(PY != is.na(PY)) |>
-  dplyr::filter(AB != is.na(AB))
+  dplyr::filter(AB != is.na(AB)) |>
+  dplyr::mutate(Year = substr(PY,1,4)) |>
+  dplyr::filter(Year > 2019)
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
+bibliometrix::
 saveRDS(S, "data/gisaid-corpus-analysis.rds")
 
 # Topic-Modelling ----------------------------------------------------------
