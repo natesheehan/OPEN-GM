@@ -18,7 +18,7 @@
 ## ---------------------------
 
 set.seed(999)
-textcol = "grey40"
+textcol = "yellow"
 # Read data
 file = "../../Downloads/Dimensions-Publication-2022-11-04_03-22-22.csv"
 # Convert bibtext to dataframe
@@ -28,13 +28,67 @@ M = bibliometrix::convert2df(file = file,
   dplyr::filter(PY != is.na(PY)) |>
   dplyr::filter(AB != is.na(AB)) |>
   dplyr::mutate(Year = substr(PY,1,4)) |>
-  dplyr::filter(Year > 2019)
+  dplyr::filter(Year > 2019) |>
+  dplyr::select(-c(Year))
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
-bibliometrix::
 saveRDS(S, "data/gisaid-corpus-analysis.rds")
+
+Country = S$MostProdCountries$Country
+SCP = S$MostProdCountries$SCP
+MCP = S$MostProdCountries$MCP
+Articles = S$MostProdCountries$Articles
+
+data = as.data.frame(cbind(Country,SCP,MCP,Articles)) %>%
+  arrange(desc(Articles) ) %>%
+  pivot_longer(c(SCP,MCP)) %>%
+  mutate(value = as.numeric(value)) %>%
+  mutate(Articles = as.numeric(Articles)) %>%
+  rename(collaboration = name)
+
+ggplot(data[1:100,], aes(fill=collaboration, y=value, x=reorder(Country,Articles))) +
+  geom_bar(position="stack", stat="identity") +
+  labs(title = "Studies citing GISAID",caption  = "Biblographic data was accessed by querying 'ENA OR 'covid-19 data portal'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  xlab("Country") +
+  ylab("No. Documents") +
+  coord_flip() + theme_landscape()
+
+# Co-word Analysis through Keyword co-occurrences
+
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+summary(networkStat(NetMatrix))
+
+# Main statistics about the network
+#
+# Size                                  2715
+# Density                               0.021
+# Transitivity                          0.162
+# Diameter                              4
+# Degree Centralization                 0.918
+# Average path length                   2.012
+
+# Article co-citation analysis
+NetMatrix <- biblioNetwork(M, analysis = "co-citation", network = "references", sep = ";")
+
+#E(net$graph)$color = "White"
+
+# Author collaboration network
+NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "authors", sep = ";")
+
+# Education collaboration network
+NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "universities", sep = ";")
+
+net2VOSviewer(net, vos.path = "VOSviewer_1.6.18_jar/")
+
+# Country collaboration
+M <- metaTagExtraction(M, Field = "AU_CO", sep = ";")
+NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "countries", sep = ";")
+
+netstat <- networkStat(NetMatrix)
+summary(netstat,k=15)
+
 
 # Topic-Modelling ----------------------------------------------------------
 kens = M$AB |>
