@@ -17,6 +17,9 @@
 ##   only include texts focusing on the SARS genome, rather than any other GS strategy which has grown in recent years.
 ## ---------------------------
 
+
+
+# Data Prep ---------------------------------------------------------------
 set.seed(999)
 textcol = "yellow"
 # Read data
@@ -48,20 +51,35 @@ data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
   mutate(Articles = as.numeric(Articles)) |>
   rename(collaboration = name)
 
-ggplot(data[1:100, ], aes(
+
+# Network Plots -----------------------------------------------------------
+
+# SCP and MCP articles
+ggplot(data[0:100, ], aes(
   fill = collaboration,
   y = value,
   x = reorder(Country, Articles)
 )) +
   geom_bar(position = "stack", stat = "identity") +
-  labs(title = "Studies citing GISAID", caption  = "Biblographic data was accessed by querying 'GISAID'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  labs(title = "Studies citing GISAID",
+       caption  = "Publication data containing the search query ‘GISAID’ was accessed via the dimensions.ai API and was filtered to include publications between January 1st 2019 and October 1st 2021.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
   xlab("Country") +
   ylab("No. Documents") +
   coord_flip() + theme_landscape()
 
+ggsave(
+  paste0(
+    "plots/GISAID/mcp-scp.png"
+  ),
+  dpi = 320,
+  width = 18,
+  height = 12,
+  limitsize = FALSE
+)
+
 # Co-word Analysis through Keyword co-occurrences
 
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "co-occurrences",
                 network = "keywords",
@@ -96,7 +114,7 @@ net = bibliometrix::networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Author collaboration network
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "collaboration",
                 network = "authors",
@@ -116,7 +134,7 @@ net = networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Education collaboration network
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "collaboration",
                 network = "universities",
@@ -145,7 +163,7 @@ net = networkPlot(
 net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Country collaboration
-NetMatrix <-
+NetMatrix =
   biblioNetwork(M,
                 analysis = "collaboration",
                 network = "countries",
@@ -162,17 +180,15 @@ summary(networkStat(NetMatrix))
 net = networkPlot(
   NetMatrix,
   n = dim(NetMatrix)[1],
-  Title = "Country collaboration",
   type = "circle",
-  size = 10,
+  size = 0,
   size.cex = T,
+  label = FALSE,
   edgesize = 1,
-  labelsize = 0.6,
+  labelsize = 0,
   cluster = "none"
 )
 net2VOSviewer(net, vos.path = "VOSviewer/")
-
-
 
 # Topic-Modelling ----------------------------------------------------------
 kens = M$AB |>
