@@ -39,3 +39,5 @@ vignettes/*.pdf
 .Renviron
 
 /raw-data
+
+/VOSviewer_1.6.18_jar
