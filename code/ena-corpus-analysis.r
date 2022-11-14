@@ -55,7 +55,7 @@ ggplot(data[1:100, ], aes(
   x = reorder(Country, Articles)
 )) +
   geom_bar(position = "stack", stat = "identity") +
-  labs(title = "Studies citing The Covid-19 Data Portal", caption  = "Biblographic data was accessed by querying 'ENA OR 'covid-19 data portal'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  labs(title = "Studies citing The Covid-19 Data Portal", caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
   xlab("Country") +
   ylab("No. Documents") +
   coord_flip() + theme_landscape()
@@ -79,11 +79,20 @@ NetMatrix =
                 sep = ";")
 summary(networkStat(NetMatrix))
 
+# Main statistics about the network
+#
+# Size                                  6160
+# Density                               0.008
+# Transitivity                          0.098
+# Diameter                              5
+# Degree Centralization                 0.679
+# Average path length                   2.218
+
 net = bibliometrix::networkPlot(
   NetMatrix,
   normalize = "association",
   n = 50,
-  Title = "Keyword Co-occurrences \nGISAID",
+  Title = "Keyword Co-occurrences \nENA",
   type = "fruchterman",
   size.cex = TRUE,
   size = 20,
@@ -109,7 +118,7 @@ summary(networkStat(NetMatrix))
 net = networkPlot(
   NetMatrix,
   n = 50,
-  Title = "Author collaboration \nGISAID",
+  Title = "Author collaboration \nENA",
   type = "auto",
   size = 10,
   size.cex = T,
@@ -126,10 +135,19 @@ NetMatrix =
                 sep = ";")
 summary(networkStat(NetMatrix))
 
+# Main statistics about the network
+#
+# Size                                  5786
+# Density                               0.008
+# Transitivity                          0.327
+# Diameter                              8
+# Degree Centralization                 0.222
+# Average path length                   2.848
+
 net = networkPlot(
   NetMatrix,
   n = 50,
-  Title = "Institution collaboration\n(GISAID)",
+  Title = "Institution collaboration\n(ENA)",
   type = "auto",
   size = 4,
   size.cex = F,
@@ -145,6 +163,15 @@ NetMatrix =
                 network = "countries",
                 sep = ";")
 summary(networkStat(NetMatrix))
+
+# Main statistics about the network
+#
+# Size                                  161
+# Density                               0.269
+# Transitivity                          0.602
+# Diameter                              4
+# Degree Centralization                 0.624
+# Average path length                   1.763
 
 net = networkPlot(
   NetMatrix,
@@ -202,7 +229,7 @@ plot = data.frame(
 )
 plot = reshape2::melt(plot, id = c("K"))
 
-jpeg("plots/EMBL/topic-fit-gisaid.jpeg",
+jpeg("plots/EMBL/topic-fit-ENA.jpeg",
      width = 800,
      height = 800)
 ggplot(plot, aes(K, value, color = variable)) +
@@ -279,10 +306,10 @@ model = stm::stm(
   verbose = TRUE
 )
 # plot topics
-jpeg("plots/EMBL/topics-gisaid.jpeg",
+jpeg("plots/EMBL/topics-ENA.jpeg",
      width = 800,
      height = 800)
-plot(model, main = "Top Topics GISAID")
+plot(model, main = "Top Topics ENA")
 dev.off()
 
 # Plot effect of topic per year
@@ -290,7 +317,7 @@ effect = stm::estimateEffect(formula =  ~ d,
                              stmobj = model,
                              metadata = M)
 labels = stm::labelTopics(model, 1:k)
-jpeg("plots/EMBL/effect-gisaid.jpeg",
+jpeg("plots/EMBL/effect-ENA.jpeg",
      width = 800,
      height = 800)
 par(mfcol = c(2, 3))
