@@ -58,37 +58,60 @@ ggplot(data[1:100,], aes(fill=collaboration, y=value, x=reorder(Country,Articles
 # Co-word Analysis through Keyword co-occurrences
 
 NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
-par(bg="black",col.main = "yellow")
+summary(networkStat(NetMatrix))
+# Main statistics about the network
+#
+# Size                                  2715
+# Density                               0.021
+# Transitivity                          0.162
+# Diameter                              4
+# Degree Centralization                 0.918
+# Average path length                   2.012
+
 net=bibliometrix::networkPlot(NetMatrix, normalize="association", n = 50,
                 Title = "Keyword Co-occurrences \nGISAID", type = "fruchterman",
                 size.cex=TRUE, size=20, remove.multiple=F, edgesize = 10,
                 labelsize=5,label.cex=TRUE,label.n=30,edges.min=2, label.color = FALSE)
 
-summary(networkStat(NetMatrix))
-
-# Article co-citation analysis
-NetMatrix <- biblioNetwork(M, analysis = "co-citation", network = "references", sep = ";")
-net=networkPlot(NetMatrix, n = 50, Title = "Co-Citation Network", type = "fruchterman", size.cex=TRUE, size=20, remove.multiple=FALSE, labelsize=1,edgesize = 10, edges.min=5)
-
-#E(net$graph)$color = "White"
+net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Author collaboration network
 NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "authors", sep = ";")
+summary(networkStat(NetMatrix))
+
 net=networkPlot(NetMatrix,  n = 50, Title = "Author collaboration \nGISAID",type = "auto", size=10,size.cex=T,edgesize = 3,labelsize=1)
+net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Education collaboration network
 NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "universities", sep = ";")
-net=networkPlot(NetMatrix,  n = 50, Title = "Institution collaboration\n(GISAID)",type = "auto", size=4,size.cex=F,edgesize = 3,labelsize=1)
+summary(networkStat(NetMatrix))
 
-net2VOSviewer(net, vos.path = "VOSviewer_1.6.18_jar/")
+# Main statistics about the network
+#
+# Size                                  5469
+# Density                               0.005
+# Transitivity                          0.351
+# Diameter                              9
+# Degree Centralization                 0.133
+# Average path length                   3.259
+
+net=networkPlot(NetMatrix,  n = 50, Title = "Institution collaboration\n(GISAID)",type = "auto", size=4,size.cex=F,edgesize = 3,labelsize=1)
+net2VOSviewer(net, vos.path = "VOSviewer/")
 
 # Country collaboration
-M <- metaTagExtraction(M, Field = "AU_CO", sep = ";")
 NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "countries", sep = ";")
+summary(networkStat(NetMatrix))
+# Main statistics about the network
+#
+# Size                                  153
+# Density                               0.255
+# Transitivity                          0.658
+# Diameter                              4
+# Degree Centralization                 0.547
+# Average path length                   1.821
 net=networkPlot(NetMatrix,  n = dim(NetMatrix)[1], Title = "Country collaboration",type = "circle", size=10,size.cex=T,edgesize = 1,labelsize=0.6, cluster="none")
+net2VOSviewer(net, vos.path = "VOSviewer/")
 
-netstat <- networkStat(NetMatrix)
-summary(netstat,k=15)
 
 
 # Topic-Modelling ----------------------------------------------------------
