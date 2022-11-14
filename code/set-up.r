@@ -42,42 +42,59 @@ isodate = function (x = Sys.Date()) {
 }
 
 # plot dark theme
-dark_theme = function() {
+theme_landscape = function(){
   theme(
-    # add border 1)
-    panel.border = element_rect(
-      colour = "slategrey",
-      fill = NA,
-      linetype = 2
-    ),
-    # color background 2)
-    panel.background = element_rect(fill = "white"),
-    # modify grid 3)
-    panel.grid.major.x = element_line(
-      colour = "#cf2e2e",
-      linetype = 3,
-      size = 0.5
-    ),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    # modify text, axis and colour 4) and 5)
-    axis.text = element_text(
-      colour = "white",
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.title = element_text(
+      colour = textcol,
       face = "italic",
-      family = "ub"
+      size = 18
     ),
-    axis.title = element_text(colour = "white", family = "ub"),
-    axis.ticks = element_line(colour = "white"),
-    plot.background = element_rect(fill = "#cf2e2e"),
-    plot.title = element_text(family = "ub", hjust = .5, size = 16),
-    plot.subtitle = element_text(family = "ub", hjust = .5, size = 12),
-    legend.background = element_rect(fill = "#cf2e2e"),
-    legend.text  = element_text(color = "white", family = "ub", size = 10),
-    legend.key = element_rect(fill = "#cf2e2e"),
-    # legend at the bottom 6)
-    legend.position = "bottom"
+    legend.margin = margin(grid::unit(0, "cm")),
+    legend.text = element_text(
+      colour = textcol,
+      size = 18,
+      face = "bold"
+    ),
+    legend.key.height = grid::unit(1.4, "cm"),
+    legend.key.width = grid::unit(0.8, "cm"),
+    axis.text.x = element_text(
+      size = 6,
+      angle = 90,
+      vjust = 0.5,
+      hjust = 1,
+      color = textcol
+    ),
+    axis.text.y = element_text(
+      vjust = 0.2,
+      colour = textcol,
+      size = 10
+    ),
+    axis.ticks = element_line(size = 0.4),
+    plot.caption = element_text(colour = textcol, size = 10),
+    axis.title = element_text(
+      size = 12,
+      face = "bold",
+      colour = textcol,
+      hjust = 0.1
+    ),
+    panel.border = element_blank(),
+    panel.background = element_rect(
+      fill = "transparent",
+      colour = "transparent",
+      size = 0.5,
+      linetype = "solid"
+    ),
+    plot.background = element_rect(fill = "gray12"),
+    legend.background = element_rect(fill = "gray12"),
+    plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
+    plot.title = element_text(
+      colour = textcol,
+      size = 18,
+      face = "bold",
+      vjust = 0.9
+    )
   )
 }
 options(scipen=999) # Turn off scientific notation
