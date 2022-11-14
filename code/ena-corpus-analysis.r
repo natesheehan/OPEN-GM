@@ -36,13 +36,6 @@ options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
 saveRDS(S, "data/ena-corpus-analysis.rds")
 
-country_prod =
-  as.data.frame(as.vector(S$MostProdCountries)) %>%
-  arrange(Articles) %>%
-  dplyr::select(Country,SCP, MCP) %>%
-  pivot_longer(c(SCP,MCP))  %>%
-  mutate(value = as.numeric(value))
-
 Country = S$MostProdCountries$Country
 SCP = S$MostProdCountries$SCP
 MCP = S$MostProdCountries$MCP
@@ -57,11 +50,45 @@ data = as.data.frame(cbind(Country,SCP,MCP,Articles)) %>%
 
 ggplot(data[1:100,], aes(fill=collaboration, y=value, x=reorder(Country,Articles))) +
   geom_bar(position="stack", stat="identity") +
-  labs(title = "Studies citing the Covid-19 Data Portal Or the European Nucleotide Archive",caption  = "Biblographic data was accessed by querying 'ENA OR 'covid-19 data portal'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  labs(title = "Studies citing The Covid-19 Data Portal",caption  = "Biblographic data was accessed by querying 'ENA OR 'covid-19 data portal'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
   xlab("Country") +
   ylab("No. Documents") +
   coord_flip() + theme_landscape()
 
+# Co-word Analysis through Keyword co-occurrences
+
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+summary(networkStat(NetMatrix))
+
+
+net=bibliometrix::networkPlot(NetMatrix, normalize="association", n = 50,
+                              Title = "Keyword Co-occurrences \nThe Covid-19 Data Portal", type = "fruchterman",
+                              size.cex=TRUE, size=20, remove.multiple=F, edgesize = 10,
+                              labelsize=5,label.cex=TRUE,label.n=30,edges.min=2, label.color = FALSE)
+
+net2VOSviewer(net, vos.path = "VOSviewer/")
+
+# Author collaboration network
+NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "authors", sep = ";")
+summary(networkStat(NetMatrix))
+
+net=networkPlot(NetMatrix,  n = 50, Title = "Author collaboration \nThe Covid-19 Data Portal",type = "auto", size=10,size.cex=T,edgesize = 3,labelsize=1)
+net2VOSviewer(net, vos.path = "VOSviewer/")
+
+# Education collaboration network
+NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "universities", sep = ";")
+summary(networkStat(NetMatrix))
+
+
+net=networkPlot(NetMatrix,  n = 50, Title = "Institution collaboration\n(The Covid-19 Data Portal)",type = "auto", size=4,size.cex=F,edgesize = 3,labelsize=1)
+net2VOSviewer(net, vos.path = "VOSviewer/")
+
+# Country collaboration
+NetMatrix <- biblioNetwork(M, analysis = "collaboration",  network = "countries", sep = ";")
+summary(networkStat(NetMatrix))
+
+net=networkPlot(NetMatrix,  n = dim(NetMatrix)[1], Title = "Country collaboration",type = "circle", size=10,size.cex=T,edgesize = 1,labelsize=0.6, cluster="none")
+net2VOSviewer(net, vos.path = "VOSviewer/")
 
 
 # Topic-Modelling ----------------------------------------------------------

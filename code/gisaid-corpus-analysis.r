@@ -50,7 +50,7 @@ data = as.data.frame(cbind(Country,SCP,MCP,Articles)) %>%
 
 ggplot(data[1:100,], aes(fill=collaboration, y=value, x=reorder(Country,Articles))) +
   geom_bar(position="stack", stat="identity") +
-  labs(title = "Studies citing GISAID",caption  = "Biblographic data was accessed by querying 'ENA OR 'covid-19 data portal'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  labs(title = "Studies citing GISAID",caption  = "Biblographic data was accessed by querying 'GISAID'' the dimensions.ai API between January first 2020 and October 1st 2021\nSCP: Single Country Publication. MCP: Multi Country Publication") +
   xlab("Country") +
   ylab("No. Documents") +
   coord_flip() + theme_landscape()
