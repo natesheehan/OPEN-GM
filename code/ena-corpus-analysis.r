@@ -213,7 +213,7 @@ dfm = quanteda::dfm_trim(dfm(kens),
 dfm_stm = quanteda::convert(dfm, to = "stm")
 
 # Statistically find the best number of k ---------------------------------
-K = c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+K = c(4, 6, 8, 10, 12, 14, 16, 18, 20)
 fit = stm::searchK(dfm_stm$documents,
                    dfm_stm$vocab,
                    K = K,
