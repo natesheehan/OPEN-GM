@@ -296,7 +296,7 @@ ggplot(plot, aes(K, value, color = variable)) +
 dev.off()
 
 # Set optimal number of K based on fit
-k = 7
+k = 6
 M$d = as.numeric(M$PY)
 model = stm::stm(
   documents = dfm_stm$documents,
@@ -322,7 +322,7 @@ labels = stm::labelTopics(model, 1:k)
 jpeg("plots/EMBL/effect-ENA.jpeg",
      width = 800,
      height = 800)
-par(mfcol = c(3, 4))
+par(mfcol = c(2, 3),col.main = "white")
 for (i in 1:k) {
   plot(
     effect,
