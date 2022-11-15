@@ -237,7 +237,7 @@ ggplot(plot, aes(K, value, color = variable)) +
   geom_line(size = 1.5, show.legend = FALSE) +
   facet_wrap(~ variable, scales = "free_y") +
   labs(x = "Number of topics K",
-       title = "Statistical fit of models with different K") +  theme(legend.position =
+       title = "Statistical fit of models with different K \nThe Covid-19 Data Portal Corpus") +  theme(legend.position =
                                                                         "none",
                                                                       plot.title = element_text(size = 11)) +
   theme(
@@ -296,7 +296,7 @@ ggplot(plot, aes(K, value, color = variable)) +
 dev.off()
 
 # Set optimal number of K based on fit
-k = 5
+k = 7
 M$d = as.numeric(M$PY)
 model = stm::stm(
   documents = dfm_stm$documents,
@@ -310,6 +310,7 @@ model = stm::stm(
 jpeg("plots/EMBL/topics-ENA.jpeg",
      width = 800,
      height = 800)
+par(bg = "black", col = "white",col.axis = 'yellow', col.lab = 'red')
 plot(model, main = "Top Topics ENA")
 dev.off()
 
@@ -321,7 +322,7 @@ labels = stm::labelTopics(model, 1:k)
 jpeg("plots/EMBL/effect-ENA.jpeg",
      width = 800,
      height = 800)
-par(mfcol = c(2, 3))
+par(mfcol = c(3, 4))
 for (i in 1:k) {
   plot(
     effect,
