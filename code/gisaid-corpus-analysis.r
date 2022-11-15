@@ -312,6 +312,7 @@ model = stm::stm(
 jpeg("plots/gisaid/topics-gisaid.jpeg",
      width = 800,
      height = 800)
+par(bg = "black", col = "white",col.axis = 'yellow', col.lab = 'red')
 plot(model, main = "Top Topics GISAID")
 dev.off()
 
