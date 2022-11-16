@@ -1,11 +1,11 @@
 ---
-title: "Diverse enough? A critical examination of genomic data governance strategies during the SARS-CoV2 pandemic"
+title: "Diverse enough? A systematic review of genome data portals during the sars-cov-2 pandemic"
 date: "`r Sys.Date()`"
 author: "Nathanael Sheehan & Sabina Leonelli"
 output:
   rmdformats::downcute:
     self_contained: true
-    default_style: "light"
+    default_style: "dark"
     downcute_theme: "default"
 
 ---
@@ -17,51 +17,157 @@ knitr::include_graphics("../plots/dna.png")
 
 <p style="text-align:center;font-size:3em;margin-bottom:-15vh"> <b>*</b></p>
 
-# Abstract
-Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopian vision of global scientific co-ordination and collaboration in order to discover solutions for vaccines, hospital protocols and pathogen genetic mutations. While in many ways, the increased volume, velocity and variety of genomic data sharing that happened in the height of the pandemic did indeed enable a fast track to SARS-Cov-2 solutionism, it is difficult to untangle the fields historical - and present - associations with both European and North American imperialism. Imperialist practices in genomic science embrace socio-scientifc paternalism, the invisibility of labour through the means of technology, and the dissonance among previously colonised countries and their colonising counterparts in building transparent data governance strategies. Such issues affect the vernacularisation of genomic science, the translation of data into knowledge and the way in which technology is deployed. The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom. The SARS-CoV-2 pandemic has seen a dramatic increase in the use of genomic data, with initiatives such as the Global Initiative on Sharing All Influenza Data (GISAID) and the Covid-19 Data Portal being among the leading in facilitating open sharing of all kinds; sequence, patient metadata records ,photogenic trees, literature and much more*. Despite this seemingly aulurtistic image of science, there has been an on going debate questioning if these increased sharing may not be inclusive or diverse enough, and that existing inequalities among global scientific networks may be exacerbated. Following on from this line of inquiry,
-This paper will critically examine the governance of genomic data during the SARS-CoV-2 pandemic, with a focus on empirically tackaling scientific publication diversity. Our analysis graphs the networks of different authors, institutions, onotologies and geographies that shape and are shaped by  
+<!-- GISAID is a global initiative that enables scientists to access genomic data of the SARS-CoV-2 virus. The platform has been praised for its efforts in enabling global collaboration, yet it has also come under fire for its strict open data policy which requires researchers to sign a data sharing agreement that limits how they can use and share this data.  -->
 
-in data sharing, including national governments, international organisations and private companies. It will also examine the challenges involved in ensuring that all countries have access to genomic data, and that this data is representative of the global population.
+
+<!--  The covid-19 pandemic has highlighted the importance of open data sharing as it has allowed researchers to rapidly respond to the pandemic through rapid knowledge exchange.  -->
+
+<!-- We find that GISAID is more effective at supporting epistemic di -->
+
+# Abstract
+
+## Background
+
+Open data sharing is a central tenet of scientific research and has been shown to improve the quality of research, increase reproducibility, and support knowledge exchange.The two strains of open data - gratis or libre - are often described as antithetical to one another and have produced a fierce debate throughout the covid-19 pandemic among researchers concerned with what constitutes as responsible data sharing during a time of emergency science. This debate has largely played out between GISAID and the Covid-19 data portal in publications, public letters and leaked emails, yet little work has been done to quantitatively study the effectiveness of each platforms open data policy.  We aim to address this research gap by conducting a quantitative analysis of the two platforms with regards to their support for epistemic diversity. We operationalise epistemic diversity as the number of authors, institutions, ontologies and geographies that are represented in global publications that make use of data from either platform. 
+
+## Methods
+
+20,955 publications (11,256 for GISAID and 9,699 for the Covid-19 Data portal) were accessed from the dimensions analytics api between between January 2020 and October 2022. The returned data underwent a scientific mapping using bibliographic methods from the `biblometrix` R package, including: general summary statistics, collaboration networks (authors, institutions, countries), co-citation Networks (authors, references, journals), coupling networks (references,authors,sources,countries), co-occurrences networks (authors,journal,keyword,title,abstract). Using data generated from the networks, we perform a series of correlation tests to investigate the spatio-temporal heterogeneity in global scientific production of publications and submissions to SARS-CoV-2 genomic surveillance data portals.
+
+## Results
+
+Our results show that there is a significant difference in the way gratis and libre open data platforms support epistemic diversity. Gratis open data platforms such as GISAID are more likely to support forms of epistemic diversity that are based on geographical location and institutional affiliation. In contrast, libre open data platforms such as the Covid-19 Data Portal are more likely to support forms of epistemic diversity that are based on disciplinary expertise and research methods.
+
+## Conclusion
+We conclude that the two strains of open data are not antithetical to one another, but complementary. We show that the two strains of open data have produced different forms of epistemic diversity through global publications and reccommend 
 
 > Supplementary material - including code, data and presentations - can be accessed through the papers github [repository](https://github.com/natesheehan/OPEN-GM/). 
 
 <p style="text-align:center;font-size:3em"> <b>*</b></p>
 
 
-# Diverse enough? A critical examination of genomic data goverenace strategies during the SARS-CoV2 pandemic
+# Diverse enough: A scientific mapping of sars-cov-2 genome databases 
 
-## Introduction
-
-
-## Data Goverenance
-
-### FAIR Data
-The FAIR data principles have been widely endorsed by funders and institutions, and are increasingly being used as a framework for thinking about how to improve the accessibility and re-usability of research data (Wilkinson et al., 2016).  The framework has grown rapidly in recognition in and outside of academia, with over 7100 publications citing it as of July 2021 and now includes FAIR research software (Lamprecht et al 2020, Katz et al 2021). While the FAIR principles are often presented as a set of guidelines for researchers, they also have implications for data governance more broadly (REF). In particular, the FAIR principles could be seen as a way of ensuring that data is responsibly managed and used (Bezuidenhout 2020). The acronym “FAIR” stands for “Findable, Accessible, Interoperable, Reusable” and are intended to be a set of guidelines for researchers and other stakeholders involved in the management of research data. To this end, the FAIR principles specify a number of requirements that data should meet in order to be considered “FAIR”. These are documented in table 1. 
-
-> # FAIR princples
-> - yes
-
-### Open Data (Gratis)
-
-### Open Data (Libre)
+## Background
 
 
--- Who are deploying said strategies?
 
-GISAID
+What are data portals?
 
-EMBL
 
-NCBI
--- How have the strategies been previously discussed?
-}
-- Explore notions of diversity and their relation to open data
-- Introduce summary of work
 
-## Data and Methodology
+What has been the debate between the two portals?
+
+Nature letter
+Gobels phd paper
+Global disparities paper
+Our previous work
+
+How does this study fill the lacuna in research?
+
+## Data and Methods
+
+The following section outlines the data and methods used as an emperical tool in this investigation. Although one of the authors have aforementioned in previous work against one of the methodologies used in this paper - biblometric analysis (Leonelli REF) - a degree of explanation may be needed. 
+
+### Data collection
+
+Include queries, where teh data was from, what catefories were searched against, time, language, article type and manual filtering efforts. 
+
+### Data Analysis
+
+- Explain scientific mapping, Bibliometric analysis, regression and state all the software and packages being used.
+
+- Summary statistics
+
+- Networks of publications
+
+- Spatio-temporal correlations
+
+## Results
+
+### GISAID
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+S = readRDS("../data/sum-ena-corpus.rds")
+rmarkdown::paged_table(as.data.frame(S$MainInformationDF))
+```
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/EMBL/mcp-scp.png")
+```
+
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/presentation/gisaid-networks.png")
+```
+
+### The Covid-19 Data Portal
+
+#### Summary Statistics
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+S = readRDS("../data/sum-ena-corpus.rds")
+rmarkdown::paged_table(as.data.frame(S$MainInformationDF))
+```
+
+#### Networks 
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/EMBL/mcp-scp.png")
+```
+
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/EMBL/author-network.png")
+```
+
+Main statistics about the network:
+```{r,echo=FALSE, fig.cap="Main statistics about the network"}
+v = readr::read_rds("../data/networks/author-network-stats.rds")
+knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
+```
+
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/EMBL/country-network.png")
+```
+
+Main statistics about the network:
+```{r,echo=FALSE, fig.cap="Main statistics about the network"}
+v = readr::read_rds("../data/networks/country-network-stats.rds")
+  knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
+```
+
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/EMBL/institution-network.png")
+```
+
+Main statistics about the network:
+```{r,echo=FALSE, fig.cap="Main statistics about the network"}
+v = readr::read_rds("../data/networks/university-network-stats.rds")
+  knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
+```
+
+
+```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
+knitr::include_graphics("../plots/EMBL/keyword-network.png")
+```
+
+Main statistics about the network:
+```{r,echo=FALSE, fig.cap="Main statistics about the network"}
+v = readr::read_rds("../data/networks/keyword-network-stats.rds")
+  knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
+```
 
 ## Discussion
+
+One could say there are two main arguments for epistemic diversity; one is practical and the other is normative. The practical argument for epistemic diversity rests on the idea that diverse perspectives lead to new insights and theories. This argument has been put forward by many social epistemologists, including Helen Longino (2002) and Evelyn Fox Keller (1985). Longino argues that epistemic diversity is important because it leads to “the cognitive benefits of confrontation with alternative points of view” (2002, p. 74). In other words, when different perspectives are brought into contact with each other, they can challenge and improve each other. This process of confrontation and exchange is essential for scientific progress. Keller makes a similar point when she argues that “diversity…is an indispensable condition of fruitful scientific research” (1985, p. 21). She goes on to say that “without…diversity…there could be no growth in our knowledge” (1985, p. 21). Thus, according to the practical argument, epistemic diversity is important because it leads to better science. On the other hand, the normative argument for epistemic diversity rests on the idea that diverse perspectives should be included in science for moral or political reasons. This argument has been put forward by many feminist philosophers of science, including Sandra Harding (1986) and Donna Haraway (1991). Harding argues that we should strive for an “optimal mix” of voices in science because this would lead to “a more just society”. These arguments are not mutually exclusive, and both can be used to support the case for epistemic diversity.
+
+The theme of epistemic diveristy has been explored in Open Science initiatives by identifying the number of factors in which can shape a diverse Open Science project. These include, but are not limited to a diversification of methods, characteristics of researchers, funding, geo-political location and intellectual property regimes (Leonelli 2021).
 
 ## Conclusion
 
 ## References
+
+<!-- Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopian vision of global scientific co-ordination and collaboration in order to discover solutions for vaccines, hospital protocols and study the pathogen genetic mutations which shook the world. While in many ways, the increased volume, velocity and variety of genomic data sharing that happened in the height of the pandemic did indeed enable a fast track to SARS-Cov-2 solutionism, it is difficult to untangle the fields historical - and present - associations with both European and North American imperialism. Imperialist practices in genomic science embrace socio-scientifc paternalism, the invisibility of labour through the means of technology, and the dissonance among previously colonised countries and their colonising counterparts. This structure reinforces negative outcomes across space and time for and halt the process of building transparent data governance strategies. Such issues affect the vernacularisation of genomic science, the translation of data into knowledge and the way in which technology is deployed. The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom. The SARS-CoV-2 pandemic has seen a dramatic increase in the use of genomic data, with initiatives such as the Global Initiative on Sharing All Influenza Data (GISAID) and the Covid-19 Data Portal being among the leading in facilitating open sharing of all kinds; sequence, patient metadata records ,photogenic trees, literature and much more*. Despite this seemingly aulurtistic image of science, there has been an on going debate questioning if these increased sharing may not be inclusive or diverse enough, and that existing inequalities among global scientific networks may be exacerbated. Following on from this line of inquiry, -->

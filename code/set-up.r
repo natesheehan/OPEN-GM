@@ -68,6 +68,7 @@ theme_landscape = function(){
     ),
     axis.text.y = element_text(
       vjust = 0.2,
+      hjust = 0,
       colour = textcol,
       size = 10
     ),
@@ -86,8 +87,8 @@ theme_landscape = function(){
       size = 0.5,
       linetype = "solid"
     ),
-    plot.background = element_rect(fill = "gray12"),
-    legend.background = element_rect(fill = "gray12"),
+    plot.background = element_rect(fill = "black"),
+    legend.background = element_rect(fill = "black"),
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
     plot.title = element_text(
       colour = textcol,

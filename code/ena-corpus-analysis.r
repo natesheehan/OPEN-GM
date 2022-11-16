@@ -55,7 +55,7 @@ ggplot(data[1:100, ], aes(
   x = reorder(Country, Articles)
 )) +
   geom_bar(position = "stack", stat = "identity") +
-  labs(title = "Studies citing The Covid-19 Data Portal", caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  labs(title = "Leading 50 countries mentioning The Covid-19 Data Portal \nin scientific publications", caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
   xlab("Country") +
   ylab("No. Documents") +
   coord_flip() + theme_landscape()
@@ -70,121 +70,215 @@ ggsave(
   limitsize = FALSE
 )
 
-# Co-word Analysis through Keyword co-occurrences
+##################################################################
+##                    Collaboration Networks                    ##
+##################################################################
 
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "co-occurrences",
-                network = "keywords",
-                sep = ";")
-summary(networkStat(NetMatrix))
+author_colab = biblioNetwork(M,
+                             analysis = "collaboration",
+                             network = "authors",
+                             sep = ";")
 
-# Main statistics about the network
+institution_colab = biblioNetwork(M,
+                                  analysis = "collaboration",
+                                  network = "universities",
+                                  sep = ";")
+
+geog_colab = biblioNetwork(M,
+                                  analysis = "collaboration",
+                                  network = "countries",
+                                  sep = ";")
+
+
+##################################################################
+##                     Co-citation Networks                     ##
+##################################################################
+
+author_co_cit = biblioNetwork(M,
+                             analysis = "co-citation",
+                             network = "authors",
+                             sep = ";")
+
+refs_co_cit = biblioNetwork(M,
+                                  analysis = "co-citation",
+                                  network = "references",
+                                  sep = ";")
+
+journal_co_cit = biblioNetwork(M,
+                           analysis = "co-citation",
+                           network = "sources",
+                           sep = ";")
+
+
+#################################################################
+##                      Coupling Networks                      ##
+#################################################################
+
+author_co_cit = biblioNetwork(M,
+                              analysis = "coupling",
+                              network = "authors",
+                              sep = ";")
+
+refs_co_cit = biblioNetwork(M,
+                            analysis = "coupling",
+                            network = "references",
+                            sep = ";")
+
+journal_co_cit = biblioNetwork(M,
+                               analysis = "coupling",
+                               network = "sources",
+                               sep = ";")
+
 #
-# Size                                  6160
-# Density                               0.008
-# Transitivity                          0.098
-# Diameter                              5
-# Degree Centralization                 0.679
-# Average path length                   2.218
-
-net = bibliometrix::networkPlot(
-  NetMatrix,
-  normalize = "association",
-  n = 50,
-  Title = "Keyword Co-occurrences \nENA",
-  type = "fruchterman",
-  size.cex = TRUE,
-  size = 20,
-  remove.multiple = F,
-  edgesize = 10,
-  labelsize = 5,
-  label.cex = TRUE,
-  label.n = 30,
-  edges.min = 2,
-  label.color = FALSE
-)
-
-net2VOSviewer(net, vos.path = "VOSviewer/")
-
-# Author collaboration network
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "collaboration",
-                network = "authors",
-                sep = ";")
-summary(networkStat(NetMatrix))
-
-net = networkPlot(
-  NetMatrix,
-  n = 50,
-  Title = "Author collaboration \nENA",
-  type = "auto",
-  size = 10,
-  size.cex = T,
-  edgesize = 3,
-  labelsize = 1
-)
-net2VOSviewer(net, vos.path = "VOSviewer/")
-
-# Education collaboration network
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "collaboration",
-                network = "universities",
-                sep = ";")
-summary(networkStat(NetMatrix))
-
-# Main statistics about the network
+# # Co-word Analysis through Keyword co-occurrences
 #
-# Size                                  5786
-# Density                               0.008
-# Transitivity                          0.327
-# Diameter                              8
-# Degree Centralization                 0.222
-# Average path length                   2.848
-
-net = networkPlot(
-  NetMatrix,
-  n = 50,
-  Title = "Institution collaboration\n(ENA)",
-  type = "auto",
-  size = 4,
-  size.cex = F,
-  edgesize = 3,
-  labelsize = 1
-)
-net2VOSviewer(net, vos.path = "VOSviewer/")
-
-# Country collaboration
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "collaboration",
-                network = "countries",
-                sep = ";")
-summary(networkStat(NetMatrix))
-
-# Main statistics about the network
+# NetMatrix =
+#   biblioNetwork(M,
+#                 analysis = "co-occurrences",
+#                 network = "keywords",
+#                 sep = ";")
 #
-# Size                                  161
-# Density                               0.269
-# Transitivity                          0.602
-# Diameter                              4
-# Degree Centralization                 0.624
-# Average path length                   1.763
-
-net = networkPlot(
-  NetMatrix,
-  n = dim(NetMatrix)[1],
-  type = "circle",
-  size = 0,
-  size.cex = T,
-  label = FALSE,
-  edgesize = 1,
-  labelsize = 0,
-  cluster = "none"
-)
-net2VOSviewer(net, vos.path = "VOSviewer/")
+# v = networkStat(NetMatrix)
+# # Main statistics about the network
+# #
+# # Size                                  6160
+# # Density                               0.008
+# # Transitivity                          0.098
+# # Diameter                              5
+# # Degree Centralization                 0.679
+# # Average path length                   2.218
+# v = data.frame(
+#   "size"=v$network$networkSize,
+#   "density"=v$network$networkDensity,
+#   "transitivity"=v$network$networkTransitivity,
+#   "diameter"=v$network$networkDiameter,
+#   "distance"=v$network$networkCentrDegree,
+#   "avgpath"=v$network$NetworkAverPathLeng
+# )
+# write_rds(v,"data/networks/keyword-network-stats.rds")
+#
+# net = bibliometrix::networkPlot(
+#   NetMatrix,
+#   normalize = "association",
+#   n = 50,
+#   Title = "Keyword Co-occurrences \nENA",
+#   type = "fruchterman",
+#   size.cex = TRUE,
+#   size = 20,
+#   remove.multiple = F,
+#   edgesize = 10,
+#   labelsize = 5,
+#   label.cex = TRUE,
+#   label.n = 30,
+#   edges.min = 2,
+#   label.color = FALSE
+# )
+#
+# net2VOSviewer(net, vos.path = "VOSviewer/")
+#
+# # Author collaboration network
+# NetMatrix =
+#   biblioNetwork(M,
+#                 analysis = "collaboration",
+#                 network = "authors",
+#                 sep = ";")
+#
+# v = networkStat(NetMatrix)
+# v = data.frame(
+#   "size"=v$network$networkSize,
+#   "density"=v$network$networkDensity,
+#   "transitivity"=v$network$networkTransitivity,
+#   "diameter"=v$network$networkDiameter,
+#   "distance"=v$network$networkCentrDegree,
+#   "avgpath"=v$network$NetworkAverPathLeng
+# )
+#
+# # size      density transitivity diameter   distance  avgpath
+# # 1 56433 0.0006819605    0.7740959       15 0.02061801 4.591788
+#
+# write_rds(v,"data/networks/author-network-stats.rds")
+#
+#
+# net = networkPlot(
+#   NetMatrix,
+#   n = 50,
+#   Title = "Author collaboration \nENA",
+#   type = "auto",
+#   size = 10,
+#   size.cex = T,
+#   edgesize = 3,
+#   labelsize = 1
+# )
+# net2VOSviewer(net, vos.path = "VOSviewer/")
+#
+# # Education collaboration network
+# NetMatrix =
+#   biblioNetwork(M,
+#                 analysis = "collaboration",
+#                 network = "universities",
+#                 sep = ";")
+#
+# v = networkStat(NetMatrix)
+# v = data.frame(
+#   "size"=v$network$networkSize,
+#   "density"=v$network$networkDensity,
+#   "transitivity"=v$network$networkTransitivity,
+#   "diameter"=v$network$networkDiameter,
+#   "distance"=v$network$networkCentrDegree,
+#   "avgpath"=v$network$NetworkAverPathLeng
+# )
+#
+# # size     density transitivity diameter  distance  avgpath
+# # 1 5786 0.007994261    0.3267087        8 0.2222564 2.847808
+#
+# write_rds(v,"data/networks/university-network-stats.rds")
+#
+# net = networkPlot(
+#   NetMatrix,
+#   n = 50,
+#   Title = "Institution collaboration\n(ENA)",
+#   type = "auto",
+#   size = 4,
+#   size.cex = F,
+#   edgesize = 3,
+#   labelsize = 1
+# )
+# net2VOSviewer(net, vos.path = "VOSviewer/")
+#
+# # Country collaboration
+# NetMatrix =
+#   biblioNetwork(M,
+#                 analysis = "collaboration",
+#                 network = "countries",
+#                 sep = ";")
+#
+# v = networkStat(NetMatrix)
+# v = data.frame(
+#   "size"=v$network$networkSize,
+#   "density"=v$network$networkDensity,
+#   "transitivity"=v$network$networkTransitivity,
+#   "diameter"=v$network$networkDiameter,
+#   "distance"=v$network$networkCentrDegree,
+#   "avgpath"=v$network$NetworkAverPathLeng
+# )
+#
+# # size   density transitivity diameter  distance  avgpath
+# # 1  161 0.2694099    0.6018063        4 0.6243401 1.762893
+#
+# write_rds(v,"data/networks/country-network-stats.rds")
+#
+# net = networkPlot(
+#   NetMatrix,
+#   n = dim(NetMatrix)[1],
+#   type = "circle",
+#   size = 0,
+#   size.cex = T,
+#   label = FALSE,
+#   edgesize = 1,
+#   labelsize = 0,
+#   cluster = "none"
+# )
+# net2VOSviewer(net, vos.path = "VOSviewer/")
 
 
 # Topic-Modelling ----------------------------------------------------------

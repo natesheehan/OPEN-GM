@@ -1,0 +1,25 @@
+
+## Data Goverenance
+
+### FAIR Data
+The FAIR data principles have been widely endorsed by funders and institutions, and are increasingly being used as a framework for thinking about how to improve the accessibility and re-usability of research data (Wilkinson et al., 2016).  The framework has grown rapidly in recognition in and outside of academia, with over 7100 publications citing it as of July 2021 and now includes FAIR research software (Lamprecht et al 2020, Katz et al 2021). While the FAIR principles are often presented as a set of guidelines for researchers, they also have implications for data governance more broadly (REF). In particular, the FAIR principles could be seen as a way of ensuring that data is responsibly managed and used (Bezuidenhout 2020). The acronym “FAIR” stands for “Findable, Accessible, Interoperable, Reusable” and are intended to be a set of guidelines for researchers and other stakeholders involved in the management of research data. To this end, the FAIR principles specify a number of requirements that data should meet in order to be considered “FAIR”. These are documented in table 1. 
+
+> # FAIR princples
+> - yes
+
+### Open Data (Gratis)
+
+### Open Data (Libre)
+
+
+-- Who are deploying said strategies?
+
+GISAID
+
+EMBL
+
+NCBI
+-- How have the strategies been previously discussed?
+}
+- Explore notions of diversity and their relation to open data
+- Introduce summary of work
