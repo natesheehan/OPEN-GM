@@ -114,22 +114,32 @@ journal_co_cit = biblioNetwork(M,
 ##                      Coupling Networks                      ##
 #################################################################
 
-author_co_cit = biblioNetwork(M,
+author_coupl = biblioNetwork(M,
                               analysis = "coupling",
                               network = "authors",
                               sep = ";")
 
-refs_co_cit = biblioNetwork(M,
+refs_coupl = biblioNetwork(M,
                             analysis = "coupling",
                             network = "references",
                             sep = ";")
 
-journal_co_cit = biblioNetwork(M,
+journal_coupl = biblioNetwork(M,
                                analysis = "coupling",
                                network = "sources",
                                sep = ";")
 
-#
+geog_coupl = biblioNetwork(M,
+                               analysis = "coupling",
+                               network = "countries",
+                               sep = ";")
+
+
+#################################################################
+##                   Co-occurrences Networks                   ##
+#################################################################
+
+
 # # Co-word Analysis through Keyword co-occurrences
 #
 # NetMatrix =
