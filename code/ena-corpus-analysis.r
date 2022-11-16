@@ -139,6 +139,35 @@ geog_coupl = biblioNetwork(M,
 ##                   Co-occurrences Networks                   ##
 #################################################################
 
+author_co_ocs = biblioNetwork(M,
+                              analysis = "co-occurrences",
+                              network = "authors",
+                              sep = ";")
+
+refs_co_ocs = biblioNetwork(M,
+                            analysis = "co-occurrences",
+                            network = "sources",
+                            sep = ";")
+
+journal_co_ocs = biblioNetwork(M,
+                               analysis = "co-occurrences",
+                               network = "keywords",
+                               sep = ";")
+
+author_co_ocs = biblioNetwork(M,
+                              analysis = "co-occurrences",
+                              network = "author_keywords",
+                              sep = ";")
+
+refs_co_ocs = biblioNetwork(M,
+                            analysis = "co-occurrences",
+                            network = "titles",
+                            sep = ";")
+
+journal_co_ocs = biblioNetwork(M,
+                               analysis = "co-occurrences",
+                               network = "abstracts",
+                               sep = ";")
 
 # # Co-word Analysis through Keyword co-occurrences
 #
