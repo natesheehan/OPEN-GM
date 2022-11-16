@@ -102,6 +102,18 @@ options(scipen=999) # Turn off scientific notation
 
 # font_add_google("Ubuntu", "ub") # font for plots
 
+network_stat_df = function(network){
+  v = data.frame(
+    "size"=network$network$networkSize,
+    "density"=network$network$networkDensity,
+    "transitivity"=network$network$networkTransitivity,
+    "diameter"=network$network$networkDiameter,
+    "distance"=network$network$networkCentrDegree,
+    "avgpath"=network$network$NetworkAverPathLeng
+  )
+  return(v)
+}
+
 #################################################################
 ##                           Library                           ##
 #################################################################

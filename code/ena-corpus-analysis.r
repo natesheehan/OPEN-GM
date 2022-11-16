@@ -74,6 +74,7 @@ ggsave(
 ##                    Collaboration Networks                    ##
 ##################################################################
 
+# generate network
 author_colab = biblioNetwork(M,
                              analysis = "collaboration",
                              network = "authors",
@@ -88,6 +89,19 @@ geog_colab = biblioNetwork(M,
                                   analysis = "collaboration",
                                   network = "countries",
                                   sep = ";")
+
+# calculate network statistics
+author_colab_stats = networkStat(author_colab) |> network_stat_df()
+institution_colab_stats = networkStat(institution_colab) |> network_stat_df()
+geog_colab_stats = networkStat(geog_colab) |> network_stat_df()
+
+category = c("author", "institution", "geography")
+
+colab_stats = rbind(author_colab_stats,institution_colab_stats,geog_colab_stats) |>
+  dplyr::mutate(category = category)
+
+# remove vars
+rm(author_colab_stats,institution_colab_stats,geog_colab_stats)
 
 
 ##################################################################
