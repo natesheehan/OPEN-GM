@@ -114,6 +114,59 @@ network_stat_df = function(network){
   return(v)
 }
 
+split_author_matrix = function(col){
+  # create list of individual authors for each paper
+  pub_auths = sapply(M$Funder.Country, function(x)
+    strsplit(as.character(x), split = ";"))
+  pub_auths = lapply(pub_auths, trimws)
+  # for each paper, form a data frame of unique author pairs
+  auth_pairs = lapply(pub_auths, function(x) {
+    z  = expand.grid(x, x, stringsAsFactors = FALSE)
+    z[z$Var1 < z$Var2, ]
+  })
+  # combine list of matrices for each paper into one data frame
+  auth_pairs = do.call(rbind, auth_pairs)
+  # count papers for each author pair
+  auth_count = aggregate(paste(Var1, Var2)  ~ Var1 + Var2 , data = auth_pairs, length)
+  colnames(auth_count) = c("datum1", "datum2", "count")
+
+  return(auth_count)
+}
+
+# Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
+net2VOSviewerigraph <- function(net, vos.path = NULL){
+
+  V(net)$id <- V(net)$name
+
+  if (is.null(vos.path)) {
+    vos.path <- getwd()
+  }
+  if (sum(dir(vos.path) %in% "VOSviewer.jar") == 0) {
+    cat(
+      paste(
+        "VOSviewer.jar does not exist in the path",
+        vos.path,
+        "\n\nPlese download it from https://www.vosviewer.com/download",
+        "\n(Java version for other systems)\n"
+      )
+    )
+  }
+  else{
+    netfile <- paste(vos.path, "/", "vosnetwork.net", sep = "")
+    VOScommand <- paste("java -jar ",
+                        vos.path,
+                        "/",
+                        "VOSviewer.jar -pajek_network ",
+                        netfile,
+                        sep = "")
+    write.graph(graph = net,
+                file = netfile,
+                format = "pajek")
+    system(VOScommand, wait = FALSE)
+  }
+
+}
+
 #################################################################
 ##                           Library                           ##
 #################################################################

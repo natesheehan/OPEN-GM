@@ -90,6 +90,10 @@ geog_colab = biblioNetwork(M,
                                   network = "countries",
                                   sep = ";")
 
+saveRDS(author_colab,"data/networks/ena/author_colab.rds")
+saveRDS(institution_colab,"data/networks/ena/institution_colab.rds")
+saveRDS(geog_colab,"data/networks/ena/geog_colab.rds")
+
 # calculate network statistics
 author_colab_stats = networkStat(author_colab) |> network_stat_df()
 institution_colab_stats = networkStat(institution_colab) |> network_stat_df()
@@ -100,53 +104,83 @@ category = c("author", "institution", "geography")
 colab_stats = rbind(author_colab_stats,institution_colab_stats,geog_colab_stats) |>
   dplyr::mutate(category = category)
 
-# remove vars
+saveRDS(colab_stats,"data/networks/ena/network_stats.rds")
+# remove redundant vars
 rm(author_colab_stats,institution_colab_stats,geog_colab_stats)
 
+#
+# ##################################################################
+# ##                     Co-citation Networks                     ##
+# ##################################################################
+#
+#
+# # authors
+# ss=split_author_matrix(M$AU)
+# ss=split_author_matrix(M$C1)
+# sfc=split_author_matrix(M$Funder.Country)
+# sfo=split_author_matrix(M$SR)
 
-##################################################################
-##                     Co-citation Networks                     ##
-##################################################################
 
-author_co_cit = biblioNetwork(M,
-                             analysis = "co-citation",
-                             network = "authors",
-                             sep = ";")
-
-refs_co_cit = biblioNetwork(M,
-                                  analysis = "co-citation",
-                                  network = "references",
-                                  sep = ";")
-
-journal_co_cit = biblioNetwork(M,
-                           analysis = "co-citation",
-                           network = "sources",
-                           sep = ";")
+# NOT WORKING
+# author_co_cit = biblioNetwork(M,
+#                              analysis = "co-citation",
+#                              network = "authors",
+#                              sep = ";")
+#
+# refs_co_cit = biblioNetwork(M,
+#                                   analysis = "co-citation",
+#                                   network = "references",
+#                                   sep = ";")
+#
+# journal_co_cit = biblioNetwork(M,
+#                            analysis = "co-citation",
+#                            network = "sources",
+#                            sep = ";")
 
 
 #################################################################
 ##                      Coupling Networks                      ##
 #################################################################
-
-author_coupl = biblioNetwork(M,
-                              analysis = "coupling",
-                              network = "authors",
-                              sep = ";")
-
-refs_coupl = biblioNetwork(M,
-                            analysis = "coupling",
-                            network = "references",
-                            sep = ";")
-
-journal_coupl = biblioNetwork(M,
-                               analysis = "coupling",
-                               network = "sources",
-                               sep = ";")
-
-geog_coupl = biblioNetwork(M,
-                               analysis = "coupling",
-                               network = "countries",
-                               sep = ";")
+#
+# author_coupl = biblioNetwork(M,
+#                               analysis = "coupling",
+#                               network = "authors",
+#                               sep = ";")
+#
+# refs_coupl = biblioNetwork(M,
+#                             analysis = "coupling",
+#                             network = "references",
+#                             sep = ";")
+#
+# journal_coupl = biblioNetwork(M,
+#                                analysis = "coupling",
+#                                network = "sources",
+#                                sep = ";")
+#
+# geog_coupl = biblioNetwork(M,
+#                                analysis = "coupling",
+#                                network = "countries",
+#                                sep = ";")
+#
+# saveRDS(author_coupl,"data/networks/ena/author_coupl.rds")
+# saveRDS(refs_coupl,"data/networks/ena/refs_coupl.rds")
+# saveRDS(journal_coupl,"data/networks/ena/journal_coupl.rds")
+# saveRDS(geog_coupl,"data/networks/ena/geog_coupl.rds")
+#
+# # calculate network statistics
+# author_coupl_stats = networkStat(author_coupl) |> network_stat_df()
+# refs_coupl_stats = networkStat(refs_coupl) |> network_stat_df()
+# journal_coupl_stats = networkStat(journal_coupl) |> network_stat_df()
+# geog_coupl_stats = networkStat(geog_coupl) |> network_stat_df()
+#
+# category = c("author", "ref", "journals","geography")
+#
+# coupl_stats = rbind(author_coupl_stats,refs_coupl_stats,journal_coupl_stats,geog_coupl_stats) |>
+#   dplyr::mutate(category = category)
+#
+# saveRDS(coupl_stats,"data/networks/ena/coupl_network_stats.rds")
+# # remove redundant vars
+# rm(author_coupl_stats,refs_coupl_stats,journal_coupl_stats,geog_coupl_stats)
 
 
 #################################################################
@@ -182,6 +216,30 @@ journal_co_ocs = biblioNetwork(M,
                                analysis = "co-occurrences",
                                network = "abstracts",
                                sep = ";")
+
+plot_colab_network = function(network,vos){
+  # plot in igraph
+  net_author = networkPlot(
+    network,
+    n = 100,
+    type = "mds",
+    size = 10,
+    size.cex = T,
+    halo = TRUE,
+    edgesize = 3,
+    labelsize = 1
+  )
+  # plot in vosviewer
+  ## Repulsion 0, attraction 10 OR -1, 1, method: strength link, font: sans serif
+  if(vos == TRUE){
+    net2VOSviewer(net_author, vos.path = "VOSviewer/")
+  } else {
+    print("Network plotted!")
+  }
+}
+
+
+plot_colab_network(institution_colab, vos = TRUE)
 
 # # Co-word Analysis through Keyword co-occurrences
 #

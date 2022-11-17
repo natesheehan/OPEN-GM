@@ -20,19 +20,17 @@
 set.seed(999)
 textcol = "grey40"
 # Read data
-file = c(
-  "../../Downloads/savedrecs(4).bib",
-  "../../Downloads/savedrecs(5).bib",
-  "../../Downloads/savedrecs(6).bib"
+filed = c(
+  "../../Downloads/savedrecs(8).bib"
 )
 # Convert bibtext to dataframe
-M = bibliometrix::convert2df(file = file,
+z = bibliometrix::convert2df(file = filed,
                              dbsource = "wos",
                              format = "bibtex") |> dplyr::filter(PY != is.na(PY)) |> dplyr::filter(AB != is.na(AB))
 # Conduct a biblio analysis of dataframe using the bibliometrix package
-results = bibliometrix::biblioAnalysis(M, sep = ";")
+resultz = bibliometrix::biblioAnalysis(z, sep = ";")
 options(width = 100)
-S = summary(object = results, k = 100, pause = FALSE)
+Z = summary(object = resultz, k = 100, pause = FALSE)
 saveRDS(S,"data/GS-corpus-analysis.rds")
 
 # Topic-Modelling ----------------------------------------------------------
