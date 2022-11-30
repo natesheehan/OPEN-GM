@@ -49,146 +49,103 @@ data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
   pivot_longer(c(SCP, MCP)) |>
   mutate(value = as.numeric(value)) |>
   mutate(Articles = as.numeric(Articles)) |>
-  rename(collaboration = name)
+  rgisaidme(collaboration = name)
 
 
-# Network Plots -----------------------------------------------------------
+##################################################################
+##                    Collaboration Networks                    ##
+##################################################################
 
-# SCP and MCP articles
-ggplot(data[0:100, ], aes(
-  fill = collaboration,
-  y = value,
-  x = reorder(Country, Articles)
-)) +
-  geom_bar(position = "stack", stat = "identity") +
-  labs(title = "Studies citing GISAID",
-       caption  = "Publication data containing the search query ‘GISAID’ was accessed via the dimensions.ai API and was filtered to include publications between January 1st 2019 and October 1st 2021.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
-  xlab("Country") +
-  ylab("No. Documents") +
-  coord_flip() + theme_landscape()
+# generate network
+author_colab = biblioNetwork(M,
+                             analysis = "collaboration",
+                             network = "authors",
+                             sep = ";")
 
-ggsave(
-  paste0(
-    "plots/GISAID/mcp-scp.png"
-  ),
-  dpi = 320,
-  width = 18,
-  height = 12,
-  limitsize = FALSE
-)
+institution_colab = biblioNetwork(M,
+                                  analysis = "collaboration",
+                                  network = "universities",
+                                  sep = ";")
 
-# Co-word Analysis through Keyword co-occurrences
+geog_colab = biblioNetwork(M,
+                           analysis = "collaboration",
+                           network = "countries",
+                           sep = ";")
 
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "co-occurrences",
-                network = "keywords",
-                sep = ";")
-summary(networkStat(NetMatrix))
-# Main statistics about the network
-#
-# Size                                  2715
-# Density                               0.021
-# Transitivity                          0.162
-# Diameter                              4
-# Degree Centralization                 0.918
-# Average path length                   2.012
+saveRDS(author_colab,"data/networks/gisaid/author_colab.rds")
+saveRDS(institution_colab,"data/networks/gisaid/institution_colab.rds")
+saveRDS(geog_colab,"data/networks/gisaid/geog_colab.rds")
 
-net = bibliometrix::networkPlot(
-  NetMatrix,
-  normalize = "association",
-  n = 50,
-  Title = "Keyword Co-occurrences \nGISAID",
-  type = "fruchterman",
-  size.cex = TRUE,
-  size = 20,
-  remove.multiple = F,
-  edgesize = 10,
-  labelsize = 5,
-  label.cex = TRUE,
-  label.n = 30,
-  edges.min = 2,
-  label.color = FALSE
-)
+# calculate network statistics
+author_colab_stats = networkStat(author_colab) |> network_stat_df()
+institution_colab_stats = networkStat(institution_colab) |> network_stat_df()
+geog_colab_stats = networkStat(geog_colab) |> network_stat_df()
 
-net2VOSviewer(net, vos.path = "VOSviewer/")
+category = c("author", "institution", "geography")
 
-# Author collaboration network
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "collaboration",
-                network = "authors",
-                sep = ";")
-summary(networkStat(NetMatrix))
+colab_stats = rbind(author_colab_stats,institution_colab_stats,geog_colab_stats) |>
+  dplyr::mutate(category = category)
 
-net = networkPlot(
-  NetMatrix,
-  n = 50,
-  Title = "Author collaboration \nGISAID",
-  type = "auto",
-  size = 10,
-  size.cex = T,
-  edgesize = 3,
-  labelsize = 1
-)
-net2VOSviewer(net, vos.path = "VOSviewer/")
+saveRDS(colab_stats,"data/networks/gisaid/network_stats.rds")
+# remove redundant vars
+rm(author_colab_stats,institution_colab_stats,geog_colab_stats)
 
-# Education collaboration network
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "collaboration",
-                network = "universities",
-                sep = ";")
-summary(networkStat(NetMatrix))
+#################################################################
+##                   Co-occurrences Networks                   ##
+#################################################################
 
-# Main statistics about the network
-#
-# Size                                  5469
-# Density                               0.005
-# Transitivity                          0.351
-# Diameter                              9
-# Degree Centralization                 0.133
-# Average path length                   3.259
+author_co_ocs = biblioNetwork(M,
+                              analysis = "co-occurrences",
+                              network = "authors",
+                              sep = ";")
 
-net = networkPlot(
-  NetMatrix,
-  n = 50,
-  Title = "Institution collaboration\n(GISAID)",
-  type = "auto",
-  size = 4,
-  size.cex = F,
-  edgesize = 3,
-  labelsize = 1
-)
-net2VOSviewer(net, vos.path = "VOSviewer/")
+journals_co_ocs = biblioNetwork(M,
+                                analysis = "co-occurrences",
+                                network = "sources",
+                                sep = ";")
 
-# Country collaboration
-NetMatrix =
-  biblioNetwork(M,
-                analysis = "collaboration",
-                network = "countries",
-                sep = ";")
-summary(networkStat(NetMatrix))
-# Main statistics about the network
-#
-# Size                                  153
-# Density                               0.255
-# Transitivity                          0.658
-# Diameter                              4
-# Degree Centralization                 0.547
-# Average path length                   1.821
-net = networkPlot(
-  NetMatrix,
-  n = dim(NetMatrix)[1],
-  type = "circle",
-  size = 0,
-  size.cex = T,
-  label = FALSE,
-  edgesize = 1,
-  labelsize = 0,
-  cluster = "none"
-)
-net2VOSviewer(net, vos.path = "VOSviewer/")
+keywords_co_ocs = biblioNetwork(M,
+                                analysis = "co-occurrences",
+                                network = "keywords",
+                                sep = ";")
+
+author_keywords_co_ocs = biblioNetwork(M,
+                                       analysis = "co-occurrences",
+                                       network = "author_keywords",
+                                       sep = ";")
+
+
+saveRDS(author_co_ocs,"data/networks/gisaid/author_co_ocs.rds")
+saveRDS(journals_co_ocs,"data/networks/gisaid/journals_co_ocs.rds")
+saveRDS(keywords_co_ocs,"data/networks/gisaid/keywords_co_ocs.rds")
+saveRDS(author_keywords_co_ocs,"data/networks/gisaid/author_keywords_co_ocs.rds")
+
+# calculate network statistics
+author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
+journals_co_ocs_stats = networkStat(journals_co_ocs) |> network_stat_df()
+keywords_co_ocs_stats = networkStat(keywords_co_ocs) |> network_stat_df()
+author_keywords_co_ocs_stats = networkStat(author_keywords_co_ocs) |> network_stat_df()
+
+category = c("author", "journal", "keywords","autho-keywordsr")
+
+co_oc_stats = rbind(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
+                    author_keywords_co_ocs_stats) |>
+  dplyr::mutate(category = category)
+
+saveRDS(co_oc_stats,"data/networks/gisaid/co_oc_network_stats.rds")
+# remove redundant vars
+rm(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
+   author_keywords_co_ocs_stats)
+
+#### PLOT AND VISUALSE NETWORKS WITH VOSVIEWER AND IGRAPH
+
+plot_colab_network(institution_colab, vos = TRUE)
+
+
+
+##################################################################
+##                        Topic Modelling                      ##
+################
 
 # Topic-Modelling ----------------------------------------------------------
 

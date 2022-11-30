@@ -22,13 +22,25 @@ knitr::include_graphics("../plots/dna.png")
 
 <!--  The covid-19 pandemic has highlighted the importance of open data sharing as it has allowed researchers to rapidly respond to the pandemic through rapid knowledge exchange.  -->
 
-<!-- We find that GISAID is more effective at supporting epistemic di -->
+<!-- Open data is often described as a panacea for the problems of data sharing in science. Yet, its often generalised definition lacks  The two common strains of open data - gratis and libre - are often described as antithetical to one another. Gratis open data is defined as "open data that is free of charge" and libre open data is defined as "open data that is free of legal, technological or social restrictions" (OECD, 2015). 
+
+In recent history the debate between gratis and libre open data has largely played out between GISAID and the Covid-19 data portal in publications, public letters and leaked emails, yet little work has been done to quantitatively study the effectiveness of each platforms open data policy. We aim to address this research gap by conducting a quantitative analysis of the two platforms with regards to their support for epistemic diversity. 
+
+We operationalise epistemic diversity as the number of authors, institutions, ontologies and geographies that are represented in global publications that make use of data from either platform. Epistemic diversity is important because it allows for different forms of knowledge to be represented in scientific research. For example, geographical diversity is important because it allows for different forms of knowledge about the virus to be represented in scientific research. Similarly, disciplinary diversity is important because it allows for different forms of knowledge about the virus to be represented in scientific research. The debate between gratis and libre open data has largely played out between GISAID and the Covid-19 Data Portal. GISAID is a gratis open data platform that was launched in 2008 in response to the outbreak of the H1N1 pandemic. The platform was designed to allow scientists to share genomic data about emerging pathogens with one another. The platform requires users to sign a Data Use Agreement (DUA) which stipulates that users will not share the data with anyone who does not have a DUA. 
+
+The Covid-19 Data Portal is a libre open data platform that was launched in 2020 in response to the outbreak of the SARS-CoV-2 pandemic. The platform was designed to allow scientists to share genomic data about the virus with one another. The platform does not require users to sign a DUA. 
+
+The debate between the two platforms has largely played out in the form of publications, public letters and leaked emails. For example, in May 2020, GISAID released a statement which criticised the Covid-19 Data Portal for not requiring users to sign a DUA. The statement claimed that the lack of a DUA would lead to the misuse of data and would hamper efforts to track the spread of the virus. In response, the Covid-19 Data Portal released a statement which claimed that the DUA was unnecessary and that it would hamper efforts to track the spread of the virus. 
+
+In September 2020, GISAID released an open letter which criticised the Covid-19 Data Portal for not requiring users to sign a DUA. The letter claimed that the lack of a DUA would lead to the misuse of data and would hamper efforts to track the spread of the virus. In response, the Covid-19 Data Portal released a statement which claimed that the DUA was unnecessary and that it would hamper efforts to track the spread of the virus. 
+
+In October 2020, GISAID released an email which criticised the Covid-19 Data Portal for not requiring users to sign a DUA. The email claimed that the lack of a DUA would lead to the misuse of data and would hamper efforts to track the spread of the virus. In response,  -->
 
 # Abstract
 
 ## Background
 
-Open data sharing is a central tenet of scientific research and has been shown to improve the quality of research, increase reproducibility, and support knowledge exchange.The two strains of open data - gratis or libre - are often described as antithetical to one another and have produced a fierce debate throughout the covid-19 pandemic among researchers concerned with what constitutes as responsible data sharing during a time of emergency science. This debate has largely played out between GISAID and the Covid-19 data portal in publications, public letters and leaked emails, yet little work has been done to quantitatively study the effectiveness of each platforms open data policy.  We aim to address this research gap by conducting a quantitative analysis of the two platforms with regards to their support for epistemic diversity. We operationalise epistemic diversity as the number of authors, institutions, ontologies and geographies that are represented in global publications that make use of data from either platform. 
+Open data too has undergone a pandemic. The two common strains of open data - gratis or libre - are often described as antithetical to one another. Such a framing of open data has caused a fierce demarcation debate on what constitutes as responsible data sharing during a time of emergency science. This debate has largely played out between GISAID and the Covid-19 data portal in publications, public letters and leaked emails, yet little work has been done to quantitatively study the effectiveness of each platforms open data policy.  We aim to address this research gap by conducting a quantitative analysis of the two platforms with regards to their support for epistemic diversity. We operationalise epistemic diversity as the number of authors, institutions, ontologies and geographies that are represented in global publications that make use of data from either platform. 
 
 ## Methods
 
@@ -39,7 +51,7 @@ Open data sharing is a central tenet of scientific research and has been shown t
 Our results show that there is a significant difference in the way gratis and libre open data platforms support epistemic diversity. Gratis open data platforms such as GISAID are more likely to support forms of epistemic diversity that are based on geographical location and institutional affiliation. In contrast, libre open data platforms such as the Covid-19 Data Portal are more likely to support forms of epistemic diversity that are based on disciplinary expertise and research methods.
 
 ## Conclusion
-We conclude that the two strains of open data are not antithetical to one another, but complementary. We show that the two strains of open data have produced different forms of epistemic diversity through global publications and reccommend 
+We conclude that the two strains of open data are not antithetical to one another, but complementary. We show that the two strains of open data have produced different forms of epistemic diversity through global publications and recommend 
 
 > Supplementary material - including code, data and presentations - can be accessed through the papers github [repository](https://github.com/natesheehan/OPEN-GM/). 
 
@@ -50,10 +62,28 @@ We conclude that the two strains of open data are not antithetical to one anothe
 
 ## Background
 
+Open Data is often lumped into two categories: "gratis" or "libre". These two terms have famously defined a period of open source history where computer scientists fought over the semantic import of describing technical processes and artefacts. As the quote famously goes "free as in speach, not beer" libre is Stallmans preposition in articulating the Free Software Movement (FOSS) and his position in defending freedom as a first principle in software and data exchange. 
+#the semantic weighed with signifcant import - and for many still does. 
+
+and computer scientists jousted with defining . Libre, coming from the latin word "free", is famously known to come from Richard Stiemns articulataion of the , where among his  
+
+Altough these categories were intially developed to distingiush between the nuances of Open Access publications types, the terms have grown in the vernacular of data scholars and practitioners to taxonamise the various forms of OD. The terms are linguistically shared within the software movement 
+
+The latent potential of Open Data (OD) to radically improve knowledge exchange came into momentous actualisation during the Covid-19 pandemic and now, more than ever, plays a critical role in the ways institutions, governments and businesses operate. Typically, when deciphering what socio-legal form OD is 
+
+In his data driven history of bioinformatics, Hughes documents the long tradition and 
 
 
-What are data portals?
+Like the literature in Open Access, the terms "gratis" and "libre" have been used to describe two key formulations of openness. For example, gratis, coming from the 
 
+and the subsequent time passed since global sanctions and mandates were lifted in most countries. During this short but on going history, OD in its many forms and functions has come to play a commonplace role in the organisation of knowledge exchange among a global network of scientists, institutions, businesses and governments. This 
+
+As Jamie Leach concludes the resilience across research communicates to effectively solve what ever may be virus X will fundamentally rely on the manifestation of open access, open data and open science  as "new normals", he write "anything less will be regression without justification". Leach is not alone, many others agree with his orientation that 
+
+analysed using high-throughout put sequence machine in labatories spread across the globe. The field of genomic science and its cultural scientific norms of accepting the unrestricted sharing of genomic data 
+
+
+<!-- oncludes, . While taken in its most utopian reading, Leach argument for Open Science, Open Data and Open Access etc missi   -->
 
 
 What has been the debate between the two portals?
@@ -121,21 +151,9 @@ knitr::include_graphics("../plots/EMBL/mcp-scp.png")
 knitr::include_graphics("../plots/EMBL/author-network.png")
 ```
 
-Main statistics about the network:
-```{r,echo=FALSE, fig.cap="Main statistics about the network"}
-v = readr::read_rds("../data/networks/author-network-stats.rds")
-knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
-```
-
 
 ```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
 knitr::include_graphics("../plots/EMBL/country-network.png")
-```
-
-Main statistics about the network:
-```{r,echo=FALSE, fig.cap="Main statistics about the network"}
-v = readr::read_rds("../data/networks/country-network-stats.rds")
-  knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
 ```
 
 
@@ -143,22 +161,11 @@ v = readr::read_rds("../data/networks/country-network-stats.rds")
 knitr::include_graphics("../plots/EMBL/institution-network.png")
 ```
 
-Main statistics about the network:
-```{r,echo=FALSE, fig.cap="Main statistics about the network"}
-v = readr::read_rds("../data/networks/university-network-stats.rds")
-  knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
-```
-
 
 ```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
 knitr::include_graphics("../plots/EMBL/keyword-network.png")
 ```
 
-Main statistics about the network:
-```{r,echo=FALSE, fig.cap="Main statistics about the network"}
-v = readr::read_rds("../data/networks/keyword-network-stats.rds")
-  knitr::kable(v |> dplyr::rename(Size = size, Density = density,Transitivity = transitivity, Diameter = diameter, Distance = distance, `Average path length` = avgpath) |> dplyr::mutate(Density = round(Density,2), Transitivity = round(Transitivity,2), Distance = round(Distance,2), `Average path length` = round(`Average path length`,2)))
-```
 
 ## Discussion
 
@@ -170,4 +177,7 @@ The theme of epistemic diveristy has been explored in Open Science initiatives b
 
 ## References
 
-<!-- Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopian vision of global scientific co-ordination and collaboration in order to discover solutions for vaccines, hospital protocols and study the pathogen genetic mutations which shook the world. While in many ways, the increased volume, velocity and variety of genomic data sharing that happened in the height of the pandemic did indeed enable a fast track to SARS-Cov-2 solutionism, it is difficult to untangle the fields historical - and present - associations with both European and North American imperialism. Imperialist practices in genomic science embrace socio-scientifc paternalism, the invisibility of labour through the means of technology, and the dissonance among previously colonised countries and their colonising counterparts. This structure reinforces negative outcomes across space and time for and halt the process of building transparent data governance strategies. Such issues affect the vernacularisation of genomic science, the translation of data into knowledge and the way in which technology is deployed. The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom. The SARS-CoV-2 pandemic has seen a dramatic increase in the use of genomic data, with initiatives such as the Global Initiative on Sharing All Influenza Data (GISAID) and the Covid-19 Data Portal being among the leading in facilitating open sharing of all kinds; sequence, patient metadata records ,photogenic trees, literature and much more*. Despite this seemingly aulurtistic image of science, there has been an on going debate questioning if these increased sharing may not be inclusive or diverse enough, and that existing inequalities among global scientific networks may be exacerbated. Following on from this line of inquiry, -->
+<!-- Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopian vision of global scientific co-ordination and collaboration in order to discover solutions for vaccines, hospital protocols and study the pathogen genetic mutations which shook the world. While in many ways, the increased volume, velocity and variety of genomic data sharing that happened in the height of the pandemic did indeed enable a fast track to SARS-Cov-2 solutionism, it is difficult to untangle the fields historical - and present - associations with both European and North American imperialism. Imperialist practices in genomic science embrace socio-scientifc paternalism, the invisibility of labour through the means of technology, and the dissonance among previously colonised countries and their colonising counterparts. Such issues affect the vernacularisation of genomic science, the translation of data into knowledge and the way in which technology is deployed. The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom. 
+
+
+The SARS-CoV-2 pandemic has seen a dramatic increase in the use of genomic data, with initiatives such as the Global Initiative on Sharing All Influenza Data (GISAID) and the Covid-19 Data Portal being among the leading in facilitating open sharing of all kinds; sequence, patient metadata records ,photogenic trees, literature and much more*. Despite this seemingly aulurtistic image of science, there has been an on going debate questioning if these increased sharing may not be inclusive or diverse enough, and that existing inequalities among global scientific networks may be exacerbated. Following on from this line of inquiry, -->

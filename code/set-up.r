@@ -19,30 +19,30 @@
 ##                       Helper Functions                       ## thanx for helpin
 ##################################################################
 # (1) install and require packages
-pacman = function(pkg){
+pacman = function(pkg) {
   new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
   if (length(new.pkg))
     install.packages(new.pkg, dependencies = TRUE)
   sapply(pkg, require, character.only = TRUE)
 }
 # (2_) fetch data
-fetch_data = function(url,path) {
+fetch_data = function(url, path) {
   url = url
   path = path
-  download.file(url,path)
+  download.file(url, path)
   read.csv(path)
 }
 # format date function into week and year
 isodate = function (x = Sys.Date()) {
   xday = ISOdate(year(x), month(x), day(x), tz = tz(x))
-  dn = 1 + (wday(x) + 5)%%7
+  dn = 1 + (wday(x) + 5) %% 7
   nth = xday + ddays(4 - dn)
   jan1 = ISOdate(year(nth), 1, 1, tz = tz(x))
-  return(sprintf("%s/%02d", format(nth, "%y"), 1 + (nth - jan1)%/%ddays(7)))
+  return(sprintf("%s/%02d", format(nth, "%y"), 1 + (nth - jan1) %/% ddays(7)))
 }
 
 # plot dark theme
-theme_landscape = function(){
+theme_landscape = function() {
   theme(
     legend.position = "bottom",
     legend.direction = "horizontal",
@@ -98,23 +98,23 @@ theme_landscape = function(){
     )
   )
 }
-options(scipen=999) # Turn off scientific notation
+options(scipen = 999) # Turn off scientific notation
 
 # font_add_google("Ubuntu", "ub") # font for plots
 
-network_stat_df = function(network){
+network_stat_df = function(network) {
   v = data.frame(
-    "size"=network$network$networkSize,
-    "density"=network$network$networkDensity,
-    "transitivity"=network$network$networkTransitivity,
-    "diameter"=network$network$networkDiameter,
-    "distance"=network$network$networkCentrDegree,
-    "avgpath"=network$network$NetworkAverPathLeng
+    "size" = network$network$networkSize,
+    "density" = network$network$networkDensity,
+    "transitivity" = network$network$networkTransitivity,
+    "diameter" = network$network$networkDiameter,
+    "distance" = network$network$networkCentrDegree,
+    "avgpath" = network$network$NetworkAverPathLeng
   )
   return(v)
 }
 
-split_author_matrix = function(col){
+split_author_matrix = function(col) {
   # create list of individual authors for each paper
   pub_auths = sapply(M$Funder.Country, function(x)
     strsplit(as.character(x), split = ";"))
@@ -122,7 +122,7 @@ split_author_matrix = function(col){
   # for each paper, form a data frame of unique author pairs
   auth_pairs = lapply(pub_auths, function(x) {
     z  = expand.grid(x, x, stringsAsFactors = FALSE)
-    z[z$Var1 < z$Var2, ]
+    z[z$Var1 < z$Var2,]
   })
   # combine list of matrices for each paper into one data frame
   auth_pairs = do.call(rbind, auth_pairs)
@@ -134,8 +134,7 @@ split_author_matrix = function(col){
 }
 
 # Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
-net2VOSviewerigraph <- function(net, vos.path = NULL){
-
+net2VOSviewerigraph = function(net, vos.path = NULL) {
   V(net)$id <- V(net)$name
 
   if (is.null(vos.path)) {
@@ -170,19 +169,19 @@ net2VOSviewerigraph <- function(net, vos.path = NULL){
 #################################################################
 ##                           Library                           ##
 #################################################################
-pkgs = c("tidyverse",# data cleaning
-         "bibliometrix",
-         "tidyr",
-         "stringr",
-         "tidytext",
-         "quanteda",
-         "treemapify",
-         "stm",
-         "lubridate"
+pkgs = c(
+  "tidyverse",
+  # data cleaning
+  "bibliometrix",
+  "tidyr",
+  "stringr",
+  "tidytext",
+  "quanteda",
+  "treemapify",
+  "stm",
+  "lubridate"
 
-         ) # stick plots together
+) # stick plots together
 
 pacman(pkgs)
 rm(pkgs)
-
-
