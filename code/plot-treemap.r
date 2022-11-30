@@ -100,7 +100,7 @@ a = ggplot(
     place = "centre",
     size = 15,
     grow = TRUE
-  ) +   labs(title = "\nGlobal SARS-CoV-2 cases sequenced \nand shared with GISAID \n\n",
+  ) +   labs(title = "\nGlobal SARS-CoV-2 cases sequenced and shared with GISAID",
              caption = "\nGISAID Metadata: https://www.epicov.org/") + theme_tree()
 
 b = ggplot(
@@ -126,11 +126,11 @@ b = ggplot(
     place = "centre",
     size = 15,
     grow = TRUE
-  ) +  labs(title = "\nGlobal SARS-CoV-2 cases sequenced \nand shared with the Covid-19 Data Portal \n\n",
+  ) +  labs(title = "\nGlobal SARS-CoV-2 cases sequenced and shared with the Covid-19 Data Portal",
              caption = "\nThe Covid-19 Data Portal Metadata: https://www.covid19dataportal.org/") +
   theme_tree()
 
-ggarrange(a, b)
+ggarrange(a, b,v, ncol = 1, nrow=3 )
 
 ggsave(
   paste0("plots/presentation/treemap.png"),

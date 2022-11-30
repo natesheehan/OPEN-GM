@@ -189,7 +189,7 @@ ggsave(
 # Plot log ----------------------------------------------------------------
 
 # SUM
-ggplot(data = temporal_sub_all) +
+v = ggplot(data = temporal_sub_all) +
   geom_line(aes(
     x = wy,
     y = sum_gisaid,
@@ -214,12 +214,12 @@ ggplot(data = temporal_sub_all) +
   guides(shape = guide_legend(order = 2), col = guide_legend(order = 1)) +
   labs(
     x = "Date",
-    y = "Sequence Submissions (Logged)",
+    y = "Sequence\nSubmissions \n(log2n)",
     title = "Monthly Total SARS-CoV-2 Sequence Submissions",
-    caption = "\nMonthly totals (log) of global SARS-CoV-2 cases sequenced and shared on the GISAID and Covid-19 Data Platform database between December 2019 and October 2022\n\n\nGISAID Metadata: https://www.epicov.org/\nCovid-19 Data Platform Metadata: https://www.ebi.ac.uk/ena/portal/api/ "
+    caption = "\nMonthly totals (log2n) of global SARS-CoV-2 cases sequenced and shared on the GISAID and Covid-19 Data Platform database between December 2019 and October 2022\n\n\nGISAID Metadata: https://www.epicov.org/\nCovid-19 Data Platform Metadata: https://www.ebi.ac.uk/ena/portal/api/ "
   ) +
   theme(legend.position = "none",
-        plot.title = element_text(size = 11)) +
+        plot.title = element_text(size = 15)) +
   theme_temporal()+   scale_y_continuous(trans = 'log2')
 
 ggsave(
