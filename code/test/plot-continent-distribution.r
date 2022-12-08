@@ -19,12 +19,20 @@
 # sample size
 
 gisaid = readRDS("data/gisaid.RDS")
+aggregate(gpnc_gisaid ~ Region, cc, mean)
+aggregate(gpnc_embl ~ Region, cc, mean)
+
+
+source("code/owid-data.r")
 #GISAID
 gisaid = gisaid  |>
-  right_join(owid) |>
-  left_join(sample_size)
+  right_join(owid)
 
 sample_size = gisaid |> group_by(continent) |> summarize(num=n())
+
+gisaid = gisaid |>
+  left_join(sample_size) |>
+  right_join(groups)
 
 gisaid |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
   filter(GISAID.weekly.submissions != is.na(GISAID.weekly.submissions)) %>%

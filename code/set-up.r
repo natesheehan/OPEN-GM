@@ -67,10 +67,9 @@ theme_landscape = function() {
       color = textcol
     ),
     axis.text.y = element_text(
-      vjust = 0.2,
       hjust = 0,
       colour = textcol,
-      size = 10
+      size = 8
     ),
     axis.ticks = element_line(size = 0.4),
     plot.caption = element_text(colour = textcol, size = 10),
@@ -116,7 +115,7 @@ network_stat_df = function(network) {
 
 split_author_matrix = function(col) {
   # create list of individual authors for each paper
-  pub_auths = sapply(M$Funder.Country, function(x)
+  pub_auths = sapply(M$MeSH.terms, function(x)
     strsplit(as.character(x), split = ";"))
   pub_auths = lapply(pub_auths, trimws)
   # for each paper, form a data frame of unique author pairs
@@ -128,9 +127,29 @@ split_author_matrix = function(col) {
   auth_pairs = do.call(rbind, auth_pairs)
   # count papers for each author pair
   auth_count = aggregate(paste(Var1, Var2)  ~ Var1 + Var2 , data = auth_pairs, length)
-  colnames(auth_count) = c("datum1", "datum2", "count")
+  colnames(auth_count) = c("datum1", "datum2", "weight")
 
   return(auth_count)
+}
+plot_colab_network = function(network,vos){
+  # plot in igraph
+  net_author = networkPlot(
+    network,
+    n = 100,
+    type = "auto",
+    size = 10,
+    size.cex = T,
+    halo = TRUE,
+    edgesize = 3,
+    labelsize = 1
+  )
+  # plot in vosviewer
+  ## Repulsion 0, attraction 10 OR -1, 1, method: strength link, font: sans serif
+  if(vos == TRUE){
+    net2VOSviewer(net_author, vos.path = "VOSviewer/")
+  } else {
+    print("Network plotted!")
+  }
 }
 
 # Edited from the biblometrix package with the first line removed in order to allow igraph functionlity

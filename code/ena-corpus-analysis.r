@@ -35,7 +35,7 @@ M = bibliometrix::convert2df(file = file,
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
 S = summary(object = results, k = 100, pause = FALSE)
-saveRDS(S, "data/ena-corpus-analysis.rds")
+d = readRDS( "data/ena-corpus-analysis.rds")
 
 Country = S$MostProdCountries$Country
 SCP = S$MostProdCountries$SCP
@@ -157,7 +157,7 @@ rm(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
 
 #### PLOT AND VISUALSE NETWORKS WITH VOSVIEWER AND IGRAPH
 
-plot_colab_network(institution_colab, vos = TRUE)
+plot_colab_network(author_colab, vos = TRUE)
 
 
 
