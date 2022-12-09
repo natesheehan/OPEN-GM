@@ -1,21 +1,15 @@
 ---
 title: "Diverse enough? A systematic review of genome data portals during the sars-cov-2 pandemic"
 date: "`r Sys.Date()`"
-author: "Nathanael Sheehan & Sabina Leonelli"
-output:
-  rmdformats::downcute:
-    self_contained: true
-    default_style: "dark"
-    downcute_theme: "default"
-
+author: "Nathanael Sheehan, Sabina Leonelli & Federico Botta "
+output: pdf_document
 ---
 
 
-```{r pressure, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
-knitr::include_graphics("../plots/dna.png")
-```
+<!-- ```{r pressure, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'} -->
+<!-- knitr::include_graphics("../plots/dna.png") -->
+<!-- ``` -->
 
-<p style="text-align:center;font-size:3em;margin-bottom:-15vh"> <b>*</b></p>
 
 <!-- GISAID is a global initiative that enables scientists to access genomic data of the SARS-CoV-2 virus. The platform has been praised for its efforts in enabling global collaboration, yet it has also come under fire for its strict open data policy which requires researchers to sign a data sharing agreement that limits how they can use and share this data.  -->
 
@@ -63,24 +57,26 @@ We conclude that the two strains of open data are not antithetical to one anothe
 ## Background
 
 Open Data is often lumped into two categories: "gratis" or "libre". These two terms have famously defined a period of open source history where computer scientists fought over the semantic import of describing technical processes and artefacts. As the quote famously goes "free as in speach, not beer" libre is Stallmans preposition in articulating the Free Software Movement (FOSS) and his position in defending freedom as a first principle in software and data exchange. 
-#the semantic weighed with signifcant import - and for many still does. 
 
-and computer scientists jousted with defining . Libre, coming from the latin word "free", is famously known to come from Richard Stiemns articulataion of the , where among his  
+The theme of epistemic diveristy has been explored in Open Science initiatives by identifying the number of factors in which can shape a diverse Open Science project. These include, but are not limited to a diversification of methods, characteristics of researchers, funding, geo-political location and intellectual property regimes (Leonelli 2021).One could say there are two main arguments for epistemic diversity; one is practical and the other is normative. The practical argument for epistemic diversity rests on the idea that diverse perspectives lead to new insights and theories. This argument has been put forward by many social epistemologists, including Helen Longino (2002) and Evelyn Fox Keller (1985). Longino argues that epistemic diversity is important because it leads to “the cognitive benefits of confrontation with alternative points of view” (2002, p. 74). In other words, when different perspectives are brought into contact with each other, they can challenge and improve each other. This process of confrontation and exchange is essential for scientific progress. Keller makes a similar point when she argues that “diversity…is an indispensable condition of fruitful scientific research” (1985, p. 21). She goes on to say that “without…diversity…there could be no growth in our knowledge” (1985, p. 21). Thus, according to the practical argument, epistemic diversity is important because it leads to better science. On the other hand, the normative argument for epistemic diversity rests on the idea that diverse perspectives should be included in science for moral or political reasons. This argument has been put forward by many feminist philosophers of science, including Sandra Harding (1986) and Donna Haraway (1991). Harding argues that we should strive for an “optimal mix” of voices in science because this would lead to “a more just society”. These arguments are not mutually exclusive, and both can be used to support the case for epistemic diversity.
+<!-- #the semantic weighed with signifcant import - and for many still does.  -->
 
-Altough these categories were intially developed to distingiush between the nuances of Open Access publications types, the terms have grown in the vernacular of data scholars and practitioners to taxonamise the various forms of OD. The terms are linguistically shared within the software movement 
+<!-- and computer scientists jousted with defining . Libre, coming from the latin word "free", is famously known to come from Richard Stiemns articulataion of the , where among his   -->
 
-The latent potential of Open Data (OD) to radically improve knowledge exchange came into momentous actualisation during the Covid-19 pandemic and now, more than ever, plays a critical role in the ways institutions, governments and businesses operate. Typically, when deciphering what socio-legal form OD is 
+<!-- Altough these categories were intially developed to distingiush between the nuances of Open Access publications types, the terms have grown in the vernacular of data scholars and practitioners to taxonamise the various forms of OD. The terms are linguistically shared within the software movement  -->
 
-In his data driven history of bioinformatics, Hughes documents the long tradition and 
+<!-- The latent potential of Open Data (OD) to radically improve knowledge exchange came into momentous actualisation during the Covid-19 pandemic and now, more than ever, plays a critical role in the ways institutions, governments and businesses operate. Typically, when deciphering what socio-legal form OD is  -->
+
+<!-- In his data driven history of bioinformatics, Hughes documents the long tradition and  -->
 
 
-Like the literature in Open Access, the terms "gratis" and "libre" have been used to describe two key formulations of openness. For example, gratis, coming from the 
+<!-- Like the literature in Open Access, the terms "gratis" and "libre" have been used to describe two key formulations of openness. For example, gratis, coming from the  -->
 
-and the subsequent time passed since global sanctions and mandates were lifted in most countries. During this short but on going history, OD in its many forms and functions has come to play a commonplace role in the organisation of knowledge exchange among a global network of scientists, institutions, businesses and governments. This 
+<!-- and the subsequent time passed since global sanctions and mandates were lifted in most countries. During this short but on going history, OD in its many forms and functions has come to play a commonplace role in the organisation of knowledge exchange among a global network of scientists, institutions, businesses and governments. This  -->
 
-As Jamie Leach concludes the resilience across research communicates to effectively solve what ever may be virus X will fundamentally rely on the manifestation of open access, open data and open science  as "new normals", he write "anything less will be regression without justification". Leach is not alone, many others agree with his orientation that 
+<!-- As Jamie Leach concludes the resilience across research communicates to effectively solve what ever may be virus X will fundamentally rely on the manifestation of open access, open data and open science  as "new normals", he write "anything less will be regression without justification". Leach is not alone, many others agree with his orientation that  -->
 
-analysed using high-throughout put sequence machine in labatories spread across the globe. The field of genomic science and its cultural scientific norms of accepting the unrestricted sharing of genomic data 
+<!-- analysed using high-throughout put sequence machine in labatories spread across the globe. The field of genomic science and its cultural scientific norms of accepting the unrestricted sharing of genomic data  -->
 
 
 <!-- oncludes, . While taken in its most utopian reading, Leach argument for Open Science, Open Data and Open Access etc missi   -->
@@ -119,7 +115,7 @@ Include queries, where teh data was from, what catefories were searched against,
 
 ```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
 S = readRDS("../data/sum-ena-corpus.rds")
-rmarkdown::paged_table(as.data.frame(S$MainInformationDF))
+knitr::kable(as.data.frame(S$MainInformationDF))
 ```
 
 ```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
@@ -137,7 +133,7 @@ knitr::include_graphics("../plots/presentation/gisaid-networks.png")
 
 ```{r, echo=FALSE, fig.cap="Data Governance - Open Science - Covid-19 - Epistemic Diversity", out.width = '100%'}
 S = readRDS("../data/sum-ena-corpus.rds")
-rmarkdown::paged_table(as.data.frame(S$MainInformationDF))
+knitr::kable(as.data.frame(S$MainInformationDF))
 ```
 
 #### Networks 
@@ -169,12 +165,10 @@ knitr::include_graphics("../plots/EMBL/keyword-network.png")
 
 ## Discussion
 
-One could say there are two main arguments for epistemic diversity; one is practical and the other is normative. The practical argument for epistemic diversity rests on the idea that diverse perspectives lead to new insights and theories. This argument has been put forward by many social epistemologists, including Helen Longino (2002) and Evelyn Fox Keller (1985). Longino argues that epistemic diversity is important because it leads to “the cognitive benefits of confrontation with alternative points of view” (2002, p. 74). In other words, when different perspectives are brought into contact with each other, they can challenge and improve each other. This process of confrontation and exchange is essential for scientific progress. Keller makes a similar point when she argues that “diversity…is an indispensable condition of fruitful scientific research” (1985, p. 21). She goes on to say that “without…diversity…there could be no growth in our knowledge” (1985, p. 21). Thus, according to the practical argument, epistemic diversity is important because it leads to better science. On the other hand, the normative argument for epistemic diversity rests on the idea that diverse perspectives should be included in science for moral or political reasons. This argument has been put forward by many feminist philosophers of science, including Sandra Harding (1986) and Donna Haraway (1991). Harding argues that we should strive for an “optimal mix” of voices in science because this would lead to “a more just society”. These arguments are not mutually exclusive, and both can be used to support the case for epistemic diversity.
 
-The theme of epistemic diveristy has been explored in Open Science initiatives by identifying the number of factors in which can shape a diverse Open Science project. These include, but are not limited to a diversification of methods, characteristics of researchers, funding, geo-political location and intellectual property regimes (Leonelli 2021).
 
 ## Conclusion
-law enforcment, millatary gain, 
+
 ## References
 
 <!-- Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopian vision of global scientific co-ordination and collaboration in order to discover solutions for vaccines, hospital protocols and study the pathogen genetic mutations which shook the world. While in many ways, the increased volume, velocity and variety of genomic data sharing that happened in the height of the pandemic did indeed enable a fast track to SARS-Cov-2 solutionism, it is difficult to untangle the fields historical - and present - associations with both European and North American imperialism. Imperialist practices in genomic science embrace socio-scientifc paternalism, the invisibility of labour through the means of technology, and the dissonance among previously colonised countries and their colonising counterparts. Such issues affect the vernacularisation of genomic science, the translation of data into knowledge and the way in which technology is deployed. The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom. 
