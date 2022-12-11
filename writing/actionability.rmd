@@ -89,11 +89,18 @@ We need to focus on two cases of use and supplement analysis with a look at who 
 
 Analysis of the SARS-CoV-2 genome sequencing metadata revealed spatial and temporal heterogeneity across the two databases. Previous research has proposed that at least 5% of SARS-CoV2 positive cases should be sequenced in order to detect viral lineages at a prevalence of 0.1 to 1.0%. In our analysis of the GISAID database, 170 out of 218 countries had at one point exceeded the 5% threshold, with the most productive countries being Japan (95%), Australia (93%), United Kingdom (92%), Denmark (91%) and Canada (91%). In comparison, the Covid-19 Data portal showed that less than half of the sample countries had > 5% of confirmed cases sequenced, with the leading countries being United Kingdom (63.5%), Liechtenstein (62.8%), New Zealand (57.4%), Iceland (50%) and Bhutan (48.6%). Although the total number of cases were relatively similar between high-income and low/middle income countries, HICS submitted 10-fold more sequences per Covid-19 cases.
 
-```{r pressure, echo=FALSE, fig.cap="Global Landscape of SARS-COV-2 Genomic Survellance (GISAID)", out.width = '100%'}
+```{r, echo=FALSE, fig.cap="Global Landscape of SARS-COV-2 Genomic Survellance (GISAID)", out.width = '100%'}
 knitr::include_graphics("../plots/global-lanmdscap.png")
 ```
 
+```{r, echo=FALSE, out.width="49%", out.height="100%",fig.cap="",fig.show='hold',fig.align='center'}
+knitr::include_graphics(c("../plots/presentation/gisaid-software.jpeg","../plots/presentation/gisaid-data-metadata.jpeg"))
+```
 
+A data user will most likely start their journey using the GISAID platform, hosted on highly secure and free/OS software in Germany. From here a data user will need to sign up for the EpiCov3 database which is the primary way to access GISAID data. The EpiCov3 database is hosted on highly secure, closed software in the United States. Aggregated data is summarised in nine columns which reference the three sub metadata categories. One important thing to notice here is the direct mapping between the data and metadata. In most cases, a column in the aggregated data will directly reference and match to a metadata sub category that will contain additional and often more private information. It should be noted that there also exists one isolated metadata category, which contains highly personal information regarding the submitter of the sequence
 
+```{r, echo=FALSE, out.width="49%", out.height="100%",fig.cap="",fig.show='hold',fig.align='center'}
+knitr::include_graphics(c("../plots/presentation/covid-19-data-portal-software.jpeg","../plots/presentation/covid-19-data-portal-data-metadata.jpeg"))
+```
 
-
+A data user will most likely start their journey using the Covid-19 Data portal, hosted on a fairly secure LAMP stack in the United Kingdom. From here a data user is able to use the data portal to openly query sequence data. However, when they do this request does not come from the Covid-19 Data Portals infrastructure itself, rather it queries the European Nucleotide Archive database and returns back aggregated data. In order to explore the metadata associated with a sequence, the data user will then be redirected to the ENA's app. An important thing to note here, is the dissonance between the aggregated data names and the associated metadata. While some common labels stay the same e.g. accession ID, many take new names after being pooled to the Covid-19 Data portal e.g. center name (data) -> collection institution (metadata). This linkage strategy blurs the direct matches and references between the data and the five metadata sub categories. This being said, two of the metadata categories hosted by the ENA contain linked if a sequence has been linked to a particular study, sample and taxon.

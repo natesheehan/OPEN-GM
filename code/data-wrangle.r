@@ -102,12 +102,12 @@ main_df = main_df |> left_join(owid, by =
     }
   }()
 
-main_df$gpnc_gisaid = main_df$GISAID.weekly.submissions / main_df$new_cases * 100
+gisaid$gpnc_gisaid = gisaid$GISAID.weekly.submissions / gisaid$new_cases * 100
 main_df$gpnc_embl= main_df$C19DP.weekly.submissions / main_df$new_cases * 100
 
   # mutate("Genomes per confirmed cases % (GISAID)" = GISAID.weekly.submissions / new_cases * 100) |>
   # mutate("Genomes per confirmed cases % (C19DP)" =  C19DP.weekly.submissions / new_cases * 100) |>
-
+maindd$
 cc = main_df |> dplyr::select(country,continent) |> unique() |> dplyr::filter(continent != 0)
 
 for (i in 1:nrow(cc)) {

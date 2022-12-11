@@ -63,10 +63,9 @@ plot_df = main_df  |>
 ggplot(plot_df |> arrange(continent) , aes(x = wy, y = country, fill = countfactor)) +
   #add border white colour of line thickness 0.25
   geom_bin_2d(colour = "white", size = 0.1) +
-  facet_grid(.~Income.group, scales = "free", switch = "x", space = "free_x") +
+  facet_wrap(.~continent, ncol = 1, scales = "free") +
   theme(panel.spacing = unit(0, units = "cm"), # removes space between panels
-        strip.placement = "outside", # moves the states down
-        strip.background = element_rect(fill = "white")) +
+        strip.background = element_blank(), strip.placement = "outside") +
   guides(fill = guide_legend(title = "Percent of sequenced cases \nper epidemiological week")) +
   labs(
     x = "Epidemiological Week",
@@ -95,10 +94,10 @@ ggplot(plot_df |> arrange(continent) , aes(x = wy, y = country, fill = countfact
   ) + theme_landscape()
 
 ggsave(
-  "plots/global-lanmdscap.png",
+  "plots/global-lanmdscapi.png",
   dpi = 320,
   width = 18,
-  height = 22,
+  height = 26,
   limitsize = FALSE
 )
 

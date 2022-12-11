@@ -17,28 +17,22 @@
 ##
 ## ---------------------------
 # sample size
-
+gisaid_z$
 gisaid = readRDS("data/gisaid.RDS")
-aggregate(gpnc_gisaid ~ Region, cc, mean)
-aggregate(gpnc_embl ~ Region, cc, mean)
-
-
 source("code/owid-data.r")
 #GISAID
 gisaid = gisaid  |>
-  right_join(owid)
+  right_join(owid) |>
+  left_join(sample_size)
 
 sample_size = gisaid |> group_by(continent) |> summarize(num=n())
 
-gisaid = gisaid |>
-  left_join(sample_size) |>
-  right_join(groups)
-
 gisaid |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
-  filter(GISAID.weekly.submissions != is.na(GISAID.weekly.submissions)) %>%
-  ggplot( aes(x=myaxis, y=GISAID.weekly.submissions, fill=continent)) +
-  geom_jitter(col = "red") +
-  coord_flip() +
+  filter(GISAID.weekly.submissionsr != is.na(GISAID.weekly.submissions)) %>%
+  filter(gpnc_gisaid < 100) %>%
+  ggplot( aes(x=myaxis, y=(gpnc_gisaid), color=continent)) +
+  facet_grid(gisaid$) +
+  geom_jitter(alpha = 0.2) +
   viridis::scale_fill_viridis(discrete = TRUE) +
   theme(
     legend.position="none",
@@ -65,8 +59,6 @@ gisaid |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
     legend.key.width = grid::unit(0.2, "cm"),
     axis.text.x = element_text(
       size = 14,
-      angle = 90,
-      vjust = 0.5,
       hjust = 1,
       color = textcol
     ),
@@ -81,7 +73,7 @@ gisaid |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
       size = 12,
       face = "bold",
       colour = textcol,
-      hjust = 0.1
+      hjust = 0.5
     ),
     panel.border = element_blank(),
     panel.background = element_rect(
@@ -99,6 +91,7 @@ gisaid |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
       face = "bold",
       vjust = 0.9
     ))
+
 
 ggsave(
   paste0(
