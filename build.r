@@ -31,3 +31,9 @@ if (reproducible == FALSE) {
   source("code/ena-corpus-analysis.r")
   source("code/gisaid-corpus-analysis.r")
 }
+
+unsd = read.csv("../../Downloads/UNSD — Methodology.csv",sep = ";") %>% select(Sub.region.Name,ISO.alpha3.Code) %>%rename(iso_code = ISO.alpha3.Code)
+main_df = right_join(main_df,unsd)
+income_groups = read.csv("raw-data/income-groups.csv") %>% rename(iso_code = Code)
+main_df = right_join(main_df,income_groups)
+rm(income_groups,unsd)

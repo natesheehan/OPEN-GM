@@ -17,21 +17,19 @@
 ##
 ## ---------------------------
 # sample size
-gisaid_z$
+
 gisaid = readRDS("data/gisaid.RDS")
 source("code/owid-data.r")
 #GISAID
-gisaid = gisaid  |>
-  right_join(owid) |>
+main_df = main_df  |>
   left_join(sample_size)
 
-sample_size = gisaid |> group_by(continent) |> summarize(num=n())
+sample_size = main_df |> group_by(continent) |> summarize(num=n())
 
-gisaid |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
-  filter(GISAID.weekly.submissionsr != is.na(GISAID.weekly.submissions)) %>%
+v = main_df |> mutate(myaxis = paste0(continent, "\n", "n=", num)) |>
+  filter(GISAID.weekly.submissions != is.na(GISAID.weekly.submissions)) %>%
   filter(gpnc_gisaid < 100) %>%
   ggplot( aes(x=myaxis, y=(gpnc_gisaid), color=continent)) +
-  facet_grid(gisaid$) +
   geom_jitter(alpha = 0.2) +
   viridis::scale_fill_viridis(discrete = TRUE) +
   theme(
