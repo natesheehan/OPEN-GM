@@ -25,9 +25,7 @@ if (reproducible == FALSE) {
   source("code/set-up.r")
   source("code/owid-data.r")
   source("code/data-wrangle.r")
-  source("code/plot-continent-landscape.r")
-  source("code/plot-temporal-submissions.r")
-  source("code/plot-treemap.r")
+  source("code/visualise-database-landscape.R")
   source("code/ena-corpus-analysis.r")
   source("code/gisaid-corpus-analysis.r")
 }
