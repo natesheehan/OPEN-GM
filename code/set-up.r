@@ -18,21 +18,43 @@
 ##################################################################
 ##                       Helper Functions                       ## thanx for helpin
 ##################################################################
-# (1) install and require packages
+
+# pacman - library management ---------------------------------------------
+#' Takes a list of packages and installs and loads them in parrael
+#'
+#' @param pkg A list of packages
+#' @examples
+#' packman(pkg)
+#'
 pacman = function(pkg) {
   new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
   if (length(new.pkg))
     install.packages(new.pkg, dependencies = TRUE)
   sapply(pkg, require, character.only = TRUE)
 }
-# (2_) fetch data
+
+# fetch data - quick api tool ---------------------------------------------
+#' Downloads data to a defined path
+#'
+#' @param url A url to download data from
+#' @param path A path on the local machine to save the file
+#' @examples
+#' fetch_data(url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv",path = "data/covid-jh.csv")
+#'
 fetch_data = function(url, path) {
   url = url
   path = path
   download.file(url, path)
   read.csv(path)
 }
-# format date function into week and year
+
+
+# isodate- week to year function ------------------------------------------
+#' Formats a date from week and year to iso format
+#'
+#' @examples
+#' isodate("22/11")
+#'
 isodate = function (x = Sys.Date()) {
   xday = ISOdate(year(x), month(x), day(x), tz = tz(x))
   dn = 1 + (wday(x) + 5) %% 7
@@ -41,9 +63,14 @@ isodate = function (x = Sys.Date()) {
   return(sprintf("%s/%02d", format(nth, "%y"), 1 + (nth - jan1) %/% ddays(7)))
 }
 
-# Plotting themes
-textcol = "yellow"
-theme_tree = function(){
+
+# tree plot - ggplot2 theme -----------------------------------------------
+#' Tree plot ggplot2 theme
+#'
+#' @examples
+#' + theme_tree()
+#'
+theme_tree = function() {
   theme(
     legend.position = "none",
     legend.direction = "horizontal",
@@ -98,6 +125,14 @@ theme_tree = function(){
     )
   )
 }
+
+
+# temporal plot - ggplot2 theme -------------------------------------------
+#' Temporal plot ggplot2 theme
+#'
+#' @examples
+#' + theme_temporal()
+#'
 theme_temporal = function() {
   theme(
     legend.position = "bottom",
@@ -155,6 +190,14 @@ theme_temporal = function() {
     )
   )
 }
+
+
+# landscape plot - ggplot2 theme ------------------------------------------
+#' Landscape plot ggplot2 theme
+#'
+#' @examples
+#' + theme_landscape()
+#'
 theme_landscape = function() {
   theme(
     legend.position = "bottom",
@@ -210,10 +253,15 @@ theme_landscape = function() {
     )
   )
 }
-options(scipen = 999) # Turn off scientific notation
 
-# font_add_google("Ubuntu", "ub") # font for plots
 
+# network_stat_df - generate network stats --------------------------------
+#' Create a dataframe of network statistics of a given graph
+#'
+#' @param network A igraph network object
+#' @examples
+#' network_stat_df(author_colab)
+#'
 network_stat_df = function(network) {
   v = data.frame(
     "size" = network$network$networkSize,
@@ -226,15 +274,23 @@ network_stat_df = function(network) {
   return(v)
 }
 
+
+# split_author_matrix = Create colab matrix -------------------------------
+#' Create a dataframe of network statistics of a given graph
+#'
+#' @param network A igraph network object
+#' @examples
+#' network_stat_df(author_colab)
+#'
 split_author_matrix = function(col) {
   # create list of individual authors for each paper
-  pub_auths = sapply(M$MeSH.terms, function(x)
+  pub_auths = sapply(M$AU_CO, function(x)
     strsplit(as.character(x), split = ";"))
   pub_auths = lapply(pub_auths, trimws)
   # for each paper, form a data frame of unique author pairs
   auth_pairs = lapply(pub_auths, function(x) {
     z  = expand.grid(x, x, stringsAsFactors = FALSE)
-    z[z$Var1 < z$Var2,]
+    z[z$Var1 < z$Var2, ]
   })
   # combine list of matrices for each paper into one data frame
   auth_pairs = do.call(rbind, auth_pairs)
@@ -244,7 +300,17 @@ split_author_matrix = function(col) {
 
   return(auth_count)
 }
-plot_colab_network = function(network,vos){
+
+
+# Plot biblometrix using VOSViewer ----------------------------------------
+#' Plot igraph collaboration network using VOSViewer
+#'
+#' @param network A igraph network object
+#' @param vos A path to VOS on local machine
+#' @examples
+#' plot_colab_network(author_colab, "../VosViewer)
+#'
+plot_colab_network = function(network, vos) {
   # plot in igraph
   net_author = networkPlot(
     network,
@@ -258,14 +324,24 @@ plot_colab_network = function(network,vos){
   )
   # plot in vosviewer
   ## Repulsion 0, attraction 10 OR -1, 1, method: strength link, font: sans serif
-  if(vos == TRUE){
+  if (vos == TRUE) {
     net2VOSviewer(net_author, vos.path = "VOSviewer/")
   } else {
     print("Network plotted!")
   }
 }
 
-# Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
+
+# Plot biblometrix using VOSViewer ----------------------------------------
+#' Plot igraph collaboration network using VOSViewer
+#'
+#' @param net A igraph network object
+#' @param vos.path A path to VOS on local machine
+#' @examples
+#' plot_colab_network(author_colab, "../VosViewer)
+#'
+#'@details
+#'Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
 net2VOSviewerigraph = function(net, vos.path = NULL) {
   V(net)$id <- V(net)$name
 
@@ -298,12 +374,13 @@ net2VOSviewerigraph = function(net, vos.path = NULL) {
 
 }
 
+
 #################################################################
-##                           Library                           ##
+##                         Set up vars                         ##
 #################################################################
+
 pkgs = c(
   "tidyverse",
-  # data cleaning
   "bibliometrix",
   "tidyr",
   "stringr",
@@ -311,9 +388,11 @@ pkgs = c(
   "quanteda",
   "treemapify",
   "stm",
-  "lubridate"
+  "lubridate",
+  "ggpubr",
+  "sf"
+)
 
-) # stick plots together
-
+options(scipen = 999) # Turn off scientific notation
 pacman(pkgs)
 rm(pkgs)

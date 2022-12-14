@@ -29,12 +29,13 @@ M = bibliometrix::convert2df(file = file,
   dplyr::filter(AB != is.na(AB)) |>
   dplyr::mutate(Year = substr(PY, 1, 4)) |>
   dplyr::filter(Year > 2019) |>
+  dplyr::filter(Year < 2023) |>
   dplyr::select(-c(Year))
 
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
-S = summary(object = results, k = 100, pause = FALSE)
+S = summary(object = results, k = 10, pause = FALSE)
 d = readRDS( "data/ena-corpus-analysis.rds")
 
 Country = S$MostProdCountries$Country

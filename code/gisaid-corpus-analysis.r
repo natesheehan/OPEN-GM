@@ -36,7 +36,7 @@ M = bibliometrix::convert2df(file = file,
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
-S = summary(object = results, k = 100, pause = FALSE)
+G = summary(object = results, k = 10, pause = FALSE)
 readRDS( "data/gisaid-corpus-analysis.rds")
 
 Country = S$MostProdCountries$Country
@@ -49,7 +49,7 @@ data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
   pivot_longer(c(SCP, MCP)) |>
   mutate(value = as.numeric(value)) |>
   mutate(Articles = as.numeric(Articles)) |>
-  rgisaidme(collaboration = name)
+  mutate(collaboration = name)
 
 
 ##################################################################

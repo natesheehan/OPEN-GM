@@ -22,20 +22,16 @@ ggplot(sum_gis_c19, aes(x=wy, y=sum_gisaid, fill=Sub.region.Name)) +
 regions = as.data.frame(unique(sum_gis_c19$Sub.region.Name))
 colnames(regions) = "region"
 
-p0 = ggscatter(
-  sum_gis_c19 %>%
-    mutate(
-      sum_gisaid = log(sum_gisaid),
-      sum_cd19dp = log(sum_cd19dp)
-    ),
-  x = "sum_gisaid",
-  y = "sum_cd19dp",
+ggscatter(
+  main_df,
+  x = "GISAID.weekly.submissions",
+  y = "new_cases",
   add = "reg.line",
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA",
+  xlab = "GISAID.weekly.submissions",
+  ylab = "stringency_index",
   title = "Global"
 )
 p1 = ggscatter(
