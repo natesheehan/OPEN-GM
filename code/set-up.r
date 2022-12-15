@@ -521,10 +521,10 @@ plot_colab_network = function(network, vos) {
 #'@details
 #'Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
 net2VOSviewerigraph = function(net, vos.path = NULL) {
-  V(net)$id <- V(net)$name
+  V(net)$id = V(net)$name
 
   if (is.null(vos.path)) {
-    vos.path <- getwd()
+    vos.path = getwd()
   }
   if (sum(dir(vos.path) %in% "VOSviewer.jar") == 0) {
     cat(
@@ -537,8 +537,8 @@ net2VOSviewerigraph = function(net, vos.path = NULL) {
     )
   }
   else{
-    netfile <- paste(vos.path, "/", "vosnetwork.net", sep = "")
-    VOScommand <- paste("java -jar ",
+    netfile = paste(vos.path, "/", "vosnetwork.net", sep = "")
+    VOScommand = paste("java -jar ",
                         vos.path,
                         "/",
                         "VOSviewer.jar -pajek_network ",
