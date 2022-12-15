@@ -36,8 +36,8 @@ M = bibliometrix::convert2df(file = file,
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
-G = summary(object = results, k = 10, pause = FALSE)
-readRDS( "data/gisaid-corpus-analysis.rds")
+S = summary(object = results, k = 100, pause = FALSE)
+#readRDS( "data/gisaid-corpus-analysis.rds")
 
 Country = S$MostProdCountries$Country
 SCP = S$MostProdCountries$SCP
@@ -51,6 +51,26 @@ data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
   mutate(Articles = as.numeric(Articles)) |>
   mutate(collaboration = name)
 
+ggplot(data[1:100, ], aes(
+  fill = collaboration,
+  y = value,
+  x = reorder(Country, Articles)
+)) +
+  geom_bar(position = "stack", stat = "identity") +
+  labs(title = "Leading 50 countries mentioning GISAID \nin scientific publications", caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+  xlab("Country") +
+  ylab("No. Documents") +
+  coord_flip() + theme_landscape()
+
+ggsave(
+  paste0(
+    "plots/GISAID/mcp-scp.png"
+  ),
+  dpi = 320,
+  width = 18,
+  height = 12,
+  limitsize = FALSE
+)
 
 ##################################################################
 ##                    Collaboration Networks                    ##
@@ -72,9 +92,9 @@ geog_colab = biblioNetwork(M,
                            network = "countries",
                            sep = ";")
 
-saveRDS(author_colab,"data/networks/gisaid/author_colab.rds")
-saveRDS(institution_colab,"data/networks/gisaid/institution_colab.rds")
-saveRDS(geog_colab,"data/networks/gisaid/geog_colab.rds")
+saveRDS(author_colab,"data/networks/GISAID/author_colab.rds")
+saveRDS(institution_colab,"data/networks/GISAID/institution_colab.rds")
+saveRDS(geog_colab,"data/networks/GISAID/geog_colab.rds")
 
 # calculate network statistics
 author_colab_stats = networkStat(author_colab) |> network_stat_df()
@@ -86,7 +106,7 @@ category = c("author", "institution", "geography")
 colab_stats = rbind(author_colab_stats,institution_colab_stats,geog_colab_stats) |>
   dplyr::mutate(category = category)
 
-saveRDS(colab_stats,"data/networks/gisaid/network_stats.rds")
+saveRDS(colab_stats,"data/networks/GISAID/network_stats.rds")
 # remove redundant vars
 rm(author_colab_stats,institution_colab_stats,geog_colab_stats)
 
@@ -115,10 +135,10 @@ author_keywords_co_ocs = biblioNetwork(M,
                                        sep = ";")
 
 
-saveRDS(author_co_ocs,"data/networks/gisaid/author_co_ocs.rds")
-saveRDS(journals_co_ocs,"data/networks/gisaid/journals_co_ocs.rds")
-saveRDS(keywords_co_ocs,"data/networks/gisaid/keywords_co_ocs.rds")
-saveRDS(author_keywords_co_ocs,"data/networks/gisaid/author_keywords_co_ocs.rds")
+saveRDS(author_co_ocs,"data/networks/GISAID/author_co_ocs.rds")
+saveRDS(journals_co_ocs,"data/networks/GISAID/journals_co_ocs.rds")
+saveRDS(keywords_co_ocs,"data/networks/GISAID/keywords_co_ocs.rds")
+saveRDS(author_keywords_co_ocs,"data/networks/GISAID/author_keywords_co_ocs.rds")
 
 # calculate network statistics
 author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
@@ -132,14 +152,14 @@ co_oc_stats = rbind(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_st
                     author_keywords_co_ocs_stats) |>
   dplyr::mutate(category = category)
 
-saveRDS(co_oc_stats,"data/networks/gisaid/co_oc_network_stats.rds")
+saveRDS(co_oc_stats,"data/networks/GISAID/co_oc_network_stats.rds")
 # remove redundant vars
 rm(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
    author_keywords_co_ocs_stats)
 
 #### PLOT AND VISUALSE NETWORKS WITH VOSVIEWER AND IGRAPH
 
-plot_colab_network(institution_colab, vos = TRUE)
+plot_colab_network(author_colab, vos = TRUE)
 
 
 ##################################################################

@@ -48,7 +48,6 @@ fetch_data = function(url, path) {
   read.csv(path)
 }
 
-
 # isodate- week to year function ------------------------------------------
 #' Formats a date from week and year to iso format
 #'
@@ -62,7 +61,6 @@ isodate = function (x = Sys.Date()) {
   jan1 = ISOdate(year(nth), 1, 1, tz = tz(x))
   return(sprintf("%s/%02d", format(nth, "%y"), 1 + (nth - jan1) %/% ddays(7)))
 }
-
 
 # tree plot - ggplot2 theme -----------------------------------------------
 #' Tree plot ggplot2 theme
@@ -252,7 +250,6 @@ theme_temporal = function() {
   )
 }
 
-
 # landscape plot - ggplot2 theme ------------------------------------------
 #' Landscape plot ggplot2 theme
 #'
@@ -315,7 +312,6 @@ theme_landscape = function() {
   )
 }
 
-
 # network_stat_df - generate network stats --------------------------------
 #' Create a dataframe of network statistics of a given graph
 #'
@@ -334,7 +330,6 @@ network_stat_df = function(network) {
   )
   return(v)
 }
-
 
 # split_author_matrix = Create colab matrix -------------------------------
 #' Create a dataframe of network statistics of a given graph
@@ -362,6 +357,129 @@ split_author_matrix = function(col) {
   return(auth_count)
 }
 
+# build_networks - create data files for network plots --------------------
+#' Save graphs for author,geography and institution colab and author,keyword,abstract,title co-occurence
+#'
+#' @param data A biblographic dataframe
+#' @param path A path save files
+#' @examples
+#' build_networks(M, "data/networks/gisaid/")
+#'
+build_networks = function(data, path) {
+  message("Building Collaboration Networks")
+  ##################################################################
+  ##                    Collaboration Networks                    ##
+  ##################################################################
+
+  # generate network
+  author_colab = biblioNetwork(data,
+                               analysis = "collaboration",
+                               network = "authors",
+                               sep = ";")
+
+  institution_colab = biblioNetwork(data,
+                                    analysis = "collaboration",
+                                    network = "universities",
+                                    sep = ";")
+
+  geog_colab = biblioNetwork(data,
+                             analysis = "collaboration",
+                             network = "countries",
+                             sep = ";")
+
+  saveRDS(author_colab, paste0(path, "author_colab.rds"))
+  saveRDS(institution_colab, paste0(path, "institution_colab.rds"))
+  saveRDS(geog_colab, paste0(path, "geog_colab.rds"))
+
+  # calculate network statistics
+  author_colab_stats = networkStat(author_colab) |> network_stat_df()
+  institution_colab_stats = networkStat(institution_colab) |> network_stat_df()
+  geog_colab_stats = networkStat(geog_colab) |> network_stat_df()
+
+  category = c("author", "institution", "geography")
+
+  colab_stats = rbind(
+    author_colab_stats,
+    institution_colab_stats,
+    geog_colab_stats
+  ) |>
+    dplyr::mutate(category = category)
+
+  saveRDS(colab_stats, paste0(path, "network_stats.rds"))
+  # remove redundant vars
+  rm(
+    author_colab_stats,
+    institution_colab_stats,
+    geog_colab_stats
+  )
+
+  #################################################################
+  ##                   Co-occurrences Networks                   ##
+  #################################################################
+  message("Building Co-occurrences Networks")
+  author_co_ocs = biblioNetwork(
+    data,
+    analysis = "co-occurrences",
+    network = "authors",
+    sep = ";"
+  )
+
+  journals_co_ocs = biblioNetwork(
+    data,
+    analysis = "co-occurrences",
+    network = "sources",
+    sep = ";"
+  )
+
+  keywords_co_ocs = biblioNetwork(
+    data,
+    analysis = "co-occurrences",
+    network = "keywords",
+    sep = ";"
+  )
+
+  author_keywords_co_ocs = biblioNetwork(
+    data,
+    analysis = "co-occurrences",
+    network = "author_keywords",
+    sep = ";"
+  )
+
+  saveRDS(author_co_ocs, paste0(path, "author_co_ocs.rds"))
+  saveRDS(journals_co_ocs, paste0(path, "journals_co_ocs.rds"))
+  saveRDS(keywords_co_ocs, paste0(path, "keywords_co_ocs.rds"))
+  saveRDS(author_keywords_co_ocs, paste0(path, "author_keywords_co_ocs.rds"))
+
+  # calculate network statistics
+  author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
+  journals_co_ocs_stats = networkStat(journals_co_ocs) |> network_stat_df()
+  keywords_co_ocs_stats = networkStat(keywords_co_ocs) |> network_stat_df()
+  author_keywords_co_ocs_stats = networkStat(author_keywords_co_ocs) |> network_stat_df()
+
+  category = c("author", "journal", "keywords", "author-keywords")
+
+  co_oc_stats = rbind(
+    author_co_ocs_stats,
+    journals_co_ocs_stats,
+    keywords_co_ocs_stats,
+    author_keywords_co_ocs_stats
+  ) |>
+    dplyr::mutate(category = category)
+
+  saveRDS(co_oc_stats, paste0(path, "co_oc_network_stats.rds"))
+  # remove redundant vars
+  rm(
+    author_co_ocs_stats,
+    journals_co_ocs_stats,
+    keywords_co_ocs_stats,
+    author_keywords_co_ocs_stats
+  )
+
+  message(
+    "Network complete! See path to see saved networks and stats df. Use net2VOSviewerigraph() for interactive display."
+  )
+
+}
 
 # Plot biblometrix using VOSViewer ----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
@@ -391,7 +509,6 @@ plot_colab_network = function(network, vos) {
     print("Network plotted!")
   }
 }
-
 
 # Plot biblometrix using VOSViewer ----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
@@ -434,7 +551,6 @@ net2VOSviewerigraph = function(net, vos.path = NULL) {
   }
 
 }
-
 
 #################################################################
 ##                         Set up vars                         ##
