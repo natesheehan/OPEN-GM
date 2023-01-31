@@ -45,7 +45,7 @@ a = ggplot(
     place = "centre",
     size = 15,
     grow = TRUE
-  ) +   labs(title = "C)",
+  ) +   labs(title = "a)",
              caption = "\nGISAID Metadata: https://www.epicov.org/") + theme_tree()  +
   scale_fill_viridis_c()
 
@@ -72,7 +72,7 @@ d = ggplot(
     place = "centre",
     size = 15,
     grow = TRUE
-  ) +  labs(title = "F)",
+  ) +  labs(title = "C)",
             caption = "\nThe Covid-19 Data Portal Metadata: https://www.covid19dataportal.org/") +
   theme_tree() +
   scale_fill_viridis_c()
@@ -161,7 +161,7 @@ c = ggplot(plot_df,
   labs(
     x = "Epidemiological Week",
     y = "Country",
-    title = paste0("A)"),
+    title = paste0("B)"),
     caption = "Percent of reported cases (Our World In Data) that were sequenced and shared to the GISAID database per\n epidemiological week between December 19th 2019 and October 19th 2022. GISAID Metadata was accessed and used \nfollowing their terms of use. Epidemiological data was linked via joining Our World in Data on Covid-19 accessed on 24th October 2022."
   ) +
   scale_y_discrete(expand = c(0, 0)) +
@@ -229,7 +229,7 @@ plot_df = main_df  |>
 plot_df$f = factor(plot_df$Income.group,      # Reordering group factor levels
                    levels = paste(unique(plot_df$Income.group)))
 
-f = ggplot(plot_df , aes(x = wy, y = country, fill = countfactor)) +
+f = ggplot(plot_df , aes(x = wy, y = iso_code, fill = countfactor)) +
   #add border white colour of line thickness 0.25
   geom_bin_2d(colour = "white", size = 0.4) +
   facet_grid(rows = vars(f), scales = "free_y", switch = "y", space = "free_y") +
@@ -273,20 +273,14 @@ f = ggplot(plot_df , aes(x = wy, y = country, fill = countfactor)) +
 # Plot and Save -----------------------------------------------------------
 
 # GISAID
-ggarrange(
-  c,                # First row with line plot
-  # Second row with box and dot plots
-  ggarrange(b, a, ncol = 2, labels = c("B", "C")),
-  nrow = 2,
-  labels = "A"       # Label of the line plot
-)
+  ggarrange(a, c,d,f )
 
 ggsave(
   paste0("plots/GISAID/",
          " Sequence-Landscape.png"),
   dpi = 320,
   width = 32,
-  height = 24,
+  height = 32,
   limitsize = FALSE
 )
 
@@ -304,7 +298,7 @@ ggsave(
          " Sequence-Landscape.png"),
   dpi = 320,
   width = 32,
-  height = 24,
+  height = 32,
   limitsize = FALSE
 )
 

@@ -35,8 +35,7 @@ M = bibliometrix::convert2df(file = file,
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
-S = summary(object = results, k = 10, pause = FALSE)
-d = readRDS( "data/ena-corpus-analysis.rds")
+S = summary(object = results, k = 50, pause = FALSE)
 
 Country = S$MostProdCountries$Country
 SCP = S$MostProdCountries$SCP
@@ -50,7 +49,11 @@ data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
   mutate(Articles = as.numeric(Articles)) |>
   rename(collaboration = name)
 
-ggplot(data[1:100, ], aes(
+ggplot(data[1:100, ] |>   {
+  \(.) {
+    replace(., is.na(.), 0)
+  }
+}(), aes(
   fill = collaboration,
   y = value,
   x = reorder(Country, Articles)
@@ -134,10 +137,19 @@ author_keywords_co_ocs = biblioNetwork(M,
                               sep = ";")
 
 
+institution_co_oc = split_author_matrix("AU_UN") |> igraph::graph_from_data_frame()
+funding_co_oc = split_author_matrix("FU") |> igraph::graph_from_data_frame()
+funding_group_co_oc = split_author_matrix("Funder.Group") |> igraph::graph_from_data_frame()
+funding_country_co_oc = split_author_matrix("Funder.Country") |> igraph::graph_from_data_frame()
+
 saveRDS(author_co_ocs,"data/networks/ena/author_co_ocs.rds")
 saveRDS(journals_co_ocs,"data/networks/ena/journals_co_ocs.rds")
 saveRDS(keywords_co_ocs,"data/networks/ena/keywords_co_ocs.rds")
 saveRDS(author_keywords_co_ocs,"data/networks/ena/author_keywords_co_ocs.rds")
+saveRDS(institution_co_oc,"data/networks/ena/institutionr_co_ocs.rds")
+saveRDS(funding_co_oc,"data/networks/ena/funding_co_ocs.rds")
+saveRDS(funding_group_co_oc,"data/networks/ena/funding_group_co_ocs.rds")
+saveRDS(funding_country_co_oc,"data/networks/ena/funding_country_keywords_co_ocs.rds")
 
 # calculate network statistics
 author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
@@ -145,12 +157,18 @@ journals_co_ocs_stats = networkStat(journals_co_ocs) |> network_stat_df()
 keywords_co_ocs_stats = networkStat(keywords_co_ocs) |> network_stat_df()
 author_keywords_co_ocs_stats = networkStat(author_keywords_co_ocs) |> network_stat_df()
 
-category = c("author", "journal", "keywords","autho-keywordsr")
+inititution_co_ocs_stats = networkStat(institution_co_oc) |> network_stat_df()
+funding_co_ocs_stats = networkStat(funding_co_oc) |> network_stat_df()
+funding_group_co_ocs_stats = networkStat(funding_group_co_oc) |> network_stat_df()
+funding_country_keywords_co_ocs_stats = networkStat(funding_country_co_oc) |> network_stat_df()
+
+category = c("author", "journal", "keywords","autho-keywords","insitution","funding","funding-group","funding country")
 
 co_oc_stats = rbind(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
-                    author_keywords_co_ocs_stats) |>
+                    author_keywords_co_ocs_stats,inititution_co_ocs_stats,
+                    funding_co_ocs_stats,funding_group_co_ocs_stats,
+                    funding_country_keywords_co_ocs_stats) |>
   dplyr::mutate(category = category)
-
 saveRDS(co_oc_stats,"data/networks/ena/co_oc_network_stats.rds")
 # remove redundant vars
 rm(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,

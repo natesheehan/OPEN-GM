@@ -14,7 +14,7 @@
 ##
 ## Notes: Data was collected on October the 25th using the WEB OF SCIENCE data downloader interface. The interface was queryed to return publications
 ##   between December 1st 2019 and October 1st 2022 with the search queries of "Genomic survlience" OR "Genome Survelience". The texts where then filtered to o
-##   only include texts focusing on the SARS genome, rather than any other GS strategy which has grown in recent years.
+##   only include texts focusing on the SARS genome, rather than any other GS strategy which has grown in recent years.t
 ## ---------------------------
 
 
@@ -36,7 +36,7 @@ M = bibliometrix::convert2df(file = file,
 # Conduct a biblio analysis of dataframe using the bibliometrix package
 results = bibliometrix::biblioAnalysis(M, sep = ";")
 options(width = 100)
-S = summary(object = results, k = 100, pause = FALSE)
+S = summary(object = results, k = 50, pause = FALSE)
 #readRDS( "data/gisaid-corpus-analysis.rds")
 
 Country = S$MostProdCountries$Country
@@ -51,7 +51,11 @@ data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
   mutate(Articles = as.numeric(Articles)) |>
   mutate(collaboration = name)
 
-ggplot(data[1:100, ], aes(
+ggplot(data[1:100, ] |>   {
+  \(.) {
+    replace(., is.na(.), 0)
+  }
+}(), aes(
   fill = collaboration,
   y = value,
   x = reorder(Country, Articles)
@@ -124,6 +128,7 @@ journals_co_ocs = biblioNetwork(M,
                                 network = "sources",
                                 sep = ";")
 
+
 keywords_co_ocs = biblioNetwork(M,
                                 analysis = "co-occurrences",
                                 network = "keywords",
@@ -134,11 +139,20 @@ author_keywords_co_ocs = biblioNetwork(M,
                                        network = "author_keywords",
                                        sep = ";")
 
+institution_co_oc = split_author_matrix("AU_UN") |> igraph::graph_from_data_frame()
+funding_co_oc = split_author_matrix("FU") |> igraph::graph_from_data_frame()
+funding_group_co_oc = split_author_matrix("Funder.Group") |> igraph::graph_from_data_frame()
+funding_country_co_oc = split_author_matrix("Funder.Country") |> igraph::graph_from_data_frame()
+
 
 saveRDS(author_co_ocs,"data/networks/GISAID/author_co_ocs.rds")
 saveRDS(journals_co_ocs,"data/networks/GISAID/journals_co_ocs.rds")
 saveRDS(keywords_co_ocs,"data/networks/GISAID/keywords_co_ocs.rds")
 saveRDS(author_keywords_co_ocs,"data/networks/GISAID/author_keywords_co_ocs.rds")
+saveRDS(institution_co_oc,"data/networks/GISAID/institutionr_co_ocs.rds")
+saveRDS(funding_co_oc,"data/networks/GISAID/funding_co_ocs.rds")
+saveRDS(funding_group_co_oc,"data/networks/GISAID/funding_group_co_ocs.rds")
+saveRDS(funding_country_co_oc,"data/networks/GISAID/funding_country_keywords_co_ocs.rds")
 
 # calculate network statistics
 author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
@@ -146,10 +160,17 @@ journals_co_ocs_stats = networkStat(journals_co_ocs) |> network_stat_df()
 keywords_co_ocs_stats = networkStat(keywords_co_ocs) |> network_stat_df()
 author_keywords_co_ocs_stats = networkStat(author_keywords_co_ocs) |> network_stat_df()
 
-category = c("author", "journal", "keywords","autho-keywordsr")
+inititution_co_ocs_stats = networkStat(institution_co_oc) |> network_stat_df()
+funding_co_ocs_stats = networkStat(funding_co_oc) |> network_stat_df()
+funding_group_co_ocs_stats = networkStat(funding_group_co_oc) |> network_stat_df()
+funding_country_keywords_co_ocs_stats = networkStat(funding_country_co_oc) |> network_stat_df()
+
+category = c("author", "journal", "keywords","autho-keywords","insitution","funding","funding-group","funding country")
 
 co_oc_stats = rbind(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
-                    author_keywords_co_ocs_stats) |>
+                    author_keywords_co_ocs_stats,inititution_co_ocs_stats,
+                    funding_co_ocs_stats,funding_group_co_ocs_stats,
+                    funding_country_keywords_co_ocs_stats) |>
   dplyr::mutate(category = category)
 
 saveRDS(co_oc_stats,"data/networks/GISAID/co_oc_network_stats.rds")
@@ -218,59 +239,7 @@ ggplot(plot, aes(K, value, color = variable)) +
        title = "Statistical fit of models with different K") +  theme(legend.position =
                                                                         "none",
                                                                       plot.title = element_text(size = 11)) +
-  theme(
-    legend.position = "none",
-    legend.direction = "horizontal",
-    legend.title = element_text(
-      colour = textcol,
-      face = "italic",
-      size = 14
-    ),
-    legend.margin = margin(grid::unit(0, "cm")),
-    legend.text = element_text(
-      colour = textcol,
-      size = 14,
-      face = "bold"
-    ),
-    legend.key.height = grid::unit(0.8, "cm"),
-    legend.key.width = grid::unit(0.2, "cm"),
-    axis.text.x = element_text(
-      size = 14,
-      angle = 90,
-      vjust = 0.5,
-      hjust = 1,
-      color = textcol
-    ),
-    axis.text.y = element_text(
-      vjust = 0.2,
-      colour = textcol,
-      size = 14
-    ),
-    axis.ticks = element_line(size = 0.4),
-    plot.caption = element_text(colour = textcol, size = 10),
-    axis.title = element_text(
-      size = 12,
-      face = "bold",
-      colour = textcol,
-      hjust = 0.1
-    ),
-    panel.border = element_blank(),
-    panel.background = element_rect(
-      fill = "transparent",
-      colour = "transparent",
-      size = 0.5,
-      linetype = "solid"
-    ),
-    plot.background = element_rect(fill = "gray12"),
-    legend.background = element_rect(fill = "gray12"),
-    plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
-    plot.title = element_text(
-      colour = textcol,
-      size = 18,
-      face = "bold",
-      vjust = 0.9
-    )
-  )
+  theme_k()
 dev.off()
 
 # Set optimal number of K based on fit

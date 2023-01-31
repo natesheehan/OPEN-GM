@@ -130,7 +130,7 @@ theme_tree = function() {
 #' @examples
 #' + theme_temporal()
 #'
-theme_k() = function() {
+theme_k = function() {
   theme(
     legend.position = "none",
     legend.direction = "horizontal",
@@ -338,9 +338,10 @@ network_stat_df = function(network) {
 #' @examples
 #' network_stat_df(author_colab)
 #'
-split_author_matrix = function(col) {
+split_author_matrix = function(col_name) {
   # create list of individual authors for each paper
-  pub_auths = sapply(M$AU_CO, function(x)
+  V = M[,c(col_name)]
+  pub_auths = sapply(V, function(x)
     strsplit(as.character(x), split = ";"))
   pub_auths = lapply(pub_auths, trimws)
   # for each paper, form a data frame of unique author pairs
@@ -358,7 +359,7 @@ split_author_matrix = function(col) {
 }
 
 # build_networks - create data files for network plots --------------------
-#' Save graphs for author,geography and institution colab and author,keyword,abstract,title co-occurence
+#' Save graphs for author,geography and institution colab and author,keyword,abstract,title co-occurrence
 #'
 #' @param data A biblographic dataframe
 #' @param path A path save files
@@ -569,7 +570,7 @@ pkgs = c(
   "ggpubr",
   "sf"
 )
-
+textcol = "yellow"
 options(scipen = 999) # Turn off scientific notation
 pacman(pkgs)
 rm(pkgs)

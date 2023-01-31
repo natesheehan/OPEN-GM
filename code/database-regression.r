@@ -16,24 +16,33 @@ sum_gis_c19$t = as.numeric(stringr::str_remove(sum_gis_c19$wy, "/"))
 sum_gis_c19$f = factor(sum_gis_c19$Sub.region.Name,      # Reordering group factor levels
                        levels = paste(unique(sum_gis_c19$Sub.region.Name)))
 
-ggplot(sum_gis_c19, aes(x=wy, y=sum_gisaid, fill=Sub.region.Name)) +
-  geom_area()
-
 regions = as.data.frame(unique(sum_gis_c19$Sub.region.Name))
 colnames(regions) = "region"
 
 ggscatter(
-  main_df,
-  x = "GISAID.weekly.submissions",
-  y = "new_cases",
+  sum_gis_c19 %>% mutate(
+    sum_gisaid = log(sum_gisaid),
+    sum_c19dp = log(sum_cd19dp)
+  ),
+  x = "sum_gisaid",
+  y = "sum_c19dp",
   add = "reg.line",
   conf.int = TRUE,
   cor.coef = TRUE,
-  cor.method = "pearson",
-  xlab = "GISAID.weekly.submissions",
-  ylab = "stringency_index",
-  title = "Global"
+  cor.method = "kendall",
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions",
+  title = "Global",
+  ellipse = TRUE, mean.point = TRUE,
+  star.plot = TRUE
 )
+
+vv=main_df |>   filter(wy == "22/38")
+
+fit <- lm(GISAID.total.submissions ~ CD19DP.total.submissions + log(gdp_per_capita) + Sub.region.Name, data = vv)
+summ(fit)
+
+
 p1 = ggscatter(
   sum_gis_c19 %>%
     filter(Sub.region.Name == "Latin America and the Caribbean") %>%
@@ -48,8 +57,8 @@ p1 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p2 = ggscatter(
   sum_gis_c19 %>%
@@ -65,8 +74,8 @@ p2 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p3 = ggscatter(
   sum_gis_c19 %>%
@@ -82,8 +91,8 @@ p3 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 
 p4 = ggscatter(
@@ -100,8 +109,8 @@ p4 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p5 = ggscatter(
   sum_gis_c19 %>%
@@ -117,8 +126,8 @@ p5 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p6 = ggscatter(
   sum_gis_c19 %>%
@@ -134,8 +143,8 @@ p6 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 
 p7 = ggscatter(
@@ -152,8 +161,8 @@ p7 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p8 = ggscatter(
   sum_gis_c19 %>%
@@ -169,8 +178,8 @@ p8 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 
 p9 = ggscatter(
@@ -187,8 +196,8 @@ p9 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p10 = ggscatter(
   sum_gis_c19 %>%
@@ -204,8 +213,8 @@ p10 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p11 = ggscatter(
   sum_gis_c19 %>%
@@ -221,8 +230,8 @@ p11 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p12 = ggscatter(
   sum_gis_c19 %>%
@@ -238,8 +247,8 @@ p12 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p13 = ggscatter(
   sum_gis_c19 %>%
@@ -255,8 +264,8 @@ p13 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p14 = ggscatter(
   sum_gis_c19 %>%
@@ -272,8 +281,8 @@ p14 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p15 = ggscatter(
   sum_gis_c19 %>%
@@ -289,8 +298,8 @@ p15 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 p16 = ggscatter(
   sum_gis_c19 %>%
@@ -306,8 +315,8 @@ p16 = ggscatter(
   conf.int = TRUE,
   cor.coef = TRUE,
   cor.method = "pearson",
-  xlab = "GISAID",
-  ylab = "ENA"
+  xlab = "GISAID total submissions",
+  ylab = "ENA total submissions"
 )
 
 
@@ -320,9 +329,9 @@ ggsave(
   paste0("plots/submission-correlation.png"),
   dpi = 320,
   width = 24,
-  height = 16,
+  height = 32,
   limitsize = FALSE
-# )
+ )
 #
 # # Shapiro-Wilk normality test
 # #

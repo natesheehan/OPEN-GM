@@ -43,7 +43,7 @@ In our search, we found 20,955 publications in total - 11,256 in GISAID and 9,69
 
 ## Conclusion
 
-In conclusion, our findings suggest that both open data platforms can support various forms of epistemic diversity in global scientific production, and that they should work together rather than against each other. Our study highlights the inadequacy of the normative framing of open data as a dichotomy between open and closed, and calls for a more situated understanding of open data in order to facilitate the rapid and effective sharing of scientific knowledge during times of crisis. This work aims to challenge existing definitions of open data and offer new insights into how open data can support epistemic diversity in the fields of genomic science and data science as a whole.
+
 
 ```{r, echo=FALSE,out.width="60%", out.height="60%",fig.cap="caption",fig.show='hold',fig.align='center',fig.cap="Above: Institutions who collaborate together using GISAID data (Size: 5469; Density: 0.005; Diameter: 9; Distance: 0.13; Avergae Path: 3.26).Below: Institutions who collaborate together using the covid-19 data portal (Size: 5786; Density: 0.33; Diameter: 8; Distance: 0.22; Average Path: 2.85')"}
 knitr::include_graphics(c("../plots/GISAID/institution-network.png","../plots/EMBL/institution-network.png"))
@@ -173,7 +173,7 @@ knitr::include_graphics(c("../plots/GISAID/institution-network.png","../plots/EM
 
 <!-- ## References -->
 
-<!-- <!-- Throughout the Covid-19 pandemic, genomic science was lauded as pursuing a utopian vision of global scientific co-ordination and collaboration in order to discover solutions for vaccines, hospital protocols and study the pathogen genetic mutations which shook the world. While in many ways, the increased volume, velocity and variety of genomic data sharing that happened in the height of the pandemic did indeed enable a fast track to SARS-Cov-2 solutionism, it is difficult to untangle the fields historical - and present - associations with both European and North American imperialism. Imperialist practices in genomic science embrace socio-scientifc paternalism, the invisibility of labour through the means of technology, and the dissonance among previously colonised countries and their colonising counterparts. Such issues affect the vernacularisation of genomic science, the translation of data into knowledge and the way in which technology is deployed. The way in which genomic data is governed during a pandemic can have profound implications for how the science is used, and by whom.  -->
+<!-- <!--  -->
 
 
 <!-- The SARS-CoV-2 pandemic has seen a dramatic increase in the use of genomic data, with initiatives such as the Global Initiative on Sharing All Influenza Data (GISAID) and the Covid-19 Data Portal being among the leading in facilitating open sharing of all kinds; sequence, patient metadata records ,photogenic trees, literature and much more*. Despite this seemingly aulurtistic image of science, there has been an on going debate questioning if these increased sharing may not be inclusive or diverse enough, and that existing inequalities among global scientific networks may be exacerbated. Following on from this line of inquiry, -->
