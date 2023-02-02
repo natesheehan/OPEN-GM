@@ -367,97 +367,122 @@ split_author_matrix = function(col_name) {
 #' build_networks(M, "data/networks/gisaid/")
 #'
 build_networks = function(data, path) {
-  message("Building Collaboration Networks")
+  message("Building collaboration networks")
   ##################################################################
   ##                    Collaboration Networks                    ##
   ##################################################################
 
   # generate network
-  author_colab = biblioNetwork(data,
+  author_colab = biblioNetwork(M,
                                analysis = "collaboration",
                                network = "authors",
                                sep = ";")
-
-  institution_colab = biblioNetwork(data,
+  message("Author network complete")
+  institution_colab = biblioNetwork(M,
                                     analysis = "collaboration",
                                     network = "universities",
                                     sep = ";")
-
-  geog_colab = biblioNetwork(data,
+  message("University network complete")
+  geog_colab = biblioNetwork(M,
                              analysis = "collaboration",
                              network = "countries",
                              sep = ";")
+  message("Geography network complete")
+  institution_co_oc = split_author_matrix("AU_UN") |> igraph::graph_from_data_frame()
+  message("Institution network complete")
+  funding_co_oc = split_author_matrix("FU") |> igraph::graph_from_data_frame()
+  message("Funding network complete")
+  funding_group_co_oc = split_author_matrix("Funder.Group") |> igraph::graph_from_data_frame()
+  message("Funding group network complete")
+  funding_country_co_oc = split_author_matrix("Funder.Country") |> igraph::graph_from_data_frame()
+  message("Funding country network complete")
 
   saveRDS(author_colab, paste0(path, "author_colab.rds"))
   saveRDS(institution_colab, paste0(path, "institution_colab.rds"))
   saveRDS(geog_colab, paste0(path, "geog_colab.rds"))
+  saveRDS(institution_co_oc, paste0(path, "institution_co_ocs.rds"))
+  saveRDS(funding_co_oc, paste0(path, "funding_co_ocs.rds"))
+  saveRDS(funding_group_co_oc,
+          paste0(path, "funding_group_co_ocs.rds"))
+  saveRDS(funding_country_co_oc,
+          paste0(path, "funding_country_keywords_co_ocs.rds"))
 
   # calculate network statistics
+  message("Calculating colab network stats")
   author_colab_stats = networkStat(author_colab) |> network_stat_df()
   institution_colab_stats = networkStat(institution_colab) |> network_stat_df()
   geog_colab_stats = networkStat(geog_colab) |> network_stat_df()
+  inititution_co_ocs_stats = networkStat(institution_co_oc) |> network_stat_df()
+  funding_co_ocs_stats = networkStat(funding_co_oc) |> network_stat_df()
+  funding_group_co_ocs_stats = networkStat(funding_group_co_oc) |> network_stat_df()
+  funding_country_keywords_co_ocs_stats = networkStat(funding_country_co_oc) |> network_stat_df()
 
-  category = c("author", "institution", "geography")
+  category = c(
+    "author",
+    "institution",
+    "geography",
+    "insitution",
+    "funding",
+    "funding-group",
+    "funding country"
+  )
 
   colab_stats = rbind(
     author_colab_stats,
     institution_colab_stats,
-    geog_colab_stats
+    geog_colab_stats,
+    inititution_co_ocs_stats,
+    funding_co_ocs_stats,
+    funding_group_co_ocs_stats,
+    funding_country_keywords_co_ocs_stats
   ) |>
     dplyr::mutate(category = category)
 
-  saveRDS(colab_stats, paste0(path, "network_stats.rds"))
+  saveRDS(colab_stats,
+          paste0(path, "colab_network_stats.rds"))
   # remove redundant vars
-  rm(
-    author_colab_stats,
-    institution_colab_stats,
-    geog_colab_stats
-  )
+  rm(author_colab_stats,
+     institution_colab_stats,
+     geog_colab_stats)
 
   #################################################################
   ##                   Co-occurrences Networks                   ##
   #################################################################
-  message("Building Co-occurrences Networks")
-  author_co_ocs = biblioNetwork(
-    data,
-    analysis = "co-occurrences",
-    network = "authors",
-    sep = ";"
-  )
-
-  journals_co_ocs = biblioNetwork(
-    data,
-    analysis = "co-occurrences",
-    network = "sources",
-    sep = ";"
-  )
-
-  keywords_co_ocs = biblioNetwork(
-    data,
-    analysis = "co-occurrences",
-    network = "keywords",
-    sep = ";"
-  )
-
-  author_keywords_co_ocs = biblioNetwork(
-    data,
-    analysis = "co-occurrences",
-    network = "author_keywords",
-    sep = ";"
-  )
-
+  message("Building co-occurrences Nnetworks")
+  author_co_ocs = biblioNetwork(M,
+                                analysis = "co-occurrences",
+                                network = "authors",
+                                sep = ";")
+  message("Author network complete")
+  journals_co_ocs = biblioNetwork(M,
+                                  analysis = "co-occurrences",
+                                  network = "sources",
+                                  sep = ";")
+  message("Journal network complete")
+  keywords_co_ocs = biblioNetwork(M,
+                                  analysis = "co-occurrences",
+                                  network = "keywords",
+                                  sep = ";")
+  message("Keyword network complete")
+  author_keywords_co_ocs = biblioNetwork(M,
+                                         analysis = "co-occurrences",
+                                         network = "author_keywords",
+                                         sep = ";")
+  message("Author keyword network complete")
   saveRDS(author_co_ocs, paste0(path, "author_co_ocs.rds"))
   saveRDS(journals_co_ocs, paste0(path, "journals_co_ocs.rds"))
   saveRDS(keywords_co_ocs, paste0(path, "keywords_co_ocs.rds"))
-  saveRDS(author_keywords_co_ocs, paste0(path, "author_keywords_co_ocs.rds"))
+  saveRDS(author_keywords_co_ocs,
+          paste0(path, "author_keywords_co_ocs.rds"))
 
   # calculate network statistics
+  message("Calculating colab network stats")
   author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
   journals_co_ocs_stats = networkStat(journals_co_ocs) |> network_stat_df()
   keywords_co_ocs_stats = networkStat(keywords_co_ocs) |> network_stat_df()
   author_keywords_co_ocs_stats = networkStat(author_keywords_co_ocs) |> network_stat_df()
 
-  category = c("author", "journal", "keywords", "author-keywords")
+  category = c("author", "journal", "keywords", "autho-keywords")
 
   co_oc_stats = rbind(
     author_co_ocs_stats,
@@ -475,12 +500,8 @@ build_networks = function(data, path) {
     keywords_co_ocs_stats,
     author_keywords_co_ocs_stats
   )
-
-  message(
-    "Network complete! See path to see saved networks and stats df. Use net2VOSviewerigraph() for interactive display."
-  )
-
 }
+
 
 # Plot biblometrix using VOSViewer ----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
@@ -553,7 +574,7 @@ net2VOSviewerigraph = function(net, vos.path = NULL) {
 
 }
 
-# Plot biblometrix using VOSViewer ----------------------------------------
+# Calculate network statistics from igraph----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
 #'
 #' @param g An igraph network object

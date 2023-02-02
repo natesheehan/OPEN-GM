@@ -19,7 +19,8 @@
 reproducible = FALSE
 
 if (reproducible == FALSE) {
-  source("code/set-up.r")
+  source("code/utils.r")
+  source("code/pkgs.r")
   main_df = readRDS("data/main_df.rds")
 } else {
   source("code/utils.r")

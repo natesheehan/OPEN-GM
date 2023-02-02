@@ -17,8 +17,6 @@
 ##   only include texts focusing on the SARS genome, rather than any other GS strategy which has grown in recent years.t
 ## ---------------------------
 
-
-
 # Data Prep ---------------------------------------------------------------
 set.seed(999)
 textcol = "yellow"
@@ -39,148 +37,54 @@ options(width = 100)
 S = summary(object = results, k = 50, pause = FALSE)
 #readRDS( "data/gisaid-corpus-analysis.rds")
 
-Country = S$MostProdCountries$Country
-SCP = S$MostProdCountries$SCP
-MCP = S$MostProdCountries$MCP
-Articles = S$MostProdCountries$Articles
-
-data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
-  arrange(desc(Articles)) |>
-  pivot_longer(c(SCP, MCP)) |>
-  mutate(value = as.numeric(value)) |>
-  mutate(Articles = as.numeric(Articles)) |>
-  mutate(collaboration = name)
-
-ggplot(data[1:100, ] |>   {
-  \(.) {
-    replace(., is.na(.), 0)
-  }
-}(), aes(
-  fill = collaboration,
-  y = value,
-  x = reorder(Country, Articles)
-)) +
-  geom_bar(position = "stack", stat = "identity") +
-  labs(title = "Leading 50 countries mentioning GISAID \nin scientific publications", caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
-  xlab("Country") +
-  ylab("No. Documents") +
-  coord_flip() + theme_landscape()
-
-ggsave(
-  paste0(
-    "plots/GISAID/mcp-scp.png"
-  ),
-  dpi = 320,
-  width = 18,
-  height = 12,
-  limitsize = FALSE
-)
-
-##################################################################
-##                    Collaboration Networks                    ##
-##################################################################
-
-# generate network
-author_colab = biblioNetwork(M,
-                             analysis = "collaboration",
-                             network = "authors",
-                             sep = ";")
-
-institution_colab = biblioNetwork(M,
-                                  analysis = "collaboration",
-                                  network = "universities",
-                                  sep = ";")
-
-geog_colab = biblioNetwork(M,
-                           analysis = "collaboration",
-                           network = "countries",
-                           sep = ";")
-
-saveRDS(author_colab,"data/networks/GISAID/author_colab.rds")
-saveRDS(institution_colab,"data/networks/GISAID/institution_colab.rds")
-saveRDS(geog_colab,"data/networks/GISAID/geog_colab.rds")
-
-# calculate network statistics
-author_colab_stats = networkStat(author_colab) |> network_stat_df()
-institution_colab_stats = networkStat(institution_colab) |> network_stat_df()
-geog_colab_stats = networkStat(geog_colab) |> network_stat_df()
-
-category = c("author", "institution", "geography")
-
-colab_stats = rbind(author_colab_stats,institution_colab_stats,geog_colab_stats) |>
-  dplyr::mutate(category = category)
-
-saveRDS(colab_stats,"data/networks/GISAID/network_stats.rds")
-# remove redundant vars
-rm(author_colab_stats,institution_colab_stats,geog_colab_stats)
-
-#################################################################
-##                   Co-occurrences Networks                   ##
-#################################################################
-
-author_co_ocs = biblioNetwork(M,
-                              analysis = "co-occurrences",
-                              network = "authors",
-                              sep = ";")
-
-journals_co_ocs = biblioNetwork(M,
-                                analysis = "co-occurrences",
-                                network = "sources",
-                                sep = ";")
-
-
-keywords_co_ocs = biblioNetwork(M,
-                                analysis = "co-occurrences",
-                                network = "keywords",
-                                sep = ";")
-
-author_keywords_co_ocs = biblioNetwork(M,
-                                       analysis = "co-occurrences",
-                                       network = "author_keywords",
-                                       sep = ";")
-
-institution_co_oc = split_author_matrix("AU_UN") |> igraph::graph_from_data_frame()
-funding_co_oc = split_author_matrix("FU") |> igraph::graph_from_data_frame()
-funding_group_co_oc = split_author_matrix("Funder.Group") |> igraph::graph_from_data_frame()
-funding_country_co_oc = split_author_matrix("Funder.Country") |> igraph::graph_from_data_frame()
-
-
-saveRDS(author_co_ocs,"data/networks/GISAID/author_co_ocs.rds")
-saveRDS(journals_co_ocs,"data/networks/GISAID/journals_co_ocs.rds")
-saveRDS(keywords_co_ocs,"data/networks/GISAID/keywords_co_ocs.rds")
-saveRDS(author_keywords_co_ocs,"data/networks/GISAID/author_keywords_co_ocs.rds")
-saveRDS(institution_co_oc,"data/networks/GISAID/institutionr_co_ocs.rds")
-saveRDS(funding_co_oc,"data/networks/GISAID/funding_co_ocs.rds")
-saveRDS(funding_group_co_oc,"data/networks/GISAID/funding_group_co_ocs.rds")
-saveRDS(funding_country_co_oc,"data/networks/GISAID/funding_country_keywords_co_ocs.rds")
-
-# calculate network statistics
-author_co_ocs_stats = networkStat(author_co_ocs) |> network_stat_df()
-journals_co_ocs_stats = networkStat(journals_co_ocs) |> network_stat_df()
-keywords_co_ocs_stats = networkStat(keywords_co_ocs) |> network_stat_df()
-author_keywords_co_ocs_stats = networkStat(author_keywords_co_ocs) |> network_stat_df()
-
-inititution_co_ocs_stats = networkStat(institution_co_oc) |> network_stat_df()
-funding_co_ocs_stats = networkStat(funding_co_oc) |> network_stat_df()
-funding_group_co_ocs_stats = networkStat(funding_group_co_oc) |> network_stat_df()
-funding_country_keywords_co_ocs_stats = networkStat(funding_country_co_oc) |> network_stat_df()
-
-category = c("author", "journal", "keywords","autho-keywords","insitution","funding","funding-group","funding country")
-
-co_oc_stats = rbind(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
-                    author_keywords_co_ocs_stats,inititution_co_ocs_stats,
-                    funding_co_ocs_stats,funding_group_co_ocs_stats,
-                    funding_country_keywords_co_ocs_stats) |>
-  dplyr::mutate(category = category)
-
-saveRDS(co_oc_stats,"data/networks/GISAID/co_oc_network_stats.rds")
-# remove redundant vars
-rm(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
-   author_keywords_co_ocs_stats)
-
+#### BUILD NETWORKS
+build_networks(M, "data/networks/gisaid/")
 #### PLOT AND VISUALSE NETWORKS WITH VOSVIEWER AND IGRAPH
 
-plot_colab_network(author_colab, vos = TRUE)
+#plot_colab_network(author_colab, vos = TRUE)
+
+plot_mcp_scp = function(data,db){
+  Country = S$MostProdCountries$Country
+  SCP = S$MostProdCountries$SCP
+  MCP = S$MostProdCountries$MCP
+  Articles = S$MostProdCountries$Articles
+
+  data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
+    arrange(desc(Articles)) |>
+    pivot_longer(c(SCP, MCP)) |>
+    mutate(value = as.numeric(value)) |>
+    mutate(Articles = as.numeric(Articles)) |>
+    mutate(collaboration = name)
+
+  ggplot(data[1:100, ] |>   {
+    \(.) {
+      replace(., is.na(.), 0)
+    }
+  }(), aes(
+    fill = collaboration,
+    y = value,
+    x = reorder(Country, Articles)
+  )) +
+    geom_bar(position = "stack", stat = "identity") +
+    labs(title = paste0("Leading 50 countries mentioning",db,"\nin scientific publications"), caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+    xlab("Country") +
+    ylab("No. Documents") +
+    coord_flip() + theme_landscape()
+
+  ggsave(
+    paste0(
+      "plots/",
+      db,"/mcp-scp.png"
+    ),
+    dpi = 320,
+    width = 18,
+    height = 12,
+    limitsize = FALSE
+  )
+}
+
+
+
 
 
 ##################################################################
