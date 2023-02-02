@@ -99,7 +99,6 @@ According to recent studies, a minimum of 5% of SARS-CoV-2 positive cases should
 knitr::include_graphics("../plots/submission-correlation.png")
 ```
 
-
 ```{r, echo=FALSE, fig.cap="Epidemiological surveillance of COVID-19 through sequencing efforts. Panel A displays the percentage of cases sequenced for each country, organized by epidemiological week from February 23, 2020 to March 27, 2021. Panel B shows the distribution of submissions by geographical region. The geographical data provenance for the GISAID database is visualized in Panel C using a treemap representation. ",out.width="100%", out.height="100%",fig.show='hold',fig.align='center'}
 knitr::include_graphics("../plots/GISAID/ Sequence-Landscape.png")
 ```

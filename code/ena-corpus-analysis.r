@@ -16,7 +16,7 @@
 ##   between December 1st 2019 and October 1st 2022 with the search queries of "Genomic survlience" OR "Genome Survelience". The texts where then filtered to o
 ##   only include texts focusing on the SARS genome, rather than any other GS strategy which has grown in recent years.
 ## ---------------------------
-
+source("build.r")
 set.seed(999)
 textcol = "yellow"
 # Read data
@@ -176,9 +176,7 @@ rm(author_co_ocs_stats,journals_co_ocs_stats,keywords_co_ocs_stats,
 
 #### PLOT AND VISUALSE NETWORKS WITH VOSVIEWER AND IGRAPH
 
-plot_colab_network(author_colab, vos = TRUE)
-
-
+plot_colab_network(author_co_ocs, vos = TRUE)
 
 ##################################################################
 ##                        Topic Modelling                      ##

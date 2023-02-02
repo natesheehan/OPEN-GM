@@ -279,7 +279,7 @@ ggsave(
   paste0("plots/GISAID/",
          " Sequence-Landscape.png"),
   dpi = 320,
-  width = 32,
+  width = 38,
   height = 32,
   limitsize = FALSE
 )
