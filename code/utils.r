@@ -448,7 +448,7 @@ build_networks = function(data, path) {
   #################################################################
   ##                   Co-occurrences Networks                   ##
   #################################################################
-  message("Building co-occurrences Nnetworks")
+  message("Building co-occurrences networks")
   author_co_ocs = biblioNetwork(M,
                                 analysis = "co-occurrences",
                                 network = "authors",
@@ -502,7 +502,6 @@ build_networks = function(data, path) {
   )
 }
 
-
 # Plot biblometrix using VOSViewer ----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
 #'
@@ -542,7 +541,8 @@ plot_colab_network = function(network, vos) {
 #'
 #'@details
 #'Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
-net2VOSviewerigraph = function(net, vos.path = NULL) {
+
+viewerigraph = function(net, vos.path = NULL) {
   V(net)$id = V(net)$name
 
   if (is.null(vos.path)) {
@@ -584,7 +584,7 @@ net2VOSviewerigraph = function(net, vos.path = NULL) {
 #'@details
 #'Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
 all_indices =  function(g){
-  res = matrix(0,vcount(g),35)
+  res = matrix(0,vcount(g),34)
   res[,1] = igraph::degree(g)
   res[,2] = igraph::betweenness(g)
   res[,3] = igraph::closeness(g)
@@ -598,7 +598,6 @@ all_indices =  function(g){
   res[,9] = sna::gilschmidt(A)
   res[,10] = sna::infocent(A)
   res[,11] = sna::stresscent(A)
-
   res[,12] = 1/centiserve::averagedis(g)
   res[,13] = centiserve::barycenter(g)
   res[,14] = centiserve::closeness.currentflow(g)
@@ -610,18 +609,21 @@ all_indices =  function(g){
   res[,20] = centiserve::diffusion.degree(g)
   res[,21] = 1/centiserve::entropy(g)
   res[,22] = centiserve::geokpath(g)
-  res[,23] = centiserve::katzcent(g)
-  res[,24] = centiserve::laplacian(g)
-  res[,25] = centiserve::leverage(g)
-  res[,26] = centiserve::lincent(g)
-  res[,27] = centiserve::lobby(g)
-  res[,28] = centiserve::markovcent(g)
-  res[,29] = centiserve::mnc(g)
-  res[,30] = centiserve::radiality(g)
-  res[,31] = centiserve::semilocal(g)
-  res[,32] = 1/centiserve::topocoefficient(g)
-  res[,33] = CINNA::dangalchev_closeness_centrality(g)
-  res[,34] = CINNA::harmonic_centrality(g)
-  res[,35] = 1/CINNA::local_bridging_centrality(g)
-  apply(res,2,function(x) round(x,8))
-}
+  #res[,23] = centiserve::katzcent(g)
+  res[,23] = centiserve::laplacian(g)
+  res[,24] = centiserve::leverage(g)
+  res[,25] = centiserve::lincent(g)
+  res[,26] = centiserve::lobby(g)
+  res[,27] = centiserve::markovcent(g)
+  res[,28] = centiserve::mnc(g)
+  res[,29] = centiserve::radiality(g)
+  res[,30] = centiserve::semilocal(g)
+  res[,31] = 1/centiserve::topocoefficient(g)
+  res[,32] = CINNA::dangalchev_closeness_centrality(g)
+  res[,33] = CINNA::harmonic_centrality(g)
+  res[,34] = 1/CINNA::local_bridging_centrality(g)
+  res = apply(res,2,function(x) round(x,8))
+  res = as.data.frame(res)
+  res[,35] = V(g)$name
+
+  }

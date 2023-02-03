@@ -32,6 +32,7 @@ pkgs = c(
   "stm",
   "lubridate",
   "ggpubr",
+  "expm",
   "sf"
 )
 textcol = "yellow"
