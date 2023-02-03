@@ -340,14 +340,14 @@ network_stat_df = function(network) {
 #'
 split_author_matrix = function(col_name) {
   # create list of individual authors for each paper
-  V = M[,c(col_name)]
+  V = M[, c(col_name)]
   pub_auths = sapply(V, function(x)
     strsplit(as.character(x), split = ";"))
   pub_auths = lapply(pub_auths, trimws)
   # for each paper, form a data frame of unique author pairs
   auth_pairs = lapply(pub_auths, function(x) {
     z  = expand.grid(x, x, stringsAsFactors = FALSE)
-    z[z$Var1 < z$Var2, ]
+    z[z$Var1 < z$Var2,]
   })
   # combine list of matrices for each paper into one data frame
   auth_pairs = do.call(rbind, auth_pairs)
@@ -561,11 +561,11 @@ viewerigraph = function(net, vos.path = NULL) {
   else{
     netfile = paste(vos.path, "/", "vosnetwork.net", sep = "")
     VOScommand = paste("java -jar ",
-                        vos.path,
-                        "/",
-                        "VOSviewer.jar -pajek_network ",
-                        netfile,
-                        sep = "")
+                       vos.path,
+                       "/",
+                       "VOSviewer.jar -pajek_network ",
+                       netfile,
+                       sep = "")
     write.graph(graph = net,
                 file = netfile,
                 format = "pajek")
@@ -574,6 +574,70 @@ viewerigraph = function(net, vos.path = NULL) {
 
 }
 
+
+# Round DF----------------------------------------
+#' Round all numeric values in dataframe by specified amount
+#'
+#' @param df a dataframe
+#' @param digits the number to round by
+#' @examples
+#' round_df(df)
+#'
+round_df = function(df, digits) {
+  nums = vapply(df, is.numeric, FUN.VALUE = logical(1))
+
+  df[,nums] = round(df[,nums], digits = digits)
+
+  (df)
+}
+
+# Plot MCP and SCP----------------------------------------
+#' Rlot country distribution of multi cited papers vs single cited papers
+#'
+#' @param data a dataframe
+#' @param db the name of the database to save files for
+#' @examples
+#' plot_mcp_scp(S,"GISAID)
+#'
+plot_mcp_scp = function(data,db){
+  Country = S$MostProdCountries$Country
+  SCP = S$MostProdCountries$SCP
+  MCP = S$MostProdCountries$MCP
+  Articles = S$MostProdCountries$Articles
+
+  data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
+    arrange(desc(Articles)) |>
+    pivot_longer(c(SCP, MCP)) |>
+    mutate(value = as.numeric(value)) |>
+    mutate(Articles = as.numeric(Articles)) |>
+    mutate(collaboration = name)
+
+  ggplot(data[1:100, ] |>   {
+    \(.) {
+      replace(., is.na(.), 0)
+    }
+  }(), aes(
+    fill = collaboration,
+    y = value,
+    x = reorder(Country, Articles)
+  )) +
+    geom_bar(position = "stack", stat = "identity") +
+    labs(title = paste0("Leading 50 countries mentioning",db,"\nin scientific publications"), caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
+    xlab("Country") +
+    ylab("No. Documents") +
+    coord_flip() + theme_landscape()
+
+  ggsave(
+    paste0(
+      "plots/",
+      db,"/mcp-scp.png"
+    ),
+    dpi = 320,
+    width = 18,
+    height = 12,
+    limitsize = FALSE
+  )
+}
 # Calculate network statistics from igraph----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
 #'
@@ -581,49 +645,49 @@ viewerigraph = function(net, vos.path = NULL) {
 #' @examples
 #' all_indices(g)
 #'
-#'@details
-#'Edited from the biblometrix package with the first line removed in order to allow igraph functionlity
-all_indices =  function(g){
-  res = matrix(0,vcount(g),34)
-  res[,1] = igraph::degree(g)
-  res[,2] = igraph::betweenness(g)
-  res[,3] = igraph::closeness(g)
-  res[,4] = igraph::eigen_centrality(g)$vector
-  res[,5] = 1/igraph::eccentricity(g)
-  res[,6] = igraph::subgraph_centrality(g)
+all_indices =  function(g) {
+  res = matrix(0, igraph::vcount(g), 35)
+  res[, 1] = V(g)$name
+  res[, 2] = as.numeric(igraph::degree(g))
+  res[, 3] = as.numeric(igraph::betweenness(g))
+  res[, 4] = as.numeric(igraph::closeness(g))
+  res[, 5] = as.numeric(igraph::eigen_centrality(g)$vector)
+  res[, 6] = as.numeric(1 / igraph::eccentricity(g))
+  res[, 7] = as.numeric(igraph::subgraph_centrality(g))
 
-  A = get.adjacency(g,sparse=F)
-  res[,7] = sna::flowbet(A)
-  res[,8] = sna::loadcent(A)
-  res[,9] = sna::gilschmidt(A)
-  res[,10] = sna::infocent(A)
-  res[,11] = sna::stresscent(A)
-  res[,12] = 1/centiserve::averagedis(g)
-  res[,13] = centiserve::barycenter(g)
-  res[,14] = centiserve::closeness.currentflow(g)
-  res[,15] = centiserve::closeness.latora(g)
-  res[,16] = centiserve::closeness.residual(g)
-  res[,17] = centiserve::communibet(g)
-  res[,18] = centiserve::crossclique(g)
-  res[,19] = centiserve::decay(g)
-  res[,20] = centiserve::diffusion.degree(g)
-  res[,21] = 1/centiserve::entropy(g)
-  res[,22] = centiserve::geokpath(g)
-  #res[,23] = centiserve::katzcent(g)
-  res[,23] = centiserve::laplacian(g)
-  res[,24] = centiserve::leverage(g)
-  res[,25] = centiserve::lincent(g)
-  res[,26] = centiserve::lobby(g)
-  res[,27] = centiserve::markovcent(g)
-  res[,28] = centiserve::mnc(g)
-  res[,29] = centiserve::radiality(g)
-  res[,30] = centiserve::semilocal(g)
-  res[,31] = 1/centiserve::topocoefficient(g)
-  res[,32] = CINNA::dangalchev_closeness_centrality(g)
-  res[,33] = CINNA::harmonic_centrality(g)
-  res[,34] = 1/CINNA::local_bridging_centrality(g)
-  res = apply(res,2,function(x) round(x,8))
+  A = get.adjacency(g, sparse = F)
+  res[, 8] = as.numeric(sna::flowbet(A))
+  res[, 9] = as.numeric(sna::loadcent(A))
+  res[, 10] = as.numeric(sna::gilschmidt(A))
+  res[, 11] = as.numeric(sna::infocent(A))
+  res[, 12] = as.numeric(sna::stresscent(A))
+  res[, 13] = as.numeric(1 / centiserve::averagedis(g))
+  res[, 14] = as.numeric(centiserve::barycenter(g))
+  res[, 15] = as.numeric(centiserve::closeness.currentflow(g))
+  res[, 16] = as.numeric(centiserve::closeness.latora(g))
+  res[, 17] = as.numeric(centiserve::closeness.residual(g))
+  res[, 18] = as.numeric(centiserve::communibet(g))
+  res[, 19] = as.numeric(centiserve::crossclique(g))
+  res[, 20] = as.numeric(centiserve::decay(g))
+  res[, 21] = as.numeric(centiserve::diffusion.degree(g))
+  res[, 22] = as.numeric(1 / centiserve::entropy(g))
+  res[, 23] = as.numeric(centiserve::geokpath(g))
+  res[, 24] = as.numeric(centiserve::laplacian(g))
+  res[, 25] = as.numeric(centiserve::leverage(g))
+  res[, 26] = as.numeric(centiserve::lincent(g))
+  res[, 27] = as.numeric(centiserve::lobby(g))
+  res[, 28] = as.numeric(centiserve::markovcent(g))
+  res[, 29] = as.numeric(centiserve::mnc(g))
+  res[, 20] = as.numeric(centiserve::radiality(g))
+  res[, 31] = as.numeric(centiserve::semilocal(g))
+  res[, 32] = as.numeric(1 / centiserve::topocoefficient(g))
+  res[, 33] = as.numeric(CINNA::dangalchev_closeness_centrality(g))
+  res[, 34] = as.numeric(CINNA::harmonic_centrality(g))
+  res[, 35] =as.numeric( 1 / CINNA::local_bridging_centrality(g))
   res = as.data.frame(res)
-  res[,35] = V(g)$name
+  res[, c(2:35)] = sapply(res[, c(2:35)], as.numeric)
+  res = round_df(res,3)
+  return(res)
 
-  }
+}
+
