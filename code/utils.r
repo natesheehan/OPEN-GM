@@ -687,6 +687,18 @@ all_indices =  function(g) {
   res = as.data.frame(res)
   res[, c(2:35)] = sapply(res[, c(2:35)], as.numeric)
   res = round_df(res,3)
+  colnames(res) = c("name","degree", "betweenness",
+                    "closeness", "eigen_centrality", "eccentricity",
+                    "subgraph_centrality", "flowbet", "loadcent",
+                    "gilschmidt", "infocent", "stresscent",
+                    "averagedis", "barycenter", "closeness.currentflow",
+                    "closeness.latora", "closeness.residual", "communibet",
+                    "crossclique", "decay", "diffusion.degree",
+                    "entropy", "geokpath", "laplacian",
+                    "leverage", "lincent", "lobby",
+                    "markovcent", "mnc", "radiality",
+                    "semilocal", "topocoefficient", "dangalchev_closeness_centrality",
+                    "harmonic_centrality", "local_bridging_centrality")
   return(res)
 
 }

@@ -28,6 +28,5 @@ if (reproducible == FALSE) {
   source("code/owid-data.r")
   source("code/data-wrangle.r")
   source("code/visualise-database-landscape.R")
-  source("code/ena-corpus-analysis.r")
-  source("code/gisaid-corpus-analysis.r")
+  source("code/corpus-analysis.R")
 }
