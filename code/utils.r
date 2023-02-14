@@ -623,11 +623,11 @@ plot_mcp_scp = function(data,db){
     x = reorder(Country, Articles),
 
   )) +
-    geom_bar(position = "stack", stat = "identity") +
+    geom_bar(position = "stack", stat = "unique") +
+    labs(title = "Leading 20 countries mentioning GISAID in scientific publications")
   xlab("Country") +
     ylab("No. Documents") +
-    coord_flip() + theme_landscape() +
-    geom_text(aes(label = Ratio), vjust = -0.2)
+    coord_flip() + theme_landscape() + theme(axis.text.x = element_text(size  = 8))
 
   ggsave(
     paste0(
