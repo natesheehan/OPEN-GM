@@ -43,7 +43,7 @@ if (db == "GISAID") {
   results = bibliometrix::biblioAnalysis(M, sep = ";")
   options(width = 100)
   S = summary(object = results,
-              k = 50,
+              k = 20,
               pause = FALSE)
   oa = as.data.frame(table(M$Open.Access)) |> dplyr::rename("Access Type" = Var1)
   knitr::kable(oa, caption = "GISAID Publications") |> kableExtra::kable_classic()
