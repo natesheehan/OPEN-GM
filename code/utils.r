@@ -604,28 +604,30 @@ plot_mcp_scp = function(data,db){
   SCP = S$MostProdCountries$SCP
   MCP = S$MostProdCountries$MCP
   Articles = S$MostProdCountries$Articles
+  Ratio = S$MostProdCountries$MCP_Ratio
 
-  data = as.data.frame(cbind(Country, SCP, MCP, Articles)) |>
+  data = as.data.frame(cbind(Country, SCP, MCP, Articles,Ratio)) |>
     arrange(desc(Articles)) |>
     pivot_longer(c(SCP, MCP)) |>
     mutate(value = as.numeric(value)) |>
     mutate(Articles = as.numeric(Articles)) |>
     mutate(collaboration = name)
 
-  ggplot(data[1:100, ] |>   {
+  ggplot(data[1:40, ] |>   {
     \(.) {
       replace(., is.na(.), 0)
     }
   }(), aes(
     fill = collaboration,
     y = value,
-    x = reorder(Country, Articles)
+    x = reorder(Country, Articles),
+
   )) +
     geom_bar(position = "stack", stat = "identity") +
-    labs(title = paste0("Leading 50 countries mentioning",db,"\nin scientific publications"), caption  = "Publications containing the search query ‘The Covid-19 Data Portal’ OR 'European Nucleotide Archive' \nwere accessed via the Dimensions Analytics API and filtered to include publications between January 1st 2019 \nand October 1st 2021 which contain the phrase 'covid-19' OR 'sars-cov-2' in the full text.\nSCP: Single Country Publication. MCP: Multi Country Publication") +
-    xlab("Country") +
+  xlab("Country") +
     ylab("No. Documents") +
-    coord_flip() + theme_landscape()
+    coord_flip() + theme_landscape() +
+    geom_text(aes(label = Ratio), vjust = -0.2)
 
   ggsave(
     paste0(
@@ -638,6 +640,8 @@ plot_mcp_scp = function(data,db){
     limitsize = FALSE
   )
 }
+
+
 # Calculate network statistics from igraph----------------------------------------
 #' Plot igraph collaboration network using VOSViewer
 #'
@@ -701,5 +705,43 @@ all_indices =  function(g) {
                     "harmonic_centrality", "local_bridging_centrality")
   return(res)
 
+}
+
+
+# Calculate indices for individual networks----------------------------------------
+#' Save an RDS file containing network stats
+#'
+#' @param network_path The path to the network
+#' @examples
+#' calc_network_stats("data/networks/gisaid/")
+calc_network_stats = function(network_path) {
+  files = as.data.frame(grep(
+    list.files(path = network_path),
+    pattern = 'stats',
+    invert = TRUE,
+    value = TRUE
+  ))
+  for (i in 1:nrow(files)) {
+    tryCatch(
+      expr = {
+        message(paste0("Reading network: "), files[i])
+        file = readRDS(paste0(network_path, files[i]))
+        file = igraph::as.undirected(file)
+
+      },
+      error = function(e) {
+        message("Looks like this network needs to be made into an igraph object")
+        file = igraph::graph_from_adjacency_matrix(file)
+        file = igraph::as.undirected(file)
+
+      },
+      finally = {
+        message(paste0("Calculating network stats for", files[i]))
+        all_stats = all_indices(file)
+        saveRDS(all_stats,
+                paste0(network_path, "/network_stats/", files[i]))
+      }
+    )
+  }
 }
 

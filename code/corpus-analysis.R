@@ -17,7 +17,7 @@
 ##
 ## ---------------------------
 set.seed(999)
-db = "GISAID"
+db = "ENA"
 
 ##################################################################
 ##                        Network Build                         ##
@@ -35,6 +35,9 @@ if (db == "GISAID") {
     dplyr::filter(Year > 2019) |>
     dplyr::select(-c(Year))
 
+
+ date =  M |> group_by(year = year(Publication.Date), week = week(Publication.Date)) %>%
+     summarise(frequency = n())
 
   # Conduct a biblio analysis of dataframe using the bibliometrix package
   results = bibliometrix::biblioAnalysis(M, sep = ";")
@@ -72,6 +75,7 @@ if (db == "GISAID") {
               k = 50,
               pause = FALSE)
   oa = as.data.frame(table(M$Open.Access)) |> dplyr::rename("Access Type" = Var1)
+  write.csv(oa,"data.csv")
   knitr::kable(oa, caption = "The Covid-19 Data Portal Publications") |> kableExtra::kable_classic()
 
   #### BUILD NETWORKS
